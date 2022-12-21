@@ -1,0 +1,26 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/llStatusAndImageButtons"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    tools:showIn="@layout/activity_main" >
+
+    <TextView
+        android:id="@+id/tvStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/search_icons_background"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center_vertical|center_horizontal"
+        android:nextFocusForward="@id/tvStatus"
+        android:nextFocusLeft="@id/tvStatus"
+        android:nextFocusRight="@id/tvStatus"
+        android:onClick="goShowLastDBUpdate"
+        android:text="@string/ellipsis"
+        android:textColor="@color/whiteText"
+        android:textSize="@dimen/text_size_main" />
+
+</LinearLayout>

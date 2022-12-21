@@ -1,0 +1,141 @@
+<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:scrollbars="none"
+    tools:showIn="@layout/activity_main" >
+
+    <LinearLayout
+        android:id="@+id/llActionBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/ll_action_bar_background"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/btTVVocabulary"
+            style="@style/llActionBarForTVButtonsStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:nextFocusDown="@+id/etWord"
+            android:nextFocusLeft="@+id/btTVVocabulary"
+            android:onClick="goToVocabulary"
+            android:text="@string/mnu_vocabulary" />
+
+        <Button
+            style="@style/llActionBarForTVButtonsStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:nextFocusDown="@+id/etWord"
+            android:onClick="goToIrregularVerbs"
+            android:text="@string/mnu_irregular_verbs" />
+
+        <Button
+            style="@style/llActionBarForTVButtonsStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:nextFocusDown="@+id/etWord"
+            android:onClick="goToHistory"
+            android:text="@string/mnu_search_history" />
+
+        <Button
+            style="@style/llActionBarForTVButtonsStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:nextFocusDown="@+id/etWord"
+            android:onClick="goToUpdateNowNewWords"
+            android:text="@string/mnu_tv_update_database" />
+
+        <Button
+            style="@style/llActionBarForTVButtonsStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:nextFocusDown="@+id/etWord"
+            android:onClick="goToProposeNowNewWords"
+            android:text="@string/mnu_tv_propose_database" />
+
+        <Button
+            style="@style/llActionBarForTVButtonsStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:nextFocusDown="@+id/etWord"
+            android:onClick="goToSettings"
+            android:text="@string/mnu_tv_settings" />
+
+        <Button
+            style="@style/llActionBarForTVButtonsStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:nextFocusDown="@+id/etWord"
+            android:onClick="goToDisplaySettings"
+            android:text="@string/mnu_tv_display_settings" />
+
+        <Button
+            style="@style/llActionBarForTVButtonsStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:nextFocusDown="@+id/etWord"
+            android:onClick="goToBackgroundSettings"
+            android:text="@string/mnu_tv_background_settings" />
+
+        <Button
+            style="@style/llActionBarForTVButtonsStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:nextFocusDown="@+id/etWord"
+            android:onClick="goToTTSSettings"
+            android:text="@string/mnu_tv_tts_settings" />
+
+        <Button
+            style="@style/llActionBarForTVButtonsStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:nextFocusDown="@+id/etWord"
+            android:onClick="chooseSeparator"
+            android:text="@string/mnu_tv_separator_settings" />
+
+        <Button
+            style="@style/llActionBarForTVButtonsStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:nextFocusDown="@+id/etWord"
+            android:onClick="chooseTVLanguage"
+            android:text="@string/mnu_tv_language_settings" />
+
+        <Button
+            style="@style/llActionBarForTVButtonsStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:nextFocusDown="@+id/etWord"
+            android:onClick="goToHelp"
+            android:text="@string/mnu_tv_help" />
+
+        <Button
+            style="@style/llActionBarForTVButtonsStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:nextFocusDown="@+id/etWord"
+            android:onClick="goToAbout"
+            android:text="@string/mnu_tv_about" />
+
+        <Button
+            style="@style/llActionBarForTVButtonsStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:nextFocusDown="@+id/etWord"
+            android:onClick="openAppInPlayStore"
+            android:text="@string/mnu_tv_go_to_play_store" />
+
+        <Button
+            android:id="@+id/btTVReset"
+            style="@style/llActionBarForTVButtonsStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:nextFocusDown="@+id/etWord"
+            android:nextFocusLeft="@+id/btTVReset"
+            android:onClick="resetToDefaults"
+            android:text="@string/mnu_tv_reset" />
+    </LinearLayout>
+
+</HorizontalScrollView>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="whiteText">#F2F2F2</color>
+    <color name="blackText">#222222</color>
+    <color name="search_icons_background">#222222</color>
+    <color name="search_edit_background">#F2F2F2</color>
+    <color name="white">#00FFFFFF</color>
+    <color name="black">#00000000</color>
+    <color name="ll_action_bar_background">#222222</color>
+    <color name="ll_action_bar_text">#F2F2F2</color>
+    <color name="transparent">#00000000</color>
+    <color name="background_selected">#bbbbbb</color>
+
+</resources>

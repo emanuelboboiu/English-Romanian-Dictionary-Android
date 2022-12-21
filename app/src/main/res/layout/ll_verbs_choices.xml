@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <CheckBox
+        android:id="@+id/cbtDerivedForms"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onCheckboxClicked"
+        android:text="@string/cbt_show_derived_forms"
+        android:textSize="@dimen/cbt_size_in_verbs"
+        android:textStyle="bold" />
+
+    <CheckBox
+        android:id="@+id/cbtArchaicForms"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onCheckboxClicked"
+        android:text="@string/cbt_show_archaic_forms"
+        android:textSize="@dimen/cbt_size_in_verbs"
+        android:textStyle="bold" />
+
+</LinearLayout>

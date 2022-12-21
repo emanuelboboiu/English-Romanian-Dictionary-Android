@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="ro.pontes.englishromaniandictionary"
+    android:versionCode="76"
+    android:versionName="7.0">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
+    <uses-permission android:name="com.android.vending.BILLING" />
+
+    <uses-feature
+        android:name="android.software.leanback"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.touchscreen"
+        android:required="false" />
+    <uses-feature
+        android:name="com.google.android.tv"
+        android:required="false" />
+
+    <application
+        android:allowBackup="true"
+        android:banner="@drawable/banner"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
+        tools:ignore="UnusedAttribute">
+
+        <!-- This meta-data tag is required to use Google Play Services. -->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="@string/banner_ad_application_id" />
+
+        <activity
+            android:name=".MainActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="true"
+            android:windowSoftInputMode="stateHidden|adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".SettingsActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_activity_settings" />
+        <activity
+            android:name=".DisplaySettingsActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_activity_display_settings" />
+        <activity
+            android:name=".VerbsActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_activity_verbs" />
+        <activity
+            android:name=".PremiumVersionActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_activity_premium_version" />
+        <activity
+            android:name=".VocabularyActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="true"
+            android:label="@string/title_activity_vocabulary" />
+        <activity
+            android:name=".TTSSettingsActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_activity_ttssettings" />
+        <activity
+            android:name=".BackgroundActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_activity_background" />
+        <activity
+            android:name=".SearchHistoryActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_activity_search_history" />
+    </application>
+
+</manifest>

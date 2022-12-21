@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="information_array">
+        <item>&lt;b>Generalități&lt;/b></item>
+        <item>Aplicația de față este un dicționar englez – român ușor de utilizat, cu câteva sute de mii de termeni în limba engleză și traducerile acestora.</item>
+        <item>Permite și traducerea din limba română în engleză.</item>
+        <item>Sunt termeni din toate domeniile: vocabular de masă, substantive proprii, știință, tehnică, inginerie, medicină etc.</item>
+        <item>Baza de date este salvată în dispozitivul dvs. (telefon, tabletă sau televizor), astfel nu este necesară o conexiune activă la internet în momentul utilizării.</item>
+        <item>Oferă definiții în engleză și alte resurse lexicale precum transcriere fonetică, sinonime, antonime, omofone, hiperonime, hiponime, rime și altele. Aceste informații sunt preluate prin API-ul Datamuse și necesită o conexiune activă la Internet.</item>
+        <item>---------------</item>
+        <item>Pentru a căuta un cuvânt, scrieți în câmpul de editare situat în partea de sus a ferestrei principale, apoi apăsați pictograma sub formă de lupă aflată în dreapta.</item>
+        <item>Pentru a căuta vocal, apăsați pictograma care înfățișează un microfon, aflată în dreapta pictogramei pentru căutare simplă, cea sub formă de lupă.</item>
+        <item>Rezultatele apar într-o listă cu maxim 300 de itemi.</item>
+        <item>Pentru a schimba direcția de căutare, apăsați pictograma cu stegulețe din partea stângă a câmpului de editare. Astfel pot fi căutate cuvinte în limba engleză sau în limba română, după necesitate.</item>
+        <item>Apăsând scurt un rezultat, partea engleză va fi pronunțată de o voce instalată pe dispozitiv.</item>
+        <item>Apăsând lung un rezultat, apare un meniu contextual din care se poate alege ca partea engleză să fie pronunțată de vocea sintetică, să fie spusă pe litere, să fie afișată transcrierea fonetică, să fie afișate și alte resurse lexicale; de asemenea rezultatul poate fi adăugat la vocabular, poate fi copiat în clipboard (fie în întregime, fie doar termenul, fie doar explicația).</item>
+        <item>---------------</item>
+        <item>&lt;b>Resurse lexicale&lt;/b></item>
+        <item>Începând cu versiunea 5.0 a dicționarului, pot fi accesate diverse resurse lexicale precum: explicație engleză a cuvântului căutat, transcrieri fonetice (IPA și Arpabet), frecvență de utilizare per milion de cuvinte, sinonime, antonime, omofone, hiperonime, hiponime, rime, succesori frecvenți, predecesori frecvenți și altele.</item>
+        <item>Pentru a accesa informațiile menționate mai sus, este nevoie de o conexiune activă la Internet.</item>
+        <item>Resursele lexicale sunt oferite de Datamuse, un API online extrem de puternic, gratuit.</item>
+        <item>---------------</item>
+        <item>&lt;b>Setări&lt;/b></item>
+        <item>În meniul principal al ferestrei dedicată dicționarului, există și o zonă de setări (generale setare voce (TTS), alegere dimensiune text, alegere fundal).</item>
+        <item>Din Setările generale se poate alege modul de căutare a termenilor, fie toate ocurențele textului scris, fie doar cele în care textul scris apare în întregime, delimitat de spații sau alte semne.</item>
+        <item>Se poate bloca sau debloca orientarea portret. Implicit, orientarea este deblocată. Această setare nu este disponibilă în cazul Android TV.</item>
+        <item>Se poate alege separatorul dintre cuvinte și explicații: rând nou, linie de pauză, cratimă simplă sau bară verticală.</item>
+        <item>Se poate alege ca la scuturare să fie golită fereastra de rezultatele anterioare, se poate seta ca ecranul să nu se blocheze automat, sunetele să fie redate sau nu și altele.</item>
+        <item>În Setări voce (TTS) se poate alege una dintre vocile instalate în dispozitiv pentru a citi limba engleză, astfel cuvintele putând fi pronunțate la o apăsare scurtă. Apar toate motoarele de sintetizare vocală, fiind selectate variantele de limbă engleză ale acestora. Aici se poate schimba și viteza sau frecvența unei voci alese, astfel încât să aibă un anumit comportament atunci când citește în dicționar.</item>
+        <item>Există posibilitatea schimbării fundalului. La prima deschidere a aplicației este ales aleatoriu unul dintre cele disponibile. În Setări, Alegere fundal se poate comuta între fundalurile existente sau se poate dezactiva încât să nu apară niciunul. În cazul Android TV, fundalul este presetat.</item>
+        <item>Limba aplicației poate fi modificată independent de limba dispozitivului.</item>
+        <item>---------------</item>
+        <item>&lt;b>Propunere cuvinte noi și actualizare&lt;/b></item>
+        <item>În meniul principal al aplicației, există două opțiuni: Actualizare bază de date și Propunere cuvânt nou.</item>
+        <item>Oricine poate propune un cuvânt inexistent în baza de date. O propunere este trimisă la server-ul nostru, după care un administrator o va edita și o va adăuga la actualizări disponibile.</item>
+        <item>Alegând Actualizare bază de date, dicționarul caută cuvinte noi pe server pentru a le descărca și a le introduce în baza locală de date.</item>
+        <item>Datorită acestui sistem de propunere şi actualizare, oricine poate contribui la dezvoltarea dicţionarului.</item>
+        <item>---------------</item>
+        <item>&lt;b>Vocabularul meu&lt;/b></item>
+        <item>Vocabularul meu este o unealtă care permite inserarea de cuvinte și explicațiile acestora pe secțiuni într-o bază de date.</item>
+        <item>Apăsați lung un rezultat afișat în urma unei căutări și alegeți în meniul contextual Adăugare la vocabularul meu.&lt;br>Apare un dialog unde se poate alege secțiunea în care să fie adăugat rezultatul, ori se poate crea una nouă.</item>
+        <item>În fereastra Vocabularul meu se pot vizualiza înregistrări pe secțiuni, se pot adăuga, edita sau șterge înregistrări și alte acțiuni care pot fi găsite în meniul contextual sau în meniul principal.&lt;br>Având o astfel de unealtă pot fi învățate cu ușurință cuvinte noi în limba engleză, avându-le aranjate pe secțiuni.</item>
+        <item>O secțiune din vocabular poate fi exportată în fișier cu extensia .erd pe memoria de stocare.&lt;br>Secțiunea poate fi importată oricând deschizând fișierul corespunzător dintr-un manager de fișiere.&lt;br>Având posibilitatea de exportare și importare, secțiunile pot fi salvate pentru o eventuală reinstalare a aplicației sau pentru a fi trimise prietenilor.</item>
+        <item>Există și posibilitatea importării de secțiuni predefinite, gen Animale, Culori, Senzații și altele.&lt;br>Aceste secțiuni pot fi găsite în meniul principal al modulului Vocabularul meu.</item>
+        <item>---------------</item>
+        <item>&lt;b>Verbele neregulate&lt;/b></item>
+        <item>Există și un modul pentru verbele neregulate ale limbii engleze. Aici pot fi vizualizate sub formă de liste cele trei forme ale verbelor neregulate.</item>
+        <item>Listele pot cuprinde sau nu forme derivate, respectiv forme arhaice, pentru a alege după preferință, bifați și debifați check box-urile de sub spinner-ul care alege inițiala.</item>
+        <item>Fiecare verb poate avea mai multe variante la formele II și III, de asemenea, dacă a fost ales să fie afișate și formele arhaice, acestea vor fi precedate de \"*\" (steluță).</item>
+        <item>Există posibilitatea de a rezolva teste dinamice. În zona testelor, trebuie întâi alese formele care să fie completate.</item>
+        <item>În finalul fiecărui test va fi acordată o notă de la 0 la 10.</item>
+        <item>Atât pe dispozitiv, cât și pe server vor fi menținute jurnale de rezultate, vor fi afișate medii ale notelor obținute și alte detalii.</item>
+        <item>În meniul ferestrei dedicată verbelor neregulate se poate seta și un nume / pseudonim care să fie afișat în statisticile și clasamentele online.</item>
+        <item>---------------</item>
+        <item>&lt;b>Varianta Android TV&lt;/b></item>
+        <item>Începând cu versiunea 4.0 (ianuarie 2017) acest dicționar este disponibil și pentru Android TV (televizoare cu Android).</item>
+        <item>Dicționarul a fost optimizat să fie utilizat eficient cu un D-pad (4 săgeți de navigare și un enter).</item>
+        <item>Toate modulele și opțiunile sunt disponibile și pentru Android TV, astfel vă puteți bucura de un dicționar pe ecranul imens al televizorului, utilizabil doar din telecomandă.</item>
+        <item>Ca fapt divers, putem spune că acesta este primul dicționar din Magazin Google Play compatibil cu Android TV.</item>
+        <item>---------------</item>
+        <item>&lt;b>Versiunea Premium&lt;/b></item>
+        <item>În versiunea Standard, aplicația afișează în partea de jos a ferestrelor reclame Google.</item>
+        <item>Există și o versiune Premium care nu afișează reclame, astfel economisindu-se resurse și trafic de internet.</item>
+        <item>Pentru a achiziționa versiunea fără reclame, mergeți la Versiune Premium din meniul principal al ferestrei dedicată dicționarului.</item>
+        <item>Vi se va solicită o sumă modică ce poate fi achitată prin mecanismele puse la dispoziție de Google.</item>
+        <item>În urma achiziției, versiunea Premium va fi imediat disponibilă, aceasta rămânând valabilă și în urma unei instalări viitoare.</item>
+        <item>Versiunea Premium este disponibilă pentru toate telefoanele care sunt conectate la Magazin Google Play cu contul de GMail utilizat la cumpărare.</item>
+        <item>Reclamele nu sunt afișate pe dispozitivele cu Android TV.</item>
+        <item>---------------</item>
+        <item>&lt;b>Contact&lt;/b></item>
+        <item>Pentru a întreba alte detalii sau pentru a trimite sugestii, scrieți la emanuelboboiu@gmail.com.</item>
+        <item>Puteți de asemenea suna la +40740203043.</item>
+        <item>---------------</item>
+    </string-array>
+
+</resources>
