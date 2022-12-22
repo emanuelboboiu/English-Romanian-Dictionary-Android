@@ -12,9 +12,8 @@ public class Settings {
 
     // The file name for save and load preferences:
     private final static String PREFS_NAME = "derSettings";
-    private static boolean isNotFirstRunning = false;
 
-    private Context context;
+    private final Context context;
 
     // The constructor:
     public Settings(Context context) {
@@ -39,12 +38,12 @@ public class Settings {
         SharedPreferences.Editor editor = settings.edit();
         editor.putBoolean(key, value);
         // Commit the edits!
-        editor.commit();
+        editor.apply();
     } // end save boolean.
 
     // Read boolean preference:
     public boolean getBooleanSettings(String key) {
-        boolean value = false;
+        boolean value;
         // Restore preferences
         SharedPreferences settings = context
                 .getSharedPreferences(PREFS_NAME, 0);
@@ -62,12 +61,12 @@ public class Settings {
         SharedPreferences.Editor editor = settings.edit();
         editor.putInt(key, value);
         // Commit the edits!
-        editor.commit();
+        editor.apply();
     } // end save integer.
 
     // Read integer preference:
     public int getIntSettings(String key) {
-        int value = 0;
+        int value;
         // Restore preferences
         SharedPreferences settings = context
                 .getSharedPreferences(PREFS_NAME, 0);
@@ -85,12 +84,12 @@ public class Settings {
         SharedPreferences.Editor editor = settings.edit();
         editor.putFloat(key, value);
         // Commit the edits!
-        editor.commit();
+        editor.apply();
     } // end save float.
 
     // Read float preference:
     public float getFloatSettings(String key) {
-        float value = 0.0F;
+        float value;
         // Restore preferences
         SharedPreferences settings = context
                 .getSharedPreferences(PREFS_NAME, 0);
@@ -111,12 +110,12 @@ public class Settings {
         SharedPreferences.Editor editor = settings.edit();
         editor.putFloat(key, tempValue);
         // Commit the edits!
-        editor.commit();
+        editor.apply();
     } // end save double.
 
     // Read double preference:
     public double getDoubleSettings(String key) {
-        float tempValue = 0.0F;
+        float tempValue;
         // Restore preferences
         SharedPreferences settings = context
                 .getSharedPreferences(PREFS_NAME, 0);
@@ -134,12 +133,12 @@ public class Settings {
         SharedPreferences.Editor editor = settings.edit();
         editor.putString(key, value);
         // Commit the edits!
-        editor.commit();
+        editor.apply();
     } // end save String.
 
     // Read String preference:
     public String getStringSettings(String key) {
-        String value = "";
+        String value;
         // Restore preferences
         SharedPreferences settings = context
                 .getSharedPreferences(PREFS_NAME, 0);
@@ -153,11 +152,11 @@ public class Settings {
     public void chargeSettings() {
 
         // Determine if is first launch of the program:
-        isNotFirstRunning = getBooleanSettings("isFirstRunning");
+        boolean isNotFirstRunning = getBooleanSettings("isFirstRunning");
 
         if (!isNotFirstRunning) {
             saveBooleanSettings("isFirstRunning", true);
-            // Make default values in SharedPrefferences:
+            // Make default values in SharedPreferences:
             setDefaultSettings();
         }
 

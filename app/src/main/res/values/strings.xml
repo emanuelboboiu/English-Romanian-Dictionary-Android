@@ -494,4 +494,10 @@
     <string name="sh_cm_title">Options</string>
     <string name="ib_more_for_results">More about %1$s</string>
 
+    <!-- Strings added in 7.0, starting with Thursday, 22nd December 2022: -->
+    <string name="purchase_canceled">The purchase process was canceled.</string>
+    <string name="no_purchases_available">There are no items to be purchased.</string>
+    <string name="billing_unknown_error">An unknown error has occurred during purchase process.</string>
+    <string name="bt_premium">Premium!</string>
+
 </resources>

@@ -1,12 +1,5 @@
 package ro.pontes.englishromaniandictionary;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.ArrayList;
-import java.util.Calendar;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -22,8 +15,6 @@ import android.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -35,9 +26,20 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-public class VerbsActivity extends Activity implements OnItemSelectedListener {
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 
-    public final static String EXTRA_MESSAGE = "ro.pontes.englishromaniandictonary.MESSAGE";
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+
+
+public class VerbsActivity extends Activity implements OnItemSelectedListener {
 
     private boolean isDerivedForms = true;
     private boolean isArchaicForms = true;
@@ -56,6 +58,10 @@ public class VerbsActivity extends Activity implements OnItemSelectedListener {
     private SpeakText speak;
 
     private final Context mFinalContext = this;
+
+    // Creating object of AdView:
+    private AdView bannerAdView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,11 +124,12 @@ public class VerbsActivity extends Activity implements OnItemSelectedListener {
 
         // Call the method to show banner if is not premium:
         if (!MainActivity.isPremium) {
+            bannerAdView = findViewById(R.id.bannerAdView);
             adMobSequence();
         }
 
         // Initialise the ArrayList for last marks:
-        arLastXMarks = new ArrayList<String>();
+        arLastXMarks = new ArrayList<>();
         // GUITools.alert(this, "", "" + arLastXMarks.size());
         // To keep screen awake:
         if (MainActivity.isWakeLock) {
@@ -164,8 +171,8 @@ public class VerbsActivity extends Activity implements OnItemSelectedListener {
         TextView tv = (TextView) findViewById(R.id.tvNumberOfVerbs);
         String message = String.format(
                 getString(R.string.tv_welcome_verbs_message), ""
-                        + numberOfTotalVerbs, numberOfNonDerivedVerbs,
-                numberOfDerivedVerbs);
+                        + "" + numberOfTotalVerbs, "" + numberOfNonDerivedVerbs,
+                "" + numberOfDerivedVerbs);
         tv.setText(MyHtml.fromHtml(message));
         tv.setFocusable(true);
     } // end updateWelcomeMessage() method.
@@ -206,7 +213,7 @@ public class VerbsActivity extends Activity implements OnItemSelectedListener {
 
         Spinner dropdown = (Spinner) findViewById(R.id.spinnerChoose);
         String[] items = sb.toString().split("\\|");
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, items);
         dropdown.setAdapter(adapter);
         dropdown.setOnItemSelectedListener(this);
@@ -330,14 +337,14 @@ public class VerbsActivity extends Activity implements OnItemSelectedListener {
          */
         String tempMsg = String.format(getString(R.string.no_last_x_marks), ""
                 + limitForLastMarks);
-        boolean isNotLastMarks = arLastXMarks.get(0).toString().equals(tempMsg);
+        boolean isNotLastMarks = arLastXMarks.get(0).equals(tempMsg);
         if (!isNotLastMarks) {
             aMarksAndTime = new String[arLastXMarks.size()][2];
             // Fill now that two dimensions array:
             // In the first dimension is the mark, in the second one is the
             // date:
             for (int i = 0; i < arLastXMarks.size(); i++) {
-                String[] curEntry = arLastXMarks.get(i).split("\\-");
+                String[] curEntry = arLastXMarks.get(i).split("-");
                 aMarksAndTime[i][0] = curEntry[0];
                 aMarksAndTime[i][1] = curEntry[1];
             } // end for fill two dimensions array.
@@ -367,7 +374,7 @@ public class VerbsActivity extends Activity implements OnItemSelectedListener {
         } else {
             tv.setText(String.format(
                     getString(R.string.tv_average_of_last_marks), ""
-                            + arLastXMarks.size(), averageOfLastXMarks));
+                            + arLastXMarks.size(), "" + averageOfLastXMarks));
             tv.setFocusable(true);
         }
         ll.addView(tv);
@@ -381,7 +388,7 @@ public class VerbsActivity extends Activity implements OnItemSelectedListener {
             tv.setFocusable(true);
             if (isNotLastMarks) {
                 tv.setText(String.format(getString(R.string.no_last_x_marks),
-                        limitForLastMarks));
+                        "" + limitForLastMarks));
             } else {
                 tv.setText(String.format(
                         getString(R.string.one_of_last_marks),
@@ -449,7 +456,7 @@ public class VerbsActivity extends Activity implements OnItemSelectedListener {
             createList("");
         } else {
             String chosen = parent.getItemAtPosition(position).toString();
-            String[] aChosen = chosen.split("\\ - ");
+            String[] aChosen = chosen.split(" - ");
             String chosenInitial = aChosen[0];
             createList(chosenInitial);
         } // end if position is greater than 1, an initial.
@@ -482,8 +489,8 @@ public class VerbsActivity extends Activity implements OnItemSelectedListener {
 
             // Format the string:
             String form1 = cursor.getString(1);
-            String form2 = cursor.getString(2);
-            String form3 = cursor.getString(3);
+            StringBuilder form2 = new StringBuilder(cursor.getString(2));
+            StringBuilder form3 = new StringBuilder(cursor.getString(3));
             String translation = cursor.getString(4);
 
             /*
@@ -492,25 +499,25 @@ public class VerbsActivity extends Activity implements OnItemSelectedListener {
              */
             if (!isArchaicForms) {
                 // process Form 2:
-                String[] forms2 = form2.split("\\/");
-                form2 = ""; // empty for now:
-                for (int i = 0; i < forms2.length; i++) {
-                    if (!forms2[i].contains("*")) {
-                        form2 += forms2[i] + "/";
+                String[] forms2 = form2.toString().split("/");
+                form2 = new StringBuilder(); // empty for now:
+                for (String s : forms2) {
+                    if (!s.contains("*")) {
+                        form2.append(s).append("/");
                     }
                 } // end for.
-                form2 = form2.substring(0, form2.length() - 1);
+                form2 = new StringBuilder(form2.substring(0, form2.length() - 1));
                 // End process form2.
 
                 // process form 3:
-                String[] forms3 = form3.split("\\/");
-                form3 = ""; // empty for now:
-                for (int i = 0; i < forms3.length; i++) {
-                    if (!forms3[i].contains("*")) {
-                        form3 += forms3[i] + "/";
+                String[] forms3 = form3.toString().split("/");
+                form3 = new StringBuilder(); // empty for now:
+                for (String s : forms3) {
+                    if (!s.contains("*")) {
+                        form3.append(s).append("/");
                     }
                 } // end for.
-                form3 = form3.substring(0, form3.length() - 1);
+                form3 = new StringBuilder(form3.substring(0, form3.length() - 1));
                 // End process form3.
             } // end if is not archaic forms.
 
@@ -530,22 +537,14 @@ public class VerbsActivity extends Activity implements OnItemSelectedListener {
             final String verbForms = sb.toString();
 
             // No add an listener for short tap:
-            tv.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    speak.sayUsingLanguage(verbForms, true);
-                }
-            });
+            tv.setOnClickListener(view -> speak.sayUsingLanguage(verbForms, true));
             // End add listener for tap on verb form.
 
             // For a long click, spell the result:
-            tv.setOnLongClickListener(new OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
-                    speak.sayUsingLanguage("", true);
-                    speak.spellUsingLanguage(verbForms);
-                    return true;
-                }
+            tv.setOnLongClickListener(view -> {
+                speak.sayUsingLanguage("", true);
+                speak.spellUsingLanguage(verbForms);
+                return true;
             });
             // End add listener for long click on a result.
 
@@ -560,8 +559,21 @@ public class VerbsActivity extends Activity implements OnItemSelectedListener {
 
     // The method to generate the AdMob sequence:
     private void adMobSequence() {
-
+        //initializing the Google Admob SDK
+        MobileAds.initialize(this, initializationStatus -> {
+            // Now, because it is initialized, we load the ad:
+            loadBannerAd();
+        });
     } // end adMobSequence().
+
+    // Now we will create a simple method to load the Banner Ad inside QuizActivity class as shown below:
+    private void loadBannerAd() {
+        // Creating  a Ad Request
+        AdRequest adRequest = new AdRequest.Builder().build();
+        // load Ad with the Request
+        bannerAdView.loadAd(adRequest);
+    } // end loadBannerAd() method.
+// end Google ads section.
 
     // A method to hide or show AdMob zone:
     private void hideAdMob(boolean isHide) {
@@ -601,9 +613,7 @@ public class VerbsActivity extends Activity implements OnItemSelectedListener {
         // Only if there is something there:
         if (lastXMarks != null) {
             String[] aLastXMarks = lastXMarks.split("\\|");
-            for (int i = 0; i < aLastXMarks.length; i++) {
-                arLastXMarks.add(aLastXMarks[i]);
-            } // end for.
+            Collections.addAll(arLastXMarks, aLastXMarks);
         } else {
             // If lastXMarks doesn't contains something:
             arLastXMarks.add(String.format(
@@ -646,11 +656,9 @@ public class VerbsActivity extends Activity implements OnItemSelectedListener {
     // This is a subclass:
     private class GetWebData extends AsyncTask<String, String, String> {
 
-        @SuppressWarnings("deprecation")
         private ProgressDialog pd;
 
         // execute before task:
-        @SuppressWarnings("deprecation")
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -734,11 +742,7 @@ public class VerbsActivity extends Activity implements OnItemSelectedListener {
                 break;
 
             case R.id.cbtArchaicForms:
-                if (checked) {
-                    isArchaicForms = true;
-                } else {
-                    isArchaicForms = false;
-                }
+                isArchaicForms = checked;
                 set.saveBooleanSettings("isArchaicForms", isArchaicForms);
                 break;
         } // end switch.

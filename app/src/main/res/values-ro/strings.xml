@@ -498,4 +498,10 @@
     <string name="sh_cm_title">Opțiuni</string>
     <string name="ib_more_for_results">Mai multe despre %1$s</string>
 
+    <!-- Strings added in 7.0, starting with Thursday, 22nd December 2022: -->
+    <string name="purchase_canceled">Procesul de achiziție a versiunii Premium a fost anulat.</string>
+    <string name="no_purchases_available">Nu există articole de cumpărat.</string>
+    <string name="billing_unknown_error">A apărut o eroare necunoscută în procesul de achiziție.</string>
+    <string name="bt_premium">Premium!</string>
+
 </resources>

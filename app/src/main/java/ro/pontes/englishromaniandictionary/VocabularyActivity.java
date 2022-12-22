@@ -42,6 +42,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+
 
 public class VocabularyActivity extends Activity implements
         OnItemSelectedListener {
@@ -49,11 +53,11 @@ public class VocabularyActivity extends Activity implements
     private DBAdapter2 mDbHelper;
     private SpeakText speak;
 
+    private File file = null;
     private int numberOfRecords = 0;
     private int numberOfCategories = 0;
     private String curCategoryName = "%";
     private int curSpinnerPosition = 0;
-    private File file = null;
     private StringTools st = null;
 
     private final Context mFinalContext = this;
@@ -70,6 +74,9 @@ public class VocabularyActivity extends Activity implements
      * needed and other things:
      */
     private AlertDialog alertToShow;
+
+    // Creating object of AdView:
+    private AdView bannerAdView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,11 +124,6 @@ public class VocabularyActivity extends Activity implements
             updateSpinner();
         } // end if there is at least one record.
 
-        // Call the method to show banner if is not premium:
-        if (!MainActivity.isPremium) {
-            adMobSequence();
-        }
-
         // To keep screen awake:
         if (MainActivity.isWakeLock) {
             getWindow()
@@ -129,6 +131,12 @@ public class VocabularyActivity extends Activity implements
         } // end wake lock.
 
         speak = new SpeakText(this);
+
+        if (!MainActivity.isPremium) {
+            // Initializing the AdView object
+            bannerAdView = findViewById(R.id.bannerAdView);
+            adMobSequence();
+        }
     } // end onCreate() method.
 
     protected void onResume() {
@@ -312,8 +320,21 @@ public class VocabularyActivity extends Activity implements
 
     // The method to generate the AdMob sequence:
     private void adMobSequence() {
-
+        //initializing the Google Admob SDK
+        MobileAds.initialize(this, initializationStatus -> {
+            // Now, because it is initialized, we load the ad:
+            loadBannerAd();
+        });
     } // end adMobSequence().
+
+    // Now we will create a simple method to load the Banner Ad inside QuizActivity class as shown below:
+    private void loadBannerAd() {
+        // Creating  a Ad Request
+        AdRequest adRequest = new AdRequest.Builder().build();
+        // load Ad with the Request
+        bannerAdView.loadAd(adRequest);
+    } // end loadBannerAd() method.
+// end Google ads section.
 
     // A method to hide or show AdMob zone:
     private void hideAdMob(boolean isHide) {
