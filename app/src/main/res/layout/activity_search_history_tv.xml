@@ -2,23 +2,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layoutMain"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="27dp"
         android:layout_marginLeft="48dp"
-        android:layout_marginRight="48dp"
         android:layout_marginTop="0dp"
-        tools:ignore="UselessParent" >
+        android:layout_marginRight="48dp"
+        android:layout_marginBottom="27dp"
+        tools:ignore="UselessParent">
 
         <LinearLayout
             android:id="@+id/llMain"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_horizontal"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <LinearLayout
                 android:id="@+id/llBottomInfo"
@@ -26,7 +26,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/search_icons_background"
                 android:gravity="center_vertical"
-                android:orientation="horizontal" >
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/tvStatus"
@@ -60,8 +60,7 @@
                 android:gravity="center_horizontal"
                 android:nextFocusDown="@+id/llResults"
                 android:spinnerMode="dropdown"
-                android:textSize="@dimen/text_size_history" >
-            </Spinner>
+                android:textSize="@dimen/text_size_history" />
 
             <ScrollView
                 android:id="@+id/svResults"
@@ -69,14 +68,13 @@
                 android:layout_height="match_parent"
                 android:isScrollContainer="false"
                 android:orientation="vertical"
-                android:paddingTop="@dimen/results_top_margin" >
+                android:paddingTop="@dimen/results_top_margin">
 
                 <LinearLayout
                     android:id="@+id/llResults"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical" >
-                </LinearLayout>
+                    android:orientation="vertical" />
             </ScrollView>
         </LinearLayout>
     </RelativeLayout>

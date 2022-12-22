@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
@@ -43,6 +42,10 @@ import android.widget.RelativeLayout.LayoutParams;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -136,6 +139,9 @@ public class MainActivity extends Activity {
      */
     private String lastCMW;
     private String lastCME;
+
+    // Creating object of AdView:
+    private AdView bannerAdView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -256,6 +262,11 @@ public class MainActivity extends Activity {
 
         // To determine the tvStatusHeight and the llResults width:
         determineSomeSizes();
+
+        if (!isPremium) {
+            bannerAdView = findViewById(R.id.bannerAdView);
+            adMobSequence();
+        }
     } // end onCreate() method.
 
     private void determineSomeSizes() {
@@ -549,10 +560,6 @@ public class MainActivity extends Activity {
     private void updateGUIFirst() {
         // To have correct the direction as message above search edit:
         updateSearchMessage();
-
-        if (!isPremium) {
-            adMobSequence();
-        }
 
         updateNumberOfWords();
 
@@ -1054,10 +1061,24 @@ public class MainActivity extends Activity {
         spelledWords++;
     } // end speakResult() method.
 
+
     // The method to generate the AdMob sequence:
     private void adMobSequence() {
-
+        //initializing the Google Admob SDK
+        MobileAds.initialize(this, initializationStatus -> {
+            // Now, because it is initialized, we load the ad:
+            loadBannerAd();
+        });
     } // end adMobSequence().
+
+    // Now we will create a simple method to load the Banner Ad inside QuizActivity class as shown below:
+    private void loadBannerAd() {
+        // Creating  a Ad Request
+        AdRequest adRequest = new AdRequest.Builder().build();
+        // load Ad with the Request
+        bannerAdView.loadAd(adRequest);
+    } // end loadBannerAd() method.
+// end Google ads section.
 
     public void upgradeToPremium(View view) {
         upgradeAlert();
@@ -1697,12 +1718,6 @@ public class MainActivity extends Activity {
         UpdateDictionary ud = new UpdateDictionary(this);
         ud.updateStart();
 
-        // ImageView view = (ImageView) findViewById(R.id.btSearch);
-        // LinearLayout view = (LinearLayout) findViewById(R.id.llSearch);
-        // EditText view = (EditText) findViewById(R.id.etWord);
-        // int w = view.getWidth();
-        // int h = view.getHeight();
-        // GUITools.toast("Width " + w + ". Height " + h, 1000, this);
     } // end updateNow() method.
 
     // A method to propose new words:

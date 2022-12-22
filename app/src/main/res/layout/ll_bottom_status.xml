@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    tools:showIn="@layout/activity_main" >
+    tools:showIn="@layout/activity_main">
 
     <TextView
         android:id="@+id/tvStatus"
@@ -15,9 +15,9 @@
         android:clickable="true"
         android:focusable="true"
         android:gravity="center_vertical|center_horizontal"
-        android:nextFocusForward="@id/tvStatus"
         android:nextFocusLeft="@id/tvStatus"
         android:nextFocusRight="@id/tvStatus"
+        android:nextFocusForward="@id/tvStatus"
         android:onClick="goShowLastDBUpdate"
         android:text="@string/ellipsis"
         android:textColor="@color/whiteText"

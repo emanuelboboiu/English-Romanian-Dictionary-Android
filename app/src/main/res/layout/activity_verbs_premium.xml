@@ -1,8 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:id="@+id/layoutMain"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/llMain"
@@ -11,15 +10,15 @@
         android:gravity="center_horizontal"
         android:orientation="vertical"
         android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin" >
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin">
 
         <LinearLayout
             android:id="@+id/llTopButtons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <!-- Buttons in the upper part of the activity: -->
 
@@ -48,14 +47,14 @@
             android:layout_height="match_parent"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:paddingTop="@dimen/activity_vertical_margin" >
+            android:paddingTop="@dimen/activity_vertical_margin">
 
             <LinearLayout
                 android:id="@+id/llListOrQuizTop"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/tvChooseALetter"
@@ -75,8 +74,7 @@
                     android:drawSelectorOnTop="true"
                     android:gravity="center_horizontal"
                     android:spinnerMode="dropdown"
-                    android:textSize="@dimen/text_size_verbs" >
-                </Spinner>
+                    android:textSize="@dimen/text_size_verbs" />
             </LinearLayout>
 
             <ScrollView
@@ -85,14 +83,14 @@
                 android:layout_height="match_parent"
                 android:isScrollContainer="false"
                 android:orientation="vertical"
-                android:paddingTop="@dimen/results_top_margin" >
+                android:paddingTop="@dimen/results_top_margin">
 
                 <LinearLayout
                     android:id="@+id/llListOrQuiz"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="left"
-                    android:orientation="vertical" >
+                    android:gravity="start"
+                    android:orientation="vertical">
 
                     <include layout="@layout/ll_verbs_choices" />
 
@@ -102,7 +100,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:focusable="true"
-                        android:gravity="left"
+                        android:gravity="start"
                         android:text="@string/tv_welcome_verbs_message"
                         android:textSize="@dimen/text_size_verbs"
                         android:textStyle="bold" />
@@ -117,7 +115,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:gravity="center_horizontal"
-        android:orientation="vertical" >
-    </LinearLayout>
+        android:orientation="vertical" />
 
 </RelativeLayout>

@@ -347,8 +347,6 @@ public class VocabularyActivity extends Activity implements
             renameCategory();
         } else if (id == R.id.mnuImportPredefined) {
             importPredefinedCategories("predefined_categories");
-        } else if (id == R.id.mnuSectionExport) {
-            // beforeExportCategory();
         } else if (id == R.id.mnuDeleteSection) {
             // deleteEntireCategory();
         } else if (id == R.id.mnuDeleteAll) {

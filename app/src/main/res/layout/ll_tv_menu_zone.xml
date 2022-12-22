@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:scrollbars="none"
-    tools:showIn="@layout/activity_main" >
+    tools:showIn="@layout/activity_main">
 
     <LinearLayout
         android:id="@+id/llActionBar"
@@ -11,15 +11,15 @@
         android:layout_height="wrap_content"
         android:background="@color/ll_action_bar_background"
         android:gravity="center_vertical"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/btTVVocabulary"
             style="@style/llActionBarForTVButtonsStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:nextFocusDown="@+id/etWord"
             android:nextFocusLeft="@+id/btTVVocabulary"
+            android:nextFocusDown="@+id/etWord"
             android:onClick="goToVocabulary"
             android:text="@string/mnu_vocabulary" />
 
@@ -132,8 +132,8 @@
             style="@style/llActionBarForTVButtonsStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:nextFocusDown="@+id/etWord"
             android:nextFocusLeft="@+id/btTVReset"
+            android:nextFocusDown="@+id/etWord"
             android:onClick="resetToDefaults"
             android:text="@string/mnu_tv_reset" />
     </LinearLayout>

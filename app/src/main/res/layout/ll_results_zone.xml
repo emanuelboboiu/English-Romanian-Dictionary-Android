@@ -5,16 +5,16 @@
     android:layout_height="match_parent"
     android:isScrollContainer="false"
     android:orientation="vertical"
-    android:paddingLeft="@dimen/results_left_margin"
-    android:paddingRight="@dimen/results_right_margin"
+    android:paddingStart="@dimen/results_left_margin"
     android:paddingTop="@dimen/results_top_margin"
-    tools:showIn="@layout/activity_main" >
+    android:paddingEnd="@dimen/results_right_margin"
+    tools:showIn="@layout/activity_main">
 
     <LinearLayout
         android:id="@+id/llResults"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <TextView
             android:id="@id/tvNumberOfResults"
@@ -22,8 +22,8 @@
             android:layout_height="wrap_content"
             android:focusable="true"
             android:gravity="center_vertical|center_horizontal"
-            android:nextFocusDown="@id/tvStatus"
-            android:nextFocusUp="@id/etWord" />
+            android:nextFocusUp="@id/etWord"
+            android:nextFocusDown="@id/tvStatus" />
     </LinearLayout>
 
 </ScrollView>

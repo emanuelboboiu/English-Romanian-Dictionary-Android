@@ -6,7 +6,7 @@
     android:background="@color/search_icons_background"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    tools:showIn="@layout/activity_main" >
+    tools:showIn="@layout/activity_main">
 
     <ImageView
         android:id="@id/btSwitch"
@@ -15,10 +15,10 @@
         android:layout_height="wrap_content"
         android:layout_weight="0.1111"
         android:contentDescription="@string/bt_switch"
-        android:nextFocusDown="@+id/tvNumberOfResults"
-        android:nextFocusForward="@+id/etWord"
         android:nextFocusLeft="@id/btSwitch"
         android:nextFocusRight="@id/etWord"
+        android:nextFocusDown="@+id/tvNumberOfResults"
+        android:nextFocusForward="@+id/etWord"
         android:onClick="switchButton"
         android:src="@drawable/flag0" />
 
@@ -28,13 +28,14 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="0.6390"
-        android:hint="@string/hint_scrie_aici"
+        android:hint="@string/hint_write_here"
         android:imeOptions="actionSearch"
+        android:importantForAutofill="no"
         android:inputType="text"
-        android:nextFocusDown="@+id/tvNumberOfResults"
-        android:nextFocusForward="@+id/btSearch"
         android:nextFocusLeft="@id/btSwitch"
-        android:nextFocusRight="@id/btSearch" />
+        android:nextFocusRight="@id/btSearch"
+        android:nextFocusDown="@+id/tvNumberOfResults"
+        android:nextFocusForward="@+id/btSearch" />
 
     <ImageView
         android:id="@id/btSearch"
@@ -43,10 +44,10 @@
         android:layout_height="wrap_content"
         android:layout_weight="0.0833"
         android:contentDescription="@string/bt_search"
-        android:nextFocusDown="@+id/tvNumberOfResults"
-        android:nextFocusForward="@+id/btVoice"
         android:nextFocusLeft="@id/etWord"
         android:nextFocusRight="@id/btVoice"
+        android:nextFocusDown="@+id/tvNumberOfResults"
+        android:nextFocusForward="@+id/btVoice"
         android:onClick="searchButton"
         android:src="@drawable/ic_bt_search" />
 
@@ -57,10 +58,10 @@
         android:layout_height="wrap_content"
         android:layout_weight="0.0833"
         android:contentDescription="@string/bt_voice"
-        android:nextFocusDown="@+id/tvNumberOfResults"
-        android:nextFocusForward="@+id/btCancelSearch"
         android:nextFocusLeft="@id/btSearch"
         android:nextFocusRight="@id/btCancelSearch"
+        android:nextFocusDown="@+id/tvNumberOfResults"
+        android:nextFocusForward="@+id/btCancelSearch"
         android:onClick="searchVoiceButton"
         android:src="@drawable/ic_bt_microphone" />
 
@@ -71,9 +72,9 @@
         android:layout_height="wrap_content"
         android:layout_weight="0.0833"
         android:contentDescription="@string/bt_cancel_search"
-        android:nextFocusDown="@+id/tvNumberOfResults"
         android:nextFocusLeft="@id/btVoice"
         android:nextFocusRight="@id/btCancelSearch"
+        android:nextFocusDown="@+id/tvNumberOfResults"
         android:onClick="cancelSearchButton"
         android:src="@drawable/ic_bt_delete" />
 
