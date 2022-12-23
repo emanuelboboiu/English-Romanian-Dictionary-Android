@@ -1443,15 +1443,13 @@ public class MainActivity extends Activity {
     // A method to change the separator between words and explanations:
     public void chooseSeparator() {
         Context context = new ContextThemeWrapper(this, R.style.MyAlertDialog);
-
         AlertDialog separatorDialog;
-
         // Strings to Show In Dialog with Radio Buttons
         final CharSequence[] items = {getString(R.string.we_separator_dash),
                 getString(R.string.we_separator_hiphen),
                 getString(R.string.we_separator_pipe),
                 getString(R.string.we_separator_newline)};
-        final String[] weSeparators = {" � ", " - ", " | ", "<br>"};
+        final String[] weSeparators = {" – ", " - ", " | ", "<br>"};
         tempWESeparator = MainActivity.weSeparator;
 
         // Creating and Building the Dialog
@@ -1863,7 +1861,6 @@ public class MainActivity extends Activity {
                                 public void onQueryPurchasesResponse(BillingResult billingResult, List<Purchase> purchases) {
                                     // check billingResult and process returned purchase list, e.g. display the products user owns
                                     if (purchases != null && purchases.size() > 0) { // it means there are items:
-// xxx
                                         Purchase myOldPurchase = purchases.get(0);
                                         if (myOldPurchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED) {
                                             recreateThisActivityAfterRegistering();
@@ -1919,7 +1916,7 @@ public class MainActivity extends Activity {
 
     private void initiatePurchase() {
         // We purchase here the only one item found in myProducts list:
-        if (myProducts.size() > 0) { // only if there is at least one product available:
+        if (myProducts != null && myProducts.size() > 0) { // only if there is at least one product available:
             ProductDetails productDetails = myProducts.get(0);
 
 // An activity reference from which the billing flow will be launched.

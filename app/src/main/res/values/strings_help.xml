@@ -7,7 +7,7 @@
         <item>It contains half a million words - basic vocabulary, proper nouns, and technical terms in any areas: engineering, sciences, medicine etc.</item>
         <item>Allows translation from English to Romanian and from Romanian to English.</item>
         <item>The database is stored in your phone, tablet or TV, no internet connection is needed (there is an offline database).</item>
-        <item>Offers English definitions and other English lexical resources like: phonetic transcription, synonyms, antonyms, omophones, hypernyms, hyponyms, rhymes, word frequency etc. This kind of information is given by Datamuse API and needs an active Internet Connection.</item>
+        <item>Offers English definitions and other English lexical resources like: phonetic transcription, synonyms, antonyms, homophones, hypernyms, hyponyms, rhymes, word frequency etc. This kind of information is given by Datamuse API and needs an active Internet Connection.</item>
         <item>---------------</item>
         <item>To search a term, fill in the edit field found in the upper part of the main window and click the search icon found at the right.</item>
         <item>To search a term vocally, click the microphone icon found at the right of the search button and say the word.</item>
@@ -19,14 +19,14 @@
         <item>In this context menu you can choose to add a result into vocabulary, hear the English part pronounced by a voice, to hear the word spelled by the same voice, to show phonetic transcription and many other lexical resources, to copy the result into clipboard.</item>
         <item>---------------</item>
         <item>&lt;b>Lexical resources&lt;/b></item>
-        <item>Starting with version 5.0 of the dictionary, in the context menu of a result it is possible to choose to see many lexical information like: English definition of the searched word, phonetic transcriptions (IPA and Arpabet), word frequency per million, synonyms, antonyms, omophones, hypernyms, hyponyms, rhymes, frequent followers, frequent predecessors and others.</item>
+        <item>Starting with version 5.0 of the dictionary, in the context menu of a result it is possible to choose to see many lexical information like: English definition of the searched word, phonetic transcriptions (IPA and Arpabet), word frequency per million, synonyms, antonyms, homophones, hypernyms, hyponyms, rhymes, frequent followers, frequent predecessors and others.</item>
         <item>To access the information mentioned above, an active Internet connection is required.</item>
         <item>These English lexical resources are offered by Datamuse, a very powerful free online API.</item>
         <item>---------------</item>
         <item>&lt;b>Settings&lt;/b></item>
         <item>There are many options which can be enabled or disabled in settings: change search mode, all occurrences or full words only, keep screen awake, play sounds or not for some events, shake device for a new search, choose text size.</item>
         <item>It is possible to block or unblock the portrait orientation. by default the orientation is unblocked. This setting isn\'t available for Android TV.</item>
-        <item>It is possible to change the separator between words and explanations: new line, dash, hiphen or vertical bar.</item>
+        <item>It is possible to change the separator between words and explanations: new line, dash, hyphen or vertical bar.</item>
         <item>There is also a possibility to change the background of all screens. By default a random background is chosen at first launch of the dictionary. The background can be also disabled. All these settings can be found in Settings, Choose background. For Android TV the background is predefined, but it can be also changed.</item>
         <item>In Voice settings (TTS) it\'s possible to change the preferred voice for pronouncing English parts of the results. All synthesizer engines available are shown, for each of them appearing the English voice variants. There is also possible to change the speed and pitch of the voice.</item>
         <item>The application language can be changed independently of the device language.</item>
@@ -41,7 +41,6 @@
         <item>The Vocabulary module is a tool which allows to add words sorted into sections in a separate database.</item>
         <item>Click long a result and choose in the context menu Add to My vocabulary.&lt;br>An alert to choose an existing section or to create a new one where to add the result appears.</item>
         <item>In the My vocabulary window it is possible to view records by sections, to delete them and other actions.&lt;br>This way it is possible to learn easily new English words.</item>
-        <item>Any section can be exported in a file with .erd extension on the external storage.&lt;br>To import a section from file, just open it using a file manager.</item>
         <item>There are also predefined sections like Animals, Colors which can be imported.&lt;br>These predefined sections can be found in the menu of My vocabulary module.</item>
         <item>---------------</item>
         <item>&lt;b>Irregular Verbs&lt;/b></item>
@@ -61,8 +60,8 @@
         <item>&lt;b>Premium Version&lt;/b></item>
         <item>In the Standard version, in the bottom part of the main windows of the application, Google ads appear.</item>
         <item>There is a Premium version which removes the ads, this way the application works better.</item>
-        <item>Go in main menu of the dictionary and choose Premium version to make the purchase. Paying a small among, the Premium version will be available forever, even after a re-installation of the dictionary.</item>
-        <item>The payed version is available for all devices signed-in with the same Google account.</item>
+        <item>Go in main menu of the dictionary and choose Premium version to make the purchase. Paying a small amount, the Premium version will be available forever, even after a re-installation of the dictionary.</item>
+        <item>The paid version is available for all devices signed-in with the same Google account.</item>
         <item>Google Ads are not displayed on an Android TV device.</item>
         <item>---------------</item>
         <item>&lt;b>Contact&lt;/b></item>

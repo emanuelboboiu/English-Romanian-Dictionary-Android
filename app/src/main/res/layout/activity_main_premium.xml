@@ -24,6 +24,16 @@
         android:orientation="vertical">
 
         <include layout="@layout/ll_bottom_status" />
+
+        <TextView
+            android:id="@+id/tvPremiumVersionStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="@string/tv_premium_version_status"
+            android:textSize="@dimen/text_size_main"
+            android:textStyle="bold" />
+
     </LinearLayout>
 
 </RelativeLayout>

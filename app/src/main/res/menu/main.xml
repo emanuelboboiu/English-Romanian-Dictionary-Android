@@ -6,13 +6,13 @@
     <item
         android:id="@+id/mnuVocabulary"
         android:orderInCategory="150"
-        android:title="@string/mnu_vocabulary"
-        app:showAsAction="ifRoom|withText" />
+        android:showAsAction="ifRoom|withText"
+        android:title="@string/mnu_vocabulary" />
     <item
         android:id="@+id/mnuIrregularVerbs"
         android:orderInCategory="175"
-        android:title="@string/mnu_irregular_verbs"
-        app:showAsAction="ifRoom|withText" />
+        android:showAsAction="ifRoom|withText"
+        android:title="@string/mnu_irregular_verbs" />
     <item
         android:id="@+id/mnuSearchHistory"
         android:orderInCategory="200"

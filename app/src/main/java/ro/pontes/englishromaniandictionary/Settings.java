@@ -236,8 +236,8 @@ public class Settings {
         saveBooleanSettings("isImeAction", true);
         saveBooleanSettings("isHistory", true);
 
-        // The separator will be the dash:
-        MainActivity.weSeparator = " - ";
+        // The separator will be the long dash:
+        MainActivity.weSeparator = " – ";
         saveStringSettings("weSeparator", MainActivity.weSeparator);
 
         // For text size for lines:

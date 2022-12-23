@@ -13,6 +13,17 @@
 
         <include layout="@layout/ll_bottom_status" />
 
+        <Button
+            android:id="@+id/bt_premium"
+            style="@style/style_main_buttons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center_horizontal"
+            android:onClick="upgradeToPremium"
+
+            android:text="@string/bt_premium" />
+
         <LinearLayout
             android:id="@+id/llBottomAd"
             android:layout_width="match_parent"
@@ -27,7 +38,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 ads:adSize="BANNER"
-                ads:adUnitId="@string/banner_ad_unit_id_test">
+                ads:adUnitId="@string/banner_ad_unit_id">
 
             </com.google.android.gms.ads.AdView>
 

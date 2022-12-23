@@ -465,7 +465,9 @@ public class VerbsActivity extends Activity implements OnItemSelectedListener {
     // The method which writes the list of verbs:
     private void createList(String initial) {
         // Hide the bottom layout, AdMob:
-        hideAdMob(true);
+        if (MainActivity.isPremium) {
+            hideAdMob(true);
+        }
 
         // Clear the previous content of the llListOrQuiz layout:
         LinearLayout ll = (LinearLayout) findViewById(R.id.llListOrQuiz);
