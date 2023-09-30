@@ -64,9 +64,9 @@
 
     <!-- About dialog: -->
     <string name="about">Despre Dicționar</string>
-    <string name="app_version">Dicționar Englez – Român, versiunea 7.0</string>
+    <string name="app_version">Dicționar Englez – Român, versiunea 7.1</string>
     <string name="app_release_date">Versiune 1.0 finalizată miercuri, 9 septembrie 2015</string>
-    <string name="app_last_update">Ultima actualizare: vineri, 23 decembrie 2022</string>
+    <string name="app_last_update">Ultima actualizare: duminică, 1 octombrie 2023</string>
     <string name="app_creator">Programat de Emanuel Boboiu (Manu)</string>
     <string name="phone_number">Telefon: +40740203043</string>
     <string name="email_address">E-mail: android@pontes.ro</string>

@@ -54,14 +54,11 @@ public class QuizIrregularVerbs extends Quiz {
     // The method to start this quiz:
     public void startQuiz() {
         clearLL();
-        TextView tvTop = createTextView(
-                context.getString(R.string.choose_forms_to_fill_in),
-                textSize + 2);
+        TextView tvTop = createTextView(context.getString(R.string.choose_forms_to_fill_in), textSize + 2);
         tvTop.setGravity(Gravity.CENTER_HORIZONTAL);
         tvTop.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
         // A LayoutParams for weight for text view in the llTop, to be 1F::
-        LinearLayout.LayoutParams tvTopParams = new LinearLayout.LayoutParams(
-                LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams tvTopParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         tvTopParams.weight = 1.0f;
         // Add the tvTop into llTop:
         llTop.addView(tvTop, tvTopParams);
@@ -70,13 +67,10 @@ public class QuizIrregularVerbs extends Quiz {
         LinearLayout ll = new LinearLayout(context);
         ll.setOrientation(LinearLayout.HORIZONTAL);
         ll.setGravity(Gravity.CENTER_HORIZONTAL);
-        LinearLayout.LayoutParams llParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams llParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
         // A LayoutParams for weight of buttons here as 1F:
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         params.weight = 1.0f;
 
         // Now the for to create check boxes for each form:
@@ -89,15 +83,13 @@ public class QuizIrregularVerbs extends Quiz {
         } // end for create check boxes.
 
         // Add the start button:
-        Button btStart = createButton(
-                context.getString(R.string.bt_start_quiz), textSize);
+        Button btStart = createButton(context.getString(R.string.bt_start_quiz), textSize);
         btStart.setOnClickListener(view -> startNow());
         // End add listener for tap on btStart.
         ll.addView(btStart, params);
         llTop.addView(ll, llParams);
 
-        llMain.addView(createTextView(
-                context.getString(R.string.quiz_message_before_start), textSize));
+        llMain.addView(createTextView(context.getString(R.string.quiz_message_before_start), textSize));
     } // end startQuiz() method.
 
     // A method to add or remove a verb form:
@@ -127,8 +119,7 @@ public class QuizIrregularVerbs extends Quiz {
             printQuestion();
         } else {
             // It means no forms were checked:
-            GUITools.alert(context, context.getString(R.string.warning),
-                    context.getString(R.string.no_forms_were_chosen));
+            GUITools.alert(context, context.getString(R.string.warning), context.getString(R.string.no_forms_were_chosen));
         } // end if no forms were chosen.
     } // end startNow() method.
 
@@ -193,9 +184,7 @@ public class QuizIrregularVerbs extends Quiz {
         // This is the actual number of question:
         itemNumber = (byte) (itemNumber + 1);
         // Add the question number in llTop:
-        String title = String.format(
-                context.getString(R.string.item_title_in_quiz),
-                "" + itemNumber, "" + itemsLimit);
+        String title = String.format(context.getString(R.string.item_title_in_quiz), "" + itemNumber, "" + itemsLimit);
         TextView titleItemTV = createTextView(title, textSize + 2);
         llTop.addView(titleItemTV);
 
@@ -217,8 +206,7 @@ public class QuizIrregularVerbs extends Quiz {
             LinearLayout llRow = new LinearLayout(context);
             llRow.setOrientation(LinearLayout.HORIZONTAL);
             llRow.setGravity(Gravity.START);
-            llRow.setPadding(mPadding * paddingMultiplier, mPadding, mPadding,
-                    mPadding);
+            llRow.setPadding(mPadding * paddingMultiplier, mPadding, mPadding, mPadding);
 
             // A label with form number or translate:
             TextView tvLabel;
@@ -241,9 +229,7 @@ public class QuizIrregularVerbs extends Quiz {
             // If must contain contentDescription or not::
             if (i < bObjects.length && arForms.contains(bObjects[i])) {
                 // It means it is unfilled form:
-                tv.setContentDescription(String.format(context
-                                .getString(R.string.content_description_unfilled),
-                        aVerbForms[i]));
+                tv.setContentDescription(String.format(context.getString(R.string.content_description_unfilled), aVerbForms[i]));
             }
 
             tv.setPadding(mPaddingDP, 0, 0, 0);
@@ -273,15 +259,11 @@ public class QuizIrregularVerbs extends Quiz {
             } // end if is a shown form, not to fill.
             aTvs[i] = tv;
             // Make a LayoutParams to fill parent:
-            LinearLayout.LayoutParams tvParams = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT);
+            LinearLayout.LayoutParams tvParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             llRow.addView(aTvs[i], tvParams);
 
             // Make a LayoutParams for llRos to fill parent:
-            LinearLayout.LayoutParams llRowParams = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT);
+            LinearLayout.LayoutParams llRowParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             llMain.addView(llRow, llRowParams);
         } // end for create 2 * 4 TextViews in 4 LinearLayouts.
 
@@ -295,8 +277,7 @@ public class QuizIrregularVerbs extends Quiz {
 
         // A LayoutParams for children added:
         // This child will be the LinearLayout above:
-        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
-                LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         lp.addRule(RelativeLayout.CENTER_HORIZONTAL);
         lp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 
@@ -313,25 +294,18 @@ public class QuizIrregularVerbs extends Quiz {
         // End add listener for tap on btNext.
         btNext.setEnabled(false);
         // A LayoutParams for this button:
-        LinearLayout.LayoutParams llParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams llParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         llNextAndProgress.addView(btNext, llParams);
 
         // Create also a progress bar:
         // Calculate current percentage of the text:
         int curPercentage = (itemNumber - 1) * 10;
-        ProgressBar pb = new ProgressBar(context, null,
-                android.R.attr.progressBarStyleHorizontal);
+        ProgressBar pb = new ProgressBar(context, null, android.R.attr.progressBarStyleHorizontal);
         pb.setProgress(curPercentage);
-        pb.setContentDescription(String.format(
-                context.getString(R.string.quiz_progress_bar), ""
-                        + curPercentage));
+        pb.setContentDescription(String.format(context.getString(R.string.quiz_progress_bar), "" + curPercentage));
         // Add the progress bar to LinearLayout.
         // A LayoutParams for this button:
-        LinearLayout.LayoutParams llParamsPB = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams llParamsPB = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         llNextAndProgress.addView(pb, llParamsPB);
 
         // Add the LinearLayout into RelativeLayout:
@@ -339,8 +313,7 @@ public class QuizIrregularVerbs extends Quiz {
 
         // Add the RelativeLayout into llMain:
         // A LayoutParams for RelativeLayout to see how to add in llMain:
-        RelativeLayout.LayoutParams rlp = new RelativeLayout.LayoutParams(
-                LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+        RelativeLayout.LayoutParams rlp = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         llMain.addView(lr, rlp);
     } // end showQuestion() method.
 
@@ -361,8 +334,7 @@ public class QuizIrregularVerbs extends Quiz {
         aTvs[which].setFocusable(true);
         aTvs[which].setFocusableInTouchMode(true);
         aTvs[which].requestFocus();
-        aTvs[which].setInputType(InputType.TYPE_CLASS_TEXT
-                | EditorInfo.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+        aTvs[which].setInputType(InputType.TYPE_CLASS_TEXT | EditorInfo.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         aTvs[which].setContentDescription("");
         btNext.setEnabled(true);
         // Add also an action listener for editing:
@@ -371,15 +343,11 @@ public class QuizIrregularVerbs extends Quiz {
                 // Play a sound when the keyboard is hidden:
                 SoundPlayer.playSimple(context, "written");
                 // Fill again text of not filled:
-                String temp = st.replaceCharacters(aTvs[which].getText()
-                        .toString());
+                String temp = st.replaceCharacters(aTvs[which].getText().toString());
                 if (temp.equals("")) {
                     // Fill again the text and content description:
-                    aTvs[which].setText(context
-                            .getString(R.string.text_unfilled));
-                    aTvs[which].setContentDescription(String.format(
-                            context.getString(R.string.content_description_unfilled),
-                            aVerbForms[which]));
+                    aTvs[which].setText(context.getString(R.string.text_unfilled));
+                    aTvs[which].setContentDescription(String.format(context.getString(R.string.content_description_unfilled), aVerbForms[which]));
                     btNext.setEnabled(false);
                 } else {
                     /*
@@ -394,8 +362,7 @@ public class QuizIrregularVerbs extends Quiz {
         // End add action listener for the IME done button of the keyboard..
 
         // Show also the keyboard for this TextView:
-        InputMethodManager imm = (InputMethodManager) context
-                .getSystemService(MainActivity.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(MainActivity.INPUT_METHOD_SERVICE);
         imm.showSoftInput(aTvs[which], InputMethodManager.SHOW_IMPLICIT);
         // imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
     } // end tvFormClicked() method.
@@ -421,12 +388,9 @@ public class QuizIrregularVerbs extends Quiz {
                 if (isTempError) {
                     numberOfErrors++; // increase the numberOfErrors.
                     isError = true;
-                    String resItemError = context
-                            .getString(R.string.final_item_error);
+                    String resItemError = context.getString(R.string.final_item_error);
                     // Format the string:
-                    String tempMessage = String.format(resItemError, ""
-                                    + itemNumber, aVerbForms[i], aCurForms[1],
-                            aCurForms[i], aTvs[i].getText().toString());
+                    String tempMessage = String.format(resItemError, "" + itemNumber, aVerbForms[i], aCurForms[1], aCurForms[i], aTvs[i].getText().toString());
                     mHistory.add(tempMessage);
                 } // end if strings are not equals, error.
             } // end if is a form to check.
@@ -462,14 +426,12 @@ public class QuizIrregularVerbs extends Quiz {
 
         // Make a text view for title, the mark:
         // The string form final mark:
-        String markMessage = String.format(
-                context.getString(R.string.final_mark), "" + mark);
+        String markMessage = String.format(context.getString(R.string.final_mark), "" + mark);
         TextView tv = createTextView(markMessage, textSize + 1);
         tv.setGravity(Gravity.CENTER_HORIZONTAL);
         tv.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
         // A LayoutParams for weight for text view in the llTop, to be 1F::
-        LinearLayout.LayoutParams tvTopParams = new LinearLayout.LayoutParams(
-                LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams tvTopParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         tvTopParams.weight = 1.0f;
         // Add the tvTop into llTop:
         llTop.addView(tv, tvTopParams);
@@ -479,9 +441,7 @@ public class QuizIrregularVerbs extends Quiz {
         if (numberOfErrors > 0) {
             // First take the corresponding plural resource:
             Resources res = context.getResources();
-            errorsTitle = res.getQuantityString(
-                    R.plurals.tv_number_of_mistakes, numberOfErrors,
-                    numberOfErrors);
+            errorsTitle = res.getQuantityString(R.plurals.tv_number_of_mistakes, numberOfErrors, numberOfErrors);
         } else {
             // No errors found:
             errorsTitle = context.getString(R.string.tv_you_had_no_mistakes);
@@ -513,8 +473,7 @@ public class QuizIrregularVerbs extends Quiz {
         VerbsActivity.sumOfMarks = VerbsActivity.sumOfMarks + mark;
 
         // Calculate the new general average:
-        VerbsActivity.average = VerbsActivity.sumOfMarks
-                / (double) VerbsActivity.numberOfTests;
+        VerbsActivity.average = VerbsActivity.sumOfMarks / (double) VerbsActivity.numberOfTests;
 
         // Save all these new values:
         Settings set = new Settings(context);

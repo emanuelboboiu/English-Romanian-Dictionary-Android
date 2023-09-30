@@ -54,8 +54,7 @@ public class Statistics {
                 postStats("75", offlineRecords);
             }
 
-            String url = "http://www.pontes.ro/ro/divertisment/games/soft_counts.php?pid="
-                    + appIdInDB + "&score=" + totalSearches;
+            String url = "http://www.pontes.ro/ro/divertisment/games/soft_counts.php?pid=" + appIdInDB + "&score=" + totalSearches;
 
             new GetWebData().execute(url);
         } // end if there is an Internet connection available.
@@ -74,18 +73,15 @@ public class Statistics {
         } // end if no Internet connection is available.
     }// end post data.
 
-    public void postTestFinished(final String googleId, final String testType,
-                                 final double mark) {
+    public void postTestFinished(final String googleId, final String testType, final double mark) {
 
-        String url = "http://android.pontes.ro/erd/insert_test_finished.php?google_id="
-                + googleId + "&tip=" + testType + "&nota=" + mark;
+        String url = "http://android.pontes.ro/erd/insert_test_finished.php?google_id=" + googleId + "&tip=" + testType + "&nota=" + mark;
         new GetWebData().execute(url);
     } // end post data for a test finished.
 
     // A method to change the name for mark statistics, tests finished:
     public void postNewName(final String googleId, final String newName) {
-        String url = "http://android.pontes.ro/erd/change_name.php?google_id="
-                + googleId + "&nume=" + newName;
+        String url = "http://android.pontes.ro/erd/change_name.php?google_id=" + googleId + "&nume=" + newName;
 
         new GetWebData().execute(url);
     } // end postNewName() method.
@@ -112,8 +108,7 @@ public class Statistics {
                 // Create a URLConnection object:
                 URLConnection urlConnection = url.openConnection();
                 // Wrap the URLConnection in a BufferedReader:
-                BufferedReader bufferedReader = new BufferedReader(
-                        new InputStreamReader(urlConnection.getInputStream()));
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                 String line;
                 // Read from the URLConnection via the BufferedReader:
                 while ((line = bufferedReader.readLine()) != null) {

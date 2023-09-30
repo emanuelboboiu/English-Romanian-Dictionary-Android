@@ -133,8 +133,7 @@ public class VerbsActivity extends Activity implements OnItemSelectedListener {
         // GUITools.alert(this, "", "" + arLastXMarks.size());
         // To keep screen awake:
         if (MainActivity.isWakeLock) {
-            getWindow()
-                    .addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         } // end wake lock.
 
         speak = new SpeakText(this);
@@ -169,10 +168,7 @@ public class VerbsActivity extends Activity implements OnItemSelectedListener {
         cursor.close();
 
         TextView tv = (TextView) findViewById(R.id.tvNumberOfVerbs);
-        String message = String.format(
-                getString(R.string.tv_welcome_verbs_message), ""
-                        + "" + numberOfTotalVerbs, "" + numberOfNonDerivedVerbs,
-                "" + numberOfDerivedVerbs);
+        String message = String.format(getString(R.string.tv_welcome_verbs_message), "" + "" + numberOfTotalVerbs, "" + numberOfNonDerivedVerbs, "" + numberOfDerivedVerbs);
         tv.setText(MyHtml.fromHtml(message));
         tv.setFocusable(true);
     } // end updateWelcomeMessage() method.
@@ -182,17 +178,14 @@ public class VerbsActivity extends Activity implements OnItemSelectedListener {
 
         // Get the verbs starting with a letter and number of them.
         // It depends if all forms or only non-derived must be shown:
-        String sql = "SELECT DISTINCT(SUBSTR(forma1, 1, 1)) AS initiale FROM verbe WHERE tip LIKE '"
-                + type + "' ORDER BY initiale";
+        String sql = "SELECT DISTINCT(SUBSTR(forma1, 1, 1)) AS initiale FROM verbe WHERE tip LIKE '" + type + "' ORDER BY initiale";
         Cursor cursor = mDbHelper.queryData(sql);
 
         // Create a delimited string:
 
-        StringBuilder sb = new StringBuilder(
-                getString(R.string.in_spinner_choose_a_letter));
+        StringBuilder sb = new StringBuilder(getString(R.string.in_spinner_choose_a_letter));
         sb.append("|");
-        sb.append(String.format(getString(R.string.in_spinner_all_initials), ""
-                + numberOfVerbs));
+        sb.append(String.format(getString(R.string.in_spinner_all_initials), "" + numberOfVerbs));
 
         cursor.moveToFirst();
         do {
@@ -201,9 +194,7 @@ public class VerbsActivity extends Activity implements OnItemSelectedListener {
             sb.append(firstLetter);
             sb.append(" - ");
             // Get number of verbs with this letter:
-            Cursor cursor2 = mDbHelper
-                    .queryData("SELECT COUNT(forma1) FROM verbe WHERE tip LIKE '"
-                            + type + "' AND forma1 LIKE '" + firstLetter + "%'");
+            Cursor cursor2 = mDbHelper.queryData("SELECT COUNT(forma1) FROM verbe WHERE tip LIKE '" + type + "' AND forma1 LIKE '" + firstLetter + "%'");
             int nr = cursor2.getInt(0);
             sb.append(nr);
             cursor2.close();
@@ -213,8 +204,7 @@ public class VerbsActivity extends Activity implements OnItemSelectedListener {
 
         Spinner dropdown = (Spinner) findViewById(R.id.spinnerChoose);
         String[] items = sb.toString().split("\\|");
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, items);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, items);
         dropdown.setAdapter(adapter);
         dropdown.setOnItemSelectedListener(this);
     } // end updateSpinner() method.
@@ -296,8 +286,7 @@ public class VerbsActivity extends Activity implements OnItemSelectedListener {
 
         // Make a correct string for number of tests:
         Resources res = getResources();
-        String testsFinished = res.getQuantityString(
-                R.plurals.tv_number_of_tests, numberOfTests, numberOfTests);
+        String testsFinished = res.getQuantityString(R.plurals.tv_number_of_tests, numberOfTests, numberOfTests);
         tv.setText(testsFinished);
         tv.setFocusable(true);
         ll.addView(tv);
@@ -312,8 +301,7 @@ public class VerbsActivity extends Activity implements OnItemSelectedListener {
             tv.setText(getString(R.string.tv_no_average));
             tv.setFocusable(true);
         } else {
-            tv.setText(String.format(getString(R.string.tv_general_average), ""
-                    + GUITools.round(average, 2)));
+            tv.setText(String.format(getString(R.string.tv_general_average), "" + GUITools.round(average, 2)));
             tv.setFocusable(true);
         }
         ll.addView(tv);
@@ -335,8 +323,7 @@ public class VerbsActivity extends Activity implements OnItemSelectedListener {
          * We need also to know if at index 0 there is the initial message, that
          * about no last marks in history:
          */
-        String tempMsg = String.format(getString(R.string.no_last_x_marks), ""
-                + limitForLastMarks);
+        String tempMsg = String.format(getString(R.string.no_last_x_marks), "" + limitForLastMarks);
         boolean isNotLastMarks = arLastXMarks.get(0).equals(tempMsg);
         if (!isNotLastMarks) {
             aMarksAndTime = new String[arLastXMarks.size()][2];
@@ -367,14 +354,10 @@ public class VerbsActivity extends Activity implements OnItemSelectedListener {
         tv.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
         tv.setFocusable(true);
         if (isNotLastMarks) {
-            tv.setText(String.format(
-                    getString(R.string.no_average_for_last_marks), ""
-                            + limitForLastMarks));
+            tv.setText(String.format(getString(R.string.no_average_for_last_marks), "" + limitForLastMarks));
             tv.setFocusable(true);
         } else {
-            tv.setText(String.format(
-                    getString(R.string.tv_average_of_last_marks), ""
-                            + arLastXMarks.size(), "" + averageOfLastXMarks));
+            tv.setText(String.format(getString(R.string.tv_average_of_last_marks), "" + arLastXMarks.size(), "" + averageOfLastXMarks));
             tv.setFocusable(true);
         }
         ll.addView(tv);
@@ -387,14 +370,9 @@ public class VerbsActivity extends Activity implements OnItemSelectedListener {
             tv.setPadding(0, mPaddingDP, 0, mPaddingDP);
             tv.setFocusable(true);
             if (isNotLastMarks) {
-                tv.setText(String.format(getString(R.string.no_last_x_marks),
-                        "" + limitForLastMarks));
+                tv.setText(String.format(getString(R.string.no_last_x_marks), "" + limitForLastMarks));
             } else {
-                tv.setText(String.format(
-                        getString(R.string.one_of_last_marks),
-                        aMarksAndTime[i][0],
-                        GUITools.timeStampToString(this,
-                                Integer.parseInt(aMarksAndTime[i][1]))));
+                tv.setText(String.format(getString(R.string.one_of_last_marks), aMarksAndTime[i][0], GUITools.timeStampToString(this, Integer.parseInt(aMarksAndTime[i][1]))));
             }
             // Add it into the LinearLayout:
             ll.addView(tv);
@@ -448,8 +426,7 @@ public class VerbsActivity extends Activity implements OnItemSelectedListener {
     } // end onPause() method.
 
     @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position,
-                               long id) {
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         if (position == 0) {
             // Do nothing, nothing was selected.
         } else if (position == 1) {
@@ -476,10 +453,7 @@ public class VerbsActivity extends Activity implements OnItemSelectedListener {
         // Create TextViews for each verb:
         int mPaddingDP = MainActivity.mPaddingDP;
         TextView tv;
-        Cursor cursor = mDbHelper
-                .queryData("SELECT * FROM verbe WHERE tip LIKE '" + type
-                        + "' AND forma1 LIKE '" + initial
-                        + "%' ORDER BY forma1");
+        Cursor cursor = mDbHelper.queryData("SELECT * FROM verbe WHERE tip LIKE '" + type + "' AND forma1 LIKE '" + initial + "%' ORDER BY forma1");
         cursor.moveToFirst();
         int it = 0; // for number in list.
         String toFormat = getString(R.string.verb_in_list);
@@ -523,8 +497,7 @@ public class VerbsActivity extends Activity implements OnItemSelectedListener {
                 // End process form3.
             } // end if is not archaic forms.
 
-            String tvText = String.format(toFormat, "" + it, form1, form2,
-                    form3, translation);
+            String tvText = String.format(toFormat, "" + it, form1, form2, form3, translation);
             CharSequence tvSeq = MyHtml.fromHtml(tvText);
             tv.setText(tvSeq);
             tv.setFocusable(true);
@@ -618,9 +591,7 @@ public class VerbsActivity extends Activity implements OnItemSelectedListener {
             Collections.addAll(arLastXMarks, aLastXMarks);
         } else {
             // If lastXMarks doesn't contains something:
-            arLastXMarks.add(String.format(
-                    context.getString(R.string.no_last_x_marks), ""
-                            + limitForLastMarks));
+            arLastXMarks.add(String.format(context.getString(R.string.no_last_x_marks), "" + limitForLastMarks));
         }
     } // end getLastXMarks() method.
 
@@ -633,9 +604,7 @@ public class VerbsActivity extends Activity implements OnItemSelectedListener {
         // Format the string to add at index 0 of the ArrayList:
         String temp = "" + lastMark + "-" + curTime;
         // Check if at the index 0 is the no marks message:
-        String tempMsg = String.format(
-                context.getString(R.string.no_last_x_marks), ""
-                        + limitForLastMarks);
+        String tempMsg = String.format(context.getString(R.string.no_last_x_marks), "" + limitForLastMarks);
         if (arLastXMarks.get(0).equals(tempMsg)) {
             arLastXMarks.clear();
         }
@@ -684,8 +653,7 @@ public class VerbsActivity extends Activity implements OnItemSelectedListener {
                 // Create a URLConnection object:
                 URLConnection urlConnection = url.openConnection();
                 // Wrap the URLConnection in a BufferedReader:
-                BufferedReader bufferedReader = new BufferedReader(
-                        new InputStreamReader(urlConnection.getInputStream()));
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                 String line;
                 // Read from the URLConnection via the BufferedReader:
                 while ((line = bufferedReader.readLine()) != null) {
@@ -711,14 +679,10 @@ public class VerbsActivity extends Activity implements OnItemSelectedListener {
     public void beforeChangeNickname() {
         // Check if we have the Google Account Name:
         if (MainActivity.myAccountName == null) {
-            GUITools.alert(
-                    this,
-                    getString(R.string.warning),
-                    getString(R.string.no_account_name_detected_because_permission));
+            GUITools.alert(this, getString(R.string.warning), getString(R.string.no_account_name_detected_because_permission));
         } // end if account name wasn't detected, permission issue.
         else {
-            String url = "http://www.android.pontes.ro/erd/get_name.php?google_id="
-                    + MainActivity.myAccountName;
+            String url = "http://www.android.pontes.ro/erd/get_name.php?google_id=" + MainActivity.myAccountName;
             new GetWebData().execute(url);
         } // end if google account name exists.
     } // end beforeChangeNickname() method.

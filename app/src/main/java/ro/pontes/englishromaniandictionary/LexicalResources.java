@@ -122,18 +122,12 @@ public class LexicalResources {
                     } // end switch(type).
                 } // end if there is connection to Internet.
                 else {
-                    GUITools.alert(
-                            context,
-                            context.getString(R.string.warning),
-                            context.getString(R.string.no_connection_for_external_resource));
+                    GUITools.alert(context, context.getString(R.string.warning), context.getString(R.string.no_connection_for_external_resource));
                 } // end if there is no connection to the Internet.
             } // end if is English - Romanian direction.
             else {
                 // A warning message, not English - Romanian direction:
-                GUITools.alert(
-                        context,
-                        context.getString(R.string.warning),
-                        context.getString(R.string.information_available_only_in_en_ro));
+                GUITools.alert(context, context.getString(R.string.warning), context.getString(R.string.information_available_only_in_en_ro));
             } // end if is not English - Romanian direction.
         } // end if is premium or type<56.
         else {
@@ -142,11 +136,8 @@ public class LexicalResources {
              * followers or frequent predecessors>
              */
             // Format the HTML string including the price:
-            String premiumMessage = String.format(context
-                            .getString(R.string.information_available_only_in_premium),
-                    MainActivity.mUpgradePrice);
-            GUITools.alertHTML(context, context.getString(R.string.warning),
-                    premiumMessage, context.getString(R.string.msg_ok));
+            String premiumMessage = String.format(context.getString(R.string.information_available_only_in_premium), MainActivity.mUpgradePrice);
+            GUITools.alertHTML(context, context.getString(R.string.warning), premiumMessage, context.getString(R.string.msg_ok));
         } // end not premium version for some information.
     } // end get externalResource() method.
 
@@ -196,8 +187,7 @@ public class LexicalResources {
         protected void onPreExecute() {
             super.onPreExecute();
             pd = new ProgressDialog(context);
-            pd.setMessage(context
-                    .getString(R.string.please_wait_external_resources));
+            pd.setMessage(context.getString(R.string.please_wait_external_resources));
             pd.setIndeterminate(false);
             pd.setCancelable(true);
             pd.show();
@@ -216,8 +206,7 @@ public class LexicalResources {
                 // Create a URLConnection object:
                 URLConnection urlConnection = url.openConnection();
                 // Wrap the URLConnection in a BufferedReader:
-                BufferedReader bufferedReader = new BufferedReader(
-                        new InputStreamReader(urlConnection.getInputStream()));
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                 String line;
                 // Read from the URLConnection via the BufferedReader:
                 while ((line = bufferedReader.readLine()) != null) {
@@ -344,19 +333,13 @@ public class LexicalResources {
             String arpabetShow = arpabet[1];
             // We cut the last space from arpabet transcription:
             if (arpabetShow.endsWith(" ")) {
-                arpabetShow = arpabetShow
-                        .substring(0, arpabetShow.length() - 1);
+                arpabetShow = arpabetShow.substring(0, arpabetShow.length() - 1);
             } // end if arpabet ends in space.
-            String ipaMessage = String.format(
-                    context.getString(R.string.ipa_transcription_message),
-                    word, ipaShow, arpabetShow);
-            GUITools.alertHTML(context,
-                    context.getString(R.string.ipa_transcription_title),
-                    ipaMessage, context.getString(R.string.bt_close));
+            String ipaMessage = String.format(context.getString(R.string.ipa_transcription_message), word, ipaShow, arpabetShow);
+            GUITools.alertHTML(context, context.getString(R.string.ipa_transcription_title), ipaMessage, context.getString(R.string.bt_close));
         } // end if there are no errors.
         else {
-            GUITools.alert(context, context.getString(R.string.warning),
-                    context.getString(R.string.information_not_available));
+            GUITools.alert(context, context.getString(R.string.warning), context.getString(R.string.information_not_available));
         }
     } // end showIPATranscription() method.
 
@@ -390,15 +373,11 @@ public class LexicalResources {
 
         if (!isError) {
             CharSequence cs = MyHtml.fromHtml(definitions.toString());
-            String defMessage = String.format(
-                    context.getString(R.string.definition_message), word, cs);
-            GUITools.alertHTML(context,
-                    context.getString(R.string.definition_title), defMessage,
-                    context.getString(R.string.bt_close));
+            String defMessage = String.format(context.getString(R.string.definition_message), word, cs);
+            GUITools.alertHTML(context, context.getString(R.string.definition_title), defMessage, context.getString(R.string.bt_close));
         } // end if there are no errors.
         else {
-            GUITools.alert(context, context.getString(R.string.warning),
-                    context.getString(R.string.information_not_available));
+            GUITools.alert(context, context.getString(R.string.warning), context.getString(R.string.information_not_available));
         }
     } // end showWordDefinition() method.
 
@@ -439,16 +418,11 @@ public class LexicalResources {
             double temp = Double.parseDouble(arrFrequency[1]);
             temp = GUITools.round(temp, 2);
             arrFrequency[1] = "" + temp;
-            String frequencyMessage = String.format(
-                    context.getString(R.string.word_frequency_message), word,
-                    arrFrequency[1]);
-            GUITools.alertHTML(context,
-                    context.getString(R.string.word_frequency_title),
-                    frequencyMessage, context.getString(R.string.bt_close));
+            String frequencyMessage = String.format(context.getString(R.string.word_frequency_message), word, arrFrequency[1]);
+            GUITools.alertHTML(context, context.getString(R.string.word_frequency_title), frequencyMessage, context.getString(R.string.bt_close));
         } // end if there are no errors.
         else {
-            GUITools.alert(context, context.getString(R.string.warning),
-                    context.getString(R.string.information_not_available));
+            GUITools.alert(context, context.getString(R.string.warning), context.getString(R.string.information_not_available));
         }
     } // end showWordFrequency() method.
 
@@ -499,8 +473,7 @@ public class LexicalResources {
                 relMessage = context.getString(R.string.antonyms_list_message);
             } else if (relType == 4) { // homophones:
                 relTitle = context.getString(R.string.homophones_list_title);
-                relMessage = context
-                        .getString(R.string.homophones_list_message);
+                relMessage = context.getString(R.string.homophones_list_message);
             } else if (relType == 5) { // rhymes:
                 relTitle = context.getString(R.string.rhymes_list_title);
                 relMessage = context.getString(R.string.rhymes_list_message);
@@ -515,18 +488,14 @@ public class LexicalResources {
                 relMessage = context.getString(R.string.followers_list_message);
             } else if (relType == 11) { // predecessors:
                 relTitle = context.getString(R.string.predecessors_list_title);
-                relMessage = context
-                        .getString(R.string.predecessors_list_message);
+                relMessage = context.getString(R.string.predecessors_list_message);
             }
 
-            String relMessageFormated = String.format(relMessage, datamuseWord,
-                    relList);
-            GUITools.alertHTML(context, relTitle, relMessageFormated,
-                    context.getString(R.string.bt_close));
+            String relMessageFormated = String.format(relMessage, datamuseWord, relList);
+            GUITools.alertHTML(context, relTitle, relMessageFormated, context.getString(R.string.bt_close));
         } // end if is not an error..
         else {
-            GUITools.alert(context, context.getString(R.string.warning),
-                    context.getString(R.string.information_not_available));
+            GUITools.alert(context, context.getString(R.string.warning), context.getString(R.string.information_not_available));
         }
     } // end showRelList() method.;
 

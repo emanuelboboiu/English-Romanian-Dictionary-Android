@@ -29,14 +29,13 @@ public class SpeakText2 {
         } // end if no engine was saved.
 
         // For TextToSpeech:
-        mTTS = new TextToSpeech(this.context,
-                status -> {
-                    if (status != TextToSpeech.ERROR) {
-                        // It means no error was found, we can set the
-                        // language:
-                        setSavedLanguage();
-                    }
-                }, curEngine);
+        mTTS = new TextToSpeech(this.context, status -> {
+            if (status != TextToSpeech.ERROR) {
+                // It means no error was found, we can set the
+                // language:
+                setSavedLanguage();
+            }
+        }, curEngine);
         // end for TextToSpeech.
     } // end constructor.
 
@@ -56,8 +55,7 @@ public class SpeakText2 {
 
             } // end if this language exists as country and variant.
             else {
-                GUITools.alert(context, context.getString(R.string.warning),
-                        context.getString(R.string.warning_no_tts_available_ro));
+                GUITools.alert(context, context.getString(R.string.warning), context.getString(R.string.warning_no_tts_available_ro));
             } // end if the language doesn't exist.
         } // end if isSpeech.
     } // end sayUsingLanguage() method.
@@ -70,14 +68,12 @@ public class SpeakText2 {
             if (mTTS.isLanguageAvailable(curTTSLocale) != TextToSpeech.LANG_NOT_SUPPORTED) {
 
                 for (int i = 0; i < toSpell.length(); i++) {
-                    mTTS.speak("" + toSpell.charAt(i),
-                            TextToSpeech.QUEUE_ADD, null, null);
+                    mTTS.speak("" + toSpell.charAt(i), TextToSpeech.QUEUE_ADD, null, null);
                 } // end for each character.
 
             } // end if this language exists as country and variant.
             else {
-                GUITools.alert(context, context.getString(R.string.warning),
-                        context.getString(R.string.warning_no_tts_available_ro));
+                GUITools.alert(context, context.getString(R.string.warning), context.getString(R.string.warning_no_tts_available_ro));
             } // end if the language doesn't exist.
         } // end if isSpeech.
     } // end spellUsingLanguage() method.

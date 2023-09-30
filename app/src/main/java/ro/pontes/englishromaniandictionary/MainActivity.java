@@ -218,8 +218,7 @@ public class MainActivity extends Activity {
 
         // To keep screen awake:
         if (MainActivity.isWakeLock) {
-            getWindow()
-                    .addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         } // end wake lock.
 
         // Start things for our database:
@@ -254,8 +253,7 @@ public class MainActivity extends Activity {
 
         // ShakeDetector initialisation:
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        mAccelerometer = mSensorManager
-                .getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mShakeDetector = new ShakeDetector();
         mShakeDetector.setShakeThresholdGravity(MainActivity.onshakeMagnitude);
         /*
@@ -274,10 +272,8 @@ public class MainActivity extends Activity {
         // regions:
         String historyMessage = getIntent().getStringExtra("wordFromHistory");
         if (historyMessage != null && !historyMessage.isEmpty()) {
-            int historyDirection = Integer.parseInt(historyMessage
-                    .substring(historyMessage.length() - 1));
-            String historyWord = historyMessage.substring(0,
-                    historyMessage.length() - 1);
+            int historyDirection = Integer.parseInt(historyMessage.substring(historyMessage.length() - 1));
+            String historyWord = historyMessage.substring(0, historyMessage.length() - 1);
             searchFromHistory(historyWord, historyDirection);
         }
         // end search from history or vocabulary via intent.
@@ -298,24 +294,22 @@ public class MainActivity extends Activity {
          * Determine the height of the tvStatus, this height will be the height
          * and the width of the more ImageButton for each result:
          */
-        llBottomInfo.getViewTreeObserver().addOnGlobalLayoutListener(
-                () -> {
-                    // Only if it is not already determined:
-                    if (ibMoreHeight == 0) {
-                        TextView tv = findViewById(R.id.tvStatus);
-                        ibMoreHeight = tv.getHeight();
-                    } // end if it was not determined.
-                });
+        llBottomInfo.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
+            // Only if it is not already determined:
+            if (ibMoreHeight == 0) {
+                TextView tv = findViewById(R.id.tvStatus);
+                ibMoreHeight = tv.getHeight();
+            } // end if it was not determined.
+        });
         // End determine the height of the tvStatus.
 
-        llResults.getViewTreeObserver().addOnGlobalLayoutListener(
-                () -> {
-                    // Only if it is not already determined:
-                    if (llResultsWidth == 0) {
-                        llResultsWidth = llResults.getWidth();
+        llResults.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
+            // Only if it is not already determined:
+            if (llResultsWidth == 0) {
+                llResultsWidth = llResults.getWidth();
 
-                    } // end if llResultsWidth was not determined.
-                });
+            } // end if llResultsWidth was not determined.
+        });
         // End determine the width of the llResults.
     }// end determineSomeSizes() method.
 
@@ -338,8 +332,7 @@ public class MainActivity extends Activity {
              * Add the following line to register the Session Manager Listener
              * onResume:
              */
-            mSensorManager.registerListener(mShakeDetector, mAccelerometer,
-                    SensorManager.SENSOR_DELAY_UI);
+            mSensorManager.registerListener(mShakeDetector, mAccelerometer, SensorManager.SENSOR_DELAY_UI);
         }
     } // end onResume method.
 
@@ -439,8 +432,7 @@ public class MainActivity extends Activity {
 
     // The implementations for context menu:
     @Override
-    public void onCreateContextMenu(ContextMenu menu, View v,
-                                    ContextMenuInfo menuInfo) {
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
 
         // We store globally the text view clicked longly:
@@ -452,8 +444,7 @@ public class MainActivity extends Activity {
         lastCMW = st.cleanString(aResult[0]);
         lastCME = st.cleanString(aResult[1]);
 
-        String cmTitle = String.format(getString(R.string.cm_result_title),
-                lastCMW);
+        String cmTitle = String.format(getString(R.string.cm_result_title), lastCMW);
         menu.setHeaderTitle(cmTitle);
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.results_context_menu, menu);
@@ -464,9 +455,7 @@ public class MainActivity extends Activity {
     public boolean onContextItemSelected(MenuItem item) {
         String w = lastCMW;
         String e = lastCME;
-        @SuppressWarnings("unused")
-        AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
-                .getMenuInfo();
+        @SuppressWarnings("unused") AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
         switch (item.getItemId()) {
             case R.id.cmSpeakResult:
                 speakResult(w, e);
@@ -514,8 +503,7 @@ public class MainActivity extends Activity {
                 return true;
 
             case R.id.cmCopyResult:
-                GUITools.copyIntoClipboard(this, tvResultForContext.getText()
-                        .toString());
+                GUITools.copyIntoClipboard(this, tvResultForContext.getText().toString());
                 return true;
             case R.id.cmCopyWord:
                 GUITools.copyIntoClipboard(this, w);
@@ -589,8 +577,7 @@ public class MainActivity extends Activity {
 
         // Add an action listener for the keyboard:
         EditText input = findViewById(R.id.etWord);
-        input.setInputType(input.getInputType()
-                | EditorInfo.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+        input.setInputType(input.getInputType() | EditorInfo.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         input.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 searchDirectlyFromKeyboard();
@@ -608,8 +595,7 @@ public class MainActivity extends Activity {
         cursor.close();
         // First take the corresponding plural resource:
         Resources res = getResources();
-        String numberOfWordsMessage = res.getQuantityString(
-                R.plurals.tv_number_of_words, totalWords, totalWords);
+        String numberOfWordsMessage = res.getQuantityString(R.plurals.tv_number_of_words, totalWords, totalWords);
 
         // Update the tvStatus TextView:
         tvStatus.setText(numberOfWordsMessage);
@@ -628,8 +614,7 @@ public class MainActivity extends Activity {
         ll.setGravity(Gravity.CENTER_HORIZONTAL);
 
         // A LayoutParams to add the buttons in LinearLayout:
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 
         // Create the my vocabulary button:
         Button bt = new Button(this);
@@ -652,8 +637,7 @@ public class MainActivity extends Activity {
         ll.addView(bt, lp);
 
         // A LayoutParams for LinearLayout to add in llResults:
-        LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(
-                LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         llp.setMargins(0, mPaddingDP * 7, 0, 0);
         // Add it now:
         llResults.addView(ll, llp);
@@ -679,8 +663,7 @@ public class MainActivity extends Activity {
         // Check if there is something typed there:
         if (text.length() < 2) {
             // Show a warning here if written text is shorter than 2 characters:
-            GUITools.alert(this, getString(R.string.warning),
-                    getString(R.string.warning_wrong_search));
+            GUITools.alert(this, getString(R.string.warning), getString(R.string.warning_wrong_search));
             SoundPlayer.playSimple(this, "results_not_available");
 
             return null;
@@ -713,24 +696,10 @@ public class MainActivity extends Activity {
 
             // Make the SQL query string depending of the search type:
             if (isSearchFullText) {
-                SQL = "SELECT *, 1 AS sortare FROM dictionar" + direction
-                        + " WHERE termen='" + word + "' OR termen LIKE '"
-                        + word + ",%' OR termen LIKE '" + word
-                        + ".%' OR termen LIKE '" + word
-                        + " %' UNION SELECT *, 2 AS sortare FROM dictionar"
-                        + direction + " WHERE termen LIKE '% " + word
-                        + "' OR termen LIKE '% " + word
-                        + ",%' OR termen LIKE '% " + word
-                        + ".%' OR termen LIKE '% " + word
-                        + " %' ORDER BY sortare, termen";
+                SQL = "SELECT *, 1 AS sortare FROM dictionar" + direction + " WHERE termen='" + word + "' OR termen LIKE '" + word + ",%' OR termen LIKE '" + word + ".%' OR termen LIKE '" + word + " %' UNION SELECT *, 2 AS sortare FROM dictionar" + direction + " WHERE termen LIKE '% " + word + "' OR termen LIKE '% " + word + ",%' OR termen LIKE '% " + word + ".%' OR termen LIKE '% " + word + " %' ORDER BY sortare, termen";
             } else {
                 // No full text search:
-                SQL = "SELECT *, 1 AS sortare from dictionar" + direction
-                        + " WHERE termen LIKE '" + word
-                        + "%' union SELECT *,2 AS sortare from dictionar"
-                        + direction + " WHERE termen LIKE '%" + word
-                        + "%' AND termen NOT LIKE '" + word
-                        + "%' ORDER BY sortare, termen";
+                SQL = "SELECT *, 1 AS sortare from dictionar" + direction + " WHERE termen LIKE '" + word + "%' union SELECT *,2 AS sortare from dictionar" + direction + " WHERE termen LIKE '%" + word + "%' AND termen NOT LIKE '" + word + "%' ORDER BY sortare, termen";
             } // end SQL query string for not full text.
 
             Cursor cursor = mDbHelper.queryData(SQL);
@@ -765,14 +734,12 @@ public class MainActivity extends Activity {
                  */
                 // First take the corresponding plural resource:
                 Resources res = getResources();
-                String foundResults = res.getQuantityString(
-                        R.plurals.tv_number_of_results, count, count);
+                String foundResults = res.getQuantityString(R.plurals.tv_number_of_results, count, count);
                 // Create the number of results text view:
                 TextView tvResults = new TextView(this);
                 tvResults.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize + 1);
                 tvResults.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
-                tvResults.setPadding(mPaddingDP, mPaddingDP, mPaddingDP,
-                        mPaddingDP);
+                tvResults.setPadding(mPaddingDP, mPaddingDP, mPaddingDP, mPaddingDP);
                 tvResults.setText(foundResults);
                 tvResults.setId(R.id.tvNumberOfResults);
                 tvResults.setFocusable(true);
@@ -797,18 +764,15 @@ public class MainActivity extends Activity {
                 int curResultId = idResultsStart + 1;
                 LinearLayout llOneResult;
                 // We need also a LayoutParams for this linear layout:
-                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                        LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 
                 // We need also a LayoutParams for each text view:
                 /* The width of a TV is the llResults width minus ibMoreHeight: */
                 int tvWidth = llResultsWidth - ibMoreHeight;
-                LinearLayout.LayoutParams lpChild1 = new LinearLayout.LayoutParams(
-                        tvWidth, LayoutParams.WRAP_CONTENT);
+                LinearLayout.LayoutParams lpChild1 = new LinearLayout.LayoutParams(tvWidth, LayoutParams.WRAP_CONTENT);
 
                 // We need also a LayoutParams for each more options button:
-                LinearLayout.LayoutParams lpChild2 = new LinearLayout.LayoutParams(
-                        ibMoreHeight, ibMoreHeight);
+                LinearLayout.LayoutParams lpChild2 = new LinearLayout.LayoutParams(ibMoreHeight, ibMoreHeight);
 
                 final TextView[] tv = new TextView[resultsLimit + 1];
                 cursor.moveToFirst();
@@ -819,14 +783,12 @@ public class MainActivity extends Activity {
 
                     tv[it] = new TextView(this);
                     tv[it].setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
-                    tv[it].setPadding(mPaddingDP, mPaddingDP, mPaddingDP,
-                            mPaddingDP);
+                    tv[it].setPadding(mPaddingDP, mPaddingDP, mPaddingDP, mPaddingDP);
 
                     // w means word, e means explanation:
                     final String w = cursor.getString(0);
                     final String e = cursor.getString(1);
-                    String tvText = String.format(tvWordAndExplanation, w,
-                            weSeparator, e);
+                    String tvText = String.format(tvWordAndExplanation, w, weSeparator, e);
                     CharSequence tvSeq = MyHtml.fromHtml(tvText);
                     tv[it].setText(tvSeq);
                     tv[it].setId(curResultId);
@@ -851,8 +813,7 @@ public class MainActivity extends Activity {
                     ImageButton ib = new ImageButton(this);
                     ib.setImageResource(android.R.drawable.ic_menu_more);
                     ib.setBackgroundResource(R.drawable.selector_background_selected);
-                    ib.setContentDescription(String.format(
-                            getString(R.string.ib_more_for_results), w));
+                    ib.setContentDescription(String.format(getString(R.string.ib_more_for_results), w));
 
                     ib.setId(curResultId + idDifference - 1); // it was already
                     // incremented.
@@ -871,8 +832,7 @@ public class MainActivity extends Activity {
 
                     // A long click for more options:
                     ib.setOnLongClickListener(view -> {
-                        LexicalResources lr = new LexicalResources(
-                                mFinalContext);
+                        LexicalResources lr = new LexicalResources(mFinalContext);
                         lr.getExternalResource(1, w, e);
                         return true;
                     });
@@ -891,14 +851,11 @@ public class MainActivity extends Activity {
 
                 // Show the message for more than limit results:
                 if (count > resultsLimit) {
-                    String moreResultsMessage = String.format(
-                            getString(R.string.message_for_more_results), ""
-                                    + resultsLimit);
+                    String moreResultsMessage = String.format(getString(R.string.message_for_more_results), "" + resultsLimit);
                     tv[it] = new TextView(this);
                     tv[it].setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
                     tv[it].setTypeface(Typeface.DEFAULT, Typeface.ITALIC);
-                    tv[it].setPadding(mPaddingDP, mPaddingDP * 2, mPaddingDP,
-                            mPaddingDP);
+                    tv[it].setPadding(mPaddingDP, mPaddingDP * 2, mPaddingDP, mPaddingDP);
                     tv[it].setText(moreResultsMessage);
                     tv[it].setNextFocusUpId(curResultId - 1);
                     tv[it].setId(curResultId);
@@ -968,8 +925,7 @@ public class MainActivity extends Activity {
         tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
         tv.setPadding(mPaddingDP, mPaddingDP, mPaddingDP, mPaddingDP);
         searchedWord = st.polishString(searchedWord);
-        String tvText = String.format(getString(R.string.warning_not_results),
-                searchedWord);
+        String tvText = String.format(getString(R.string.warning_not_results), searchedWord);
         CharSequence tvSeq = MyHtml.fromHtml(tvText);
         tv.setText(tvSeq);
         tv.setId(R.id.tvNumberOfResults);
@@ -1010,8 +966,7 @@ public class MainActivity extends Activity {
         String flagFileName = "flag" + direction;
         ImageView ib = findViewById(R.id.btSwitch);
         String uri = "@drawable/" + flagFileName;
-        int imageResource = getResources().getIdentifier(uri, null,
-                getPackageName());
+        int imageResource = getResources().getIdentifier(uri, null, getPackageName());
         ib.setImageResource(imageResource);
 
         cancelSearchActions(1);
@@ -1110,8 +1065,7 @@ public class MainActivity extends Activity {
         // If it's here after speech:
         if (requestCode == REQ_CODE_SPEECH_INPUT) {
             if (resultCode == RESULT_OK && null != data) {
-                ArrayList<String> result = data
-                        .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                 String spoken = result.get(0);
                 // Now set the etWord:
                 EditText et = findViewById(R.id.etWord);
@@ -1145,17 +1099,13 @@ public class MainActivity extends Activity {
         addLLMain.setOrientation(LinearLayout.VERTICAL);
 
         // A LayoutParams to add next items into addLLMain:
-        LinearLayout.LayoutParams llParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams llParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
         TextView tvAddThis = new TextView(context);
         tvAddThis.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
         tvAddThis.setPadding(0, mPaddingDP, 0, mPaddingDP);
         // Make the string for this text view:
-        String strAddThis = String.format(getString(R.string.tv_add_this_word),
-                String.format(getString(R.string.tv_word_and_explanation),
-                        word, weSeparator, explanation));
+        String strAddThis = String.format(getString(R.string.tv_add_this_word), String.format(getString(R.string.tv_word_and_explanation), word, weSeparator, explanation));
         tvAddThis.setText(MyHtml.fromHtml(strAddThis));
         tvAddThis.setFocusable(true);
         addLLMain.addView(tvAddThis, llParams);
@@ -1168,8 +1118,7 @@ public class MainActivity extends Activity {
         // words:
         final EditText et = new EditText(context);
         et.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
-        et.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
-                | EditorInfo.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+        et.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES | EditorInfo.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         et.setHint(getString(R.string.et_new_vocabulary_hint));
         et.setPadding(mPaddingDP, mPaddingDP * 3, mPaddingDP, mPaddingDP);
         et.setOnEditorActionListener((v, actionId, event) -> {
@@ -1200,9 +1149,7 @@ public class MainActivity extends Activity {
 
             rg.setOrientation(RadioGroup.VERTICAL);
             // A LayoutParams to add as match parent the radio buttons:
-            RadioGroup.LayoutParams rgParams = new RadioGroup.LayoutParams(
-                    RadioGroup.LayoutParams.MATCH_PARENT,
-                    RadioGroup.LayoutParams.WRAP_CONTENT);
+            RadioGroup.LayoutParams rgParams = new RadioGroup.LayoutParams(RadioGroup.LayoutParams.MATCH_PARENT, RadioGroup.LayoutParams.WRAP_CONTENT);
             Resources res = getResources();
             do {
                 RadioButton rbt = new RadioButton(context);
@@ -1211,11 +1158,7 @@ public class MainActivity extends Activity {
                 // Set the catTitle:
                 final int curSection = cursorSections.getInt(0);
                 int nrOfWords = getNumberOfWordsInCategory(curSection);
-                String catTitle = String.format(
-                        getString(R.string.cbt_category), cursorSections
-                                .getString(1), res.getQuantityString(
-                                R.plurals.number_of_words_in_category,
-                                nrOfWords, nrOfWords));
+                String catTitle = String.format(getString(R.string.cbt_category), cursorSections.getString(1), res.getQuantityString(R.plurals.number_of_words_in_category, nrOfWords, nrOfWords));
                 rbt.setText(MyHtml.fromHtml(catTitle));
 
                 rbt.setOnClickListener(view -> {
@@ -1240,107 +1183,79 @@ public class MainActivity extends Activity {
 
         // The buttons can be add now and cancel!:
         // end if add now was pressed.
-        alertDialog.setPositiveButton(getString(R.string.bt_add_now),
-                (dialog, whichButton) -> {
-                    // Start the add process:
+        alertDialog.setPositiveButton(getString(R.string.bt_add_now), (dialog, whichButton) -> {
+            // Start the add process:
 
-                    // We need the time in seconds:
-                    final long timeInSeconds = GUITools.getTimeInSeconds();
+            // We need the time in seconds:
+            final long timeInSeconds = GUITools.getTimeInSeconds();
 
-                    /*
-                     * If there is written something in the edit text, we
-                     * consider a new category:
-                     */
-                    String etText = et.getText().toString();
-                    if (etText.length() > 1
-                            && !(etText.equals(" ") || etText.equals("  ") || etText
-                            .equals("   "))) {
-                        etText = st.realEscapeString(etText);
-                        // Check if section doesn't already exist:
-                        if (!fieldExists("sectiuni", "nume", etText)) {
-                            String sql1 = "INSERT INTO sectiuni (nume, descriere, data) VALUES ('"
-                                    + etText
-                                    + "', 'none', '"
-                                    + timeInSeconds + "');";
-                            mDbHelper2.insertData(sql1);
-
-                            /*
-                             * Post a record into DB Statistics about
-                             * section creation:
-                             */
-                            Statistics stats = new Statistics(mFinalContext);
-                            stats.postStats("29", 1);
-
-                        } // end if section name doesn't already exists.
-                        else {
-                            GUITools.alert(
-                                    mFinalContext,
-                                    getString(R.string.warning),
-                                    getString(R.string.this_vocabulary_section_already_exists));
-                        } // end if section name exists.
-                        /*
-                         * After we created this new section, we must
-                         * extract the idSection of this:
-                         */
-                        String sql1 = "SELECT id FROM sectiuni WHERE nume='"
-                                + etText + "'";
-                        Cursor tempCursor = mDbHelper2.queryData(sql1);
-                        idSection = tempCursor.getInt(0);
-                    } // end if etText was not empty.
+            /*
+             * If there is written something in the edit text, we
+             * consider a new category:
+             */
+            String etText = et.getText().toString();
+            if (etText.length() > 1 && !(etText.equals(" ") || etText.equals("  ") || etText.equals("   "))) {
+                etText = st.realEscapeString(etText);
+                // Check if section doesn't already exist:
+                if (!fieldExists("sectiuni", "nume", etText)) {
+                    String sql1 = "INSERT INTO sectiuni (nume, descriere, data) VALUES ('" + etText + "', 'none', '" + timeInSeconds + "');";
+                    mDbHelper2.insertData(sql1);
 
                     /*
-                     * Check now if idSection is greater than 0. It means a
-                     * section was written or it was chosen:
+                     * Post a record into DB Statistics about
+                     * section creation:
                      */
-                    if (idSection > 0) {
+                    Statistics stats = new Statistics(mFinalContext);
+                    stats.postStats("29", 1);
 
-                        // Add the word and explanation effectively if
-                        // record doesn't exists:
-                        if (!recordExistsInVocabulary(
-                                st.realEscapeString(word),
-                                st.realEscapeString(explanation))) {
-                            String sql1 = "INSERT INTO vocabular (idSectiune, termen, explicatie, data, tip) VALUES ('"
-                                    + idSection
-                                    + "', '"
-                                    + st.realEscapeString(word)
-                                    + "', '"
-                                    + st.realEscapeString(explanation)
-                                    + "', '"
-                                    + timeInSeconds
-                                    + "', '"
-                                    + direction + "')";
-                            mDbHelper2.insertData(sql1);
-                            SoundPlayer.playSimple(mFinalContext,
-                                    "hand_writting");
+                } // end if section name doesn't already exists.
+                else {
+                    GUITools.alert(mFinalContext, getString(R.string.warning), getString(R.string.this_vocabulary_section_already_exists));
+                } // end if section name exists.
+                /*
+                 * After we created this new section, we must
+                 * extract the idSection of this:
+                 */
+                String sql1 = "SELECT id FROM sectiuni WHERE nume='" + etText + "'";
+                Cursor tempCursor = mDbHelper2.queryData(sql1);
+                idSection = tempCursor.getInt(0);
+            } // end if etText was not empty.
 
-                            /*
-                             * Post in statistics about this insert of a
-                             * word in DB:
-                             */
-                            Statistics stats = new Statistics(mFinalContext);
-                            stats.postStats("30", 1);
+            /*
+             * Check now if idSection is greater than 0. It means a
+             * section was written or it was chosen:
+             */
+            if (idSection > 0) {
 
-                        } // end if record doesn't exist, the best scenario.
-                        else {
-                            GUITools.alert(
-                                    mFinalContext,
-                                    getString(R.string.warning),
-                                    getString(R.string.this_record_already_exists_in_vocabulary));
-                        } // end if record already exist.
-                    } else {
-                        // No section was chosen or written:
-                        GUITools.alert(mFinalContext,
-                                getString(R.string.warning),
-                                getString(R.string.no_category_chosen));
-                    } // end if idSection isn't greater than 0.
-                    mDbHelper2.close();
-                });
+                // Add the word and explanation effectively if
+                // record doesn't exists:
+                if (!recordExistsInVocabulary(st.realEscapeString(word), st.realEscapeString(explanation))) {
+                    String sql1 = "INSERT INTO vocabular (idSectiune, termen, explicatie, data, tip) VALUES ('" + idSection + "', '" + st.realEscapeString(word) + "', '" + st.realEscapeString(explanation) + "', '" + timeInSeconds + "', '" + direction + "')";
+                    mDbHelper2.insertData(sql1);
+                    SoundPlayer.playSimple(mFinalContext, "hand_writting");
 
-        alertDialog.setNegativeButton(getString(R.string.bt_cancel),
-                (dialog, whichButton) -> {
-                    // Cancelled:
-                    mDbHelper2.close();
-                });
+                    /*
+                     * Post in statistics about this insert of a
+                     * word in DB:
+                     */
+                    Statistics stats = new Statistics(mFinalContext);
+                    stats.postStats("30", 1);
+
+                } // end if record doesn't exist, the best scenario.
+                else {
+                    GUITools.alert(mFinalContext, getString(R.string.warning), getString(R.string.this_record_already_exists_in_vocabulary));
+                } // end if record already exist.
+            } else {
+                // No section was chosen or written:
+                GUITools.alert(mFinalContext, getString(R.string.warning), getString(R.string.no_category_chosen));
+            } // end if idSection isn't greater than 0.
+            mDbHelper2.close();
+        });
+
+        alertDialog.setNegativeButton(getString(R.string.bt_cancel), (dialog, whichButton) -> {
+            // Cancelled:
+            mDbHelper2.close();
+        });
 
         alertDialog.create();
         alertDialog.show();
@@ -1355,8 +1270,7 @@ public class MainActivity extends Activity {
         mDbHelperTemp.createDatabase();
         mDbHelperTemp.open();
 
-        String sql = "SELECT COUNT(*) AS total FROM vocabular WHERE termen='"
-                + word + "' AND explicatie='" + explanation + "'";
+        String sql = "SELECT COUNT(*) AS total FROM vocabular WHERE termen='" + word + "' AND explicatie='" + explanation + "'";
         Cursor cur = mDbHelperTemp.queryData(sql);
         int count = cur.getInt(0);
         cur.close();
@@ -1376,8 +1290,7 @@ public class MainActivity extends Activity {
         mDbHelperTemp.createDatabase();
         mDbHelperTemp.open();
 
-        String sql = "SELECT COUNT(*) AS total FROM " + table + " WHERE "
-                + field + " = '" + text + "';";
+        String sql = "SELECT COUNT(*) AS total FROM " + table + " WHERE " + field + " = '" + text + "';";
         Cursor cur = mDbHelperTemp.queryData(sql);
         int count = cur.getInt(0);
         cur.close();
@@ -1396,8 +1309,7 @@ public class MainActivity extends Activity {
         mDbHelperTemp.createDatabase();
         mDbHelperTemp.open();
 
-        String sql = "SELECT COUNT(*) AS total FROM vocabular WHERE idSectiune = '"
-                + id + "';";
+        String sql = "SELECT COUNT(*) AS total FROM vocabular WHERE idSectiune = '" + id + "';";
         Cursor cur = mDbHelperTemp.queryData(sql);
         int count = cur.getInt(0);
         cur.close();
@@ -1422,21 +1334,15 @@ public class MainActivity extends Activity {
         myLanguages[1] = "ro";
 
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, myLanguages[direction]);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE,
-                myLanguages[direction]);
-        intent.putExtra(RecognizerIntent.EXTRA_ONLY_RETURN_LANGUAGE_PREFERENCE,
-                myLanguages[direction]);
-        intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
-                aSpeechDirection[direction]);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, myLanguages[direction]);
+        intent.putExtra(RecognizerIntent.EXTRA_ONLY_RETURN_LANGUAGE_PREFERENCE, myLanguages[direction]);
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, aSpeechDirection[direction]);
         try {
             startActivityForResult(intent, REQ_CODE_SPEECH_INPUT);
         } catch (ActivityNotFoundException a) {
-            Toast.makeText(getApplicationContext(),
-                            getString(R.string.speech_not_supported), Toast.LENGTH_LONG)
-                    .show();
+            Toast.makeText(getApplicationContext(), getString(R.string.speech_not_supported), Toast.LENGTH_LONG).show();
         }
     } // end promptSpeechInput() method.
 
@@ -1445,10 +1351,7 @@ public class MainActivity extends Activity {
         Context context = new ContextThemeWrapper(this, R.style.MyAlertDialog);
         AlertDialog separatorDialog;
         // Strings to Show In Dialog with Radio Buttons
-        final CharSequence[] items = {getString(R.string.we_separator_dash),
-                getString(R.string.we_separator_hiphen),
-                getString(R.string.we_separator_pipe),
-                getString(R.string.we_separator_newline)};
+        final CharSequence[] items = {getString(R.string.we_separator_dash), getString(R.string.we_separator_hiphen), getString(R.string.we_separator_pipe), getString(R.string.we_separator_newline)};
         final String[] weSeparators = {" – ", " - ", " | ", "<br>"};
         tempWESeparator = MainActivity.weSeparator;
 
@@ -1463,26 +1366,21 @@ public class MainActivity extends Activity {
                 break;
             }
         } // end for search current position of the current separator chosen.
-        builder.setSingleChoiceItems(items, weSeparatorPosition,
-                (dialog, item) -> {
+        builder.setSingleChoiceItems(items, weSeparatorPosition, (dialog, item) -> {
 
-                    /*
-                     * Your code when an option selected,:
-                     */
-                    tempWESeparator = weSeparators[item];
-                });
+            /*
+             * Your code when an option selected,:
+             */
+            tempWESeparator = weSeparators[item];
+        });
 
-        builder.setPositiveButton(
-                getString(R.string.we_separator_positive_dialog),
-                (dialog, whichButton) -> {
+        builder.setPositiveButton(getString(R.string.we_separator_positive_dialog), (dialog, whichButton) -> {
 
-                    // Save the separator chosen:
-                    MainActivity.weSeparator = tempWESeparator;
-                    Settings set = new Settings(mFinalContext);
-                    set.saveStringSettings("weSeparator",
-                            MainActivity.weSeparator);
-                }).setNegativeButton(
-                getString(R.string.we_separator_negative_dialog), null);
+            // Save the separator chosen:
+            MainActivity.weSeparator = tempWESeparator;
+            Settings set = new Settings(mFinalContext);
+            set.saveStringSettings("weSeparator", MainActivity.weSeparator);
+        }).setNegativeButton(getString(R.string.we_separator_negative_dialog), null);
         separatorDialog = builder.create();
         separatorDialog.show();
     } // end chooseSeparator() method.
@@ -1507,47 +1405,31 @@ public class MainActivity extends Activity {
         String tempBody = getString(R.string.body_default_settings);
         Context context = new ContextThemeWrapper(this, R.style.MyAlertDialog);
 
-        new AlertDialog.Builder(context)
-                .setTitle(tempTitle)
-                .setMessage(tempBody)
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .setPositiveButton(R.string.yes,
-                        (dialog, whichButton) -> {
-                            Settings set = new Settings(mFinalContext);
-                            set.setDefaultSettings();
-                            set.chargeSettings();
-                            // We must re-initialise also the TTS
-                            // settings:
-                            speak = new SpeakText(mFinalContext);
-                            speak2 = new SpeakText2(mFinalContext);
-                            // We need also to delete the search
-                            // history:
-                            searchHistory.deleteSearchHistory();
+        new AlertDialog.Builder(context).setTitle(tempTitle).setMessage(tempBody).setIcon(android.R.drawable.ic_dialog_alert).setPositiveButton(R.string.yes, (dialog, whichButton) -> {
+            Settings set = new Settings(mFinalContext);
+            set.setDefaultSettings();
+            set.chargeSettings();
+            // We must re-initialise also the TTS
+            // settings:
+            speak = new SpeakText(mFinalContext);
+            speak2 = new SpeakText2(mFinalContext);
+            // We need also to delete the search
+            // history:
+            searchHistory.deleteSearchHistory();
 
-                            /*
-                             * Get the strings to make an alert for reset
-                             * the vocabulary:
-                             */
-                            String tempTitle1 = getString(R.string.title_default_vocabulary);
-                            String tempBody1 = getString(R.string.body_default_vocabulary);
-                            Context context1 = new ContextThemeWrapper(
-                                    mFinalContext, R.style.MyAlertDialog);
-                            new AlertDialog.Builder(context1)
-                                    .setTitle(tempTitle1)
-                                    .setMessage(tempBody1)
-                                    .setIcon(android.R.drawable.ic_delete)
-                                    .setPositiveButton(
-                                            R.string.yes,
-                                            (dialog1, whichButton1) -> {
-                                                Settings set1 = new Settings(
-                                                        mFinalContext);
-                                                set1.saveIntSettings(
-                                                        "db2Ver", 0);
-                                            })
-                                    .setNegativeButton(R.string.no, null)
-                                    .show();
-                            /* End dialog for delete vocabulary at reset. */
-                        }).setNegativeButton(R.string.no, null).show();
+            /*
+             * Get the strings to make an alert for reset
+             * the vocabulary:
+             */
+            String tempTitle1 = getString(R.string.title_default_vocabulary);
+            String tempBody1 = getString(R.string.body_default_vocabulary);
+            Context context1 = new ContextThemeWrapper(mFinalContext, R.style.MyAlertDialog);
+            new AlertDialog.Builder(context1).setTitle(tempTitle1).setMessage(tempBody1).setIcon(android.R.drawable.ic_delete).setPositiveButton(R.string.yes, (dialog1, whichButton1) -> {
+                Settings set1 = new Settings(mFinalContext);
+                set1.saveIntSettings("db2Ver", 0);
+            }).setNegativeButton(R.string.no, null).show();
+            /* End dialog for delete vocabulary at reset. */
+        }).setNegativeButton(R.string.no, null).show();
     } // end resetToDefaults() method.
 
     // Here for datamuse:
@@ -1572,11 +1454,9 @@ public class MainActivity extends Activity {
             String lang = langs[numLang];
             Locale locale = new Locale(lang);
             Locale.setDefault(locale);
-            Configuration config = getBaseContext().getResources()
-                    .getConfiguration();
+            Configuration config = getBaseContext().getResources().getConfiguration();
             config.locale = locale;
-            getBaseContext().getResources().updateConfiguration(config,
-                    getBaseContext().getResources().getDisplayMetrics());
+            getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
         } // end if langNumber is not 0, no device language.
     } // end setLocale() method.
 
@@ -1584,15 +1464,11 @@ public class MainActivity extends Activity {
     private void chooseLanguage() {
         AlertDialog languageDialog;
         // Creating and Building the Dialog:
-        final Context context = new ContextThemeWrapper(this,
-                R.style.MyAlertDialog);
+        final Context context = new ContextThemeWrapper(this, R.style.MyAlertDialog);
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
         // Strings to Show In Dialog with Radio Buttons
-        final CharSequence[] items = {
-                getString(R.string.lang_device_language),
-                getString(R.string.lang_english),
-                getString(R.string.lang_romanian)};
+        final CharSequence[] items = {getString(R.string.lang_device_language), getString(R.string.lang_english), getString(R.string.lang_romanian)};
         final int[] langNumbers = {0, 1, 2};
 
         builder.setTitle(getString(R.string.choose_language_dialog));
@@ -1605,44 +1481,41 @@ public class MainActivity extends Activity {
             }
         } // end for search current position of the current language chosen
         // before.
-        builder.setSingleChoiceItems(items, langNumberPosition,
-                (dialog, item) -> {
+        builder.setSingleChoiceItems(items, langNumberPosition, (dialog, item) -> {
 
-                    // A temporary langNumber:
-                    MainActivity.tempLang = MainActivity.langNumber;
-                    switch (item) {
-                        case 0:
-                            /*
-                             * Your code when first option selected, device
-                             * language:
-                             */
-                            MainActivity.tempLang = langNumbers[item];
-                            break;
+            // A temporary langNumber:
+            MainActivity.tempLang = MainActivity.langNumber;
+            switch (item) {
+                case 0:
+                    /*
+                     * Your code when first option selected, device
+                     * language:
+                     */
+                    MainActivity.tempLang = langNumbers[item];
+                    break;
 
-                        case 1:
-                            // Your code when 2nd option selected, English:
-                            MainActivity.tempLang = langNumbers[item];
-                            break;
+                case 1:
+                    // Your code when 2nd option selected, English:
+                    MainActivity.tempLang = langNumbers[item];
+                    break;
 
-                        case 2:
-                            // Your code when 3rd option selected, Romanian:
-                            MainActivity.tempLang = langNumbers[item];
-                            break;
-                    } // end switch.
-                });
+                case 2:
+                    // Your code when 3rd option selected, Romanian:
+                    MainActivity.tempLang = langNumbers[item];
+                    break;
+            } // end switch.
+        });
 
-        builder.setPositiveButton(getString(R.string.msg_ok),
-                (dialog, whichButton) -> {
-                    // Only if it was a choice:
-                    if (MainActivity.langNumber != MainActivity.tempLang) {
-                        MainActivity.langNumber = MainActivity.tempLang;
-                        Settings set = new Settings(context);
-                        set.saveIntSettings("langNumber",
-                                MainActivity.langNumber);
-                        recreateThisActivity();
-                    } // end if it is a different choice than before.
-                    //
-                });
+        builder.setPositiveButton(getString(R.string.msg_ok), (dialog, whichButton) -> {
+            // Only if it was a choice:
+            if (MainActivity.langNumber != MainActivity.tempLang) {
+                MainActivity.langNumber = MainActivity.tempLang;
+                Settings set = new Settings(context);
+                set.saveIntSettings("langNumber", MainActivity.langNumber);
+                recreateThisActivity();
+            } // end if it is a different choice than before.
+            //
+        });
         languageDialog = builder.create();
         languageDialog.show();
     } // end chooseLanguage() method.
@@ -1768,17 +1641,14 @@ public class MainActivity extends Activity {
             if (isPremium) {
                 message = getString(R.string.premium_version_alert_message);
             } else {
-                message = String.format(
-                        getString(R.string.non_premium_version_alert_message),
-                        mUpgradePrice);
+                message = String.format(getString(R.string.non_premium_version_alert_message), mUpgradePrice);
             } // end if is not premium.
             tv.setText(message);
             tv.setFocusable(true);
             ll.addView(tv);
             // Add the LinearLayout into ScrollView:
             sv.addView(ll);
-            alertDialog
-                    .setTitle(getString(R.string.premium_version_alert_title));
+            alertDialog.setTitle(getString(R.string.premium_version_alert_title));
             alertDialog.setView(sv);
             // The button can be close or Get now!:
             String buttonName;
@@ -1787,14 +1657,13 @@ public class MainActivity extends Activity {
             } else {
                 buttonName = getString(R.string.bt_buy_premium);
             }
-            alertDialog.setPositiveButton(buttonName,
-                    (dialog, whichButton) -> {
-                        // Start the payment process:
-                        // Only if is not premium:
-                        if (!isPremium) {
-                            upgradeToPremiumActions();
-                        }
-                    });
+            alertDialog.setPositiveButton(buttonName, (dialog, whichButton) -> {
+                // Start the payment process:
+                // Only if is not premium:
+                if (!isPremium) {
+                    upgradeToPremiumActions();
+                }
+            });
             alertDialog.create();
             alertDialog.show();
         } // end if is connection available.
@@ -1832,63 +1701,43 @@ public class MainActivity extends Activity {
             } // end onPurchasesUpdated() method.
         };
 
-        billingClient = BillingClient.newBuilder(this)
-                .setListener(purchasesUpdatedListener)
-                .enablePendingPurchases()
-                .build();
+        billingClient = BillingClient.newBuilder(this).setListener(purchasesUpdatedListener).enablePendingPurchases().build();
 
         billingClient.startConnection(new BillingClientStateListener() {
             @Override
             public void onBillingSetupFinished(BillingResult billingResult) {
                 if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
                     // The BillingClient is ready. You can query purchases here,
-                    QueryProductDetailsParams queryProductDetailsParams =
-                            QueryProductDetailsParams.newBuilder()
-                                    .setProductList(
-                                            listOf(
-                                                    QueryProductDetailsParams.Product.newBuilder()
-                                                            .setProductId(mProduct)
-                                                            .setProductType(BillingClient.ProductType.INAPP)
-                                                            .build()))
-                                    .build();
+                    QueryProductDetailsParams queryProductDetailsParams = QueryProductDetailsParams.newBuilder().setProductList(listOf(QueryProductDetailsParams.Product.newBuilder().setProductId(mProduct).setProductType(BillingClient.ProductType.INAPP).build())).build();
 
                     // Now check if it is already purchased:
-                    billingClient.queryPurchasesAsync(
-                            QueryPurchasesParams.newBuilder()
-                                    .setProductType(BillingClient.ProductType.INAPP)
-                                    .build(),
-                            new PurchasesResponseListener() {
-                                public void onQueryPurchasesResponse(BillingResult billingResult, List<Purchase> purchases) {
-                                    // check billingResult and process returned purchase list, e.g. display the products user owns
-                                    if (purchases != null && purchases.size() > 0) { // it means there are items:
-                                        Purchase myOldPurchase = purchases.get(0);
-                                        if (myOldPurchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED) {
-                                            recreateThisActivityAfterRegistering();
-                                        }
-                                    } // end process the purchases list.
+                    billingClient.queryPurchasesAsync(QueryPurchasesParams.newBuilder().setProductType(BillingClient.ProductType.INAPP).build(), new PurchasesResponseListener() {
+                        public void onQueryPurchasesResponse(BillingResult billingResult, List<Purchase> purchases) {
+                            // check billingResult and process returned purchase list, e.g. display the products user owns
+                            if (purchases != null && purchases.size() > 0) { // it means there are items:
+                                Purchase myOldPurchase = purchases.get(0);
+                                if (myOldPurchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED) {
+                                    recreateThisActivityAfterRegistering();
                                 }
-                            }
-                    );
+                            } // end process the purchases list.
+                        }
+                    });
                     // end check if it is already purchased.
 
                     // Now let's query for our product:
-                    billingClient.queryProductDetailsAsync(
-                            queryProductDetailsParams,
-                            new ProductDetailsResponseListener() {
-                                public void onProductDetailsResponse(BillingResult billingResult,
-                                                                     List<ProductDetails> productDetailsList) {
-                                    // check billingResult
-                                    // process returned productDetailsList
-                                    myProducts = productDetailsList;
-                                    // Get the price of the 0 item if there is at least one product:
-                                    if (myProducts != null && myProducts.size() > 0) {
-                                        ProductDetails productDetail = myProducts.get(0);
-                                        ProductDetails.OneTimePurchaseOfferDetails offer = productDetail.getOneTimePurchaseOfferDetails();
-                                        mUpgradePrice = offer.getFormattedPrice();
-                                    }
-                                }
+                    billingClient.queryProductDetailsAsync(queryProductDetailsParams, new ProductDetailsResponseListener() {
+                        public void onProductDetailsResponse(BillingResult billingResult, List<ProductDetails> productDetailsList) {
+                            // check billingResult
+                            // process returned productDetailsList
+                            myProducts = productDetailsList;
+                            // Get the price of the 0 item if there is at least one product:
+                            if (myProducts != null && myProducts.size() > 0) {
+                                ProductDetails productDetail = myProducts.get(0);
+                                ProductDetails.OneTimePurchaseOfferDetails offer = productDetail.getOneTimePurchaseOfferDetails();
+                                mUpgradePrice = offer.getFormattedPrice();
                             }
-                    );
+                        }
+                    });
                     // End query purchase.
                 }
             } // end startConnection successfully.
@@ -1922,17 +1771,11 @@ public class MainActivity extends Activity {
 // An activity reference from which the billing flow will be launched.
             Activity activity = this;
 
-            List productDetailsParamsList =
-                    listOf(
-                            BillingFlowParams.ProductDetailsParams.newBuilder()
-                                    // retrieve a value for "productDetails" by calling queryProductDetailsAsync()
-                                    .setProductDetails(productDetails)
-                                    .build()
-                    );
+            List productDetailsParamsList = listOf(BillingFlowParams.ProductDetailsParams.newBuilder()
+                    // retrieve a value for "productDetails" by calling queryProductDetailsAsync()
+                    .setProductDetails(productDetails).build());
 
-            BillingFlowParams billingFlowParams = BillingFlowParams.newBuilder()
-                    .setProductDetailsParamsList(productDetailsParamsList)
-                    .build();
+            BillingFlowParams billingFlowParams = BillingFlowParams.newBuilder().setProductDetailsParamsList(productDetailsParamsList).build();
 
 // Launch the billing flow
             BillingResult billingResult = billingClient.launchBillingFlow(activity, billingFlowParams);
@@ -1945,10 +1788,7 @@ public class MainActivity extends Activity {
     private void handlePurchase(Purchase purchase) {
         if (purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED) {
             if (!purchase.isAcknowledged()) {
-                AcknowledgePurchaseParams acknowledgePurchaseParams =
-                        AcknowledgePurchaseParams.newBuilder()
-                                .setPurchaseToken(purchase.getPurchaseToken())
-                                .build();
+                AcknowledgePurchaseParams acknowledgePurchaseParams = AcknowledgePurchaseParams.newBuilder().setPurchaseToken(purchase.getPurchaseToken()).build();
                 billingClient.acknowledgePurchase(acknowledgePurchaseParams, acknowledgePurchaseResponseListener);
             }
         }
@@ -1963,8 +1803,7 @@ public class MainActivity extends Activity {
         // This will go in a meteoric activity and will come back:
         Handler handler = new Handler(Looper.getMainLooper());
         handler.post(() -> {
-            Intent intent = new Intent(MainActivity.this,
-                    PremiumVersionActivity.class);
+            Intent intent = new Intent(MainActivity.this, PremiumVersionActivity.class);
             startActivity(intent);
             finish();
         });

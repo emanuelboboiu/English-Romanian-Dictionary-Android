@@ -60,15 +60,11 @@ public class UpdateDictionary {
             // Get the last update timestamp from SharedPreferences:
             Settings set = new Settings(context);
             int lastUpdate = set.getIntSettings("lastUpdate");
-            String url = "http://www.limbalatina.ro/dictenro/new_words.php?data="
-                    + lastUpdate;
+            String url = "http://www.limbalatina.ro/dictenro/new_words.php?data=" + lastUpdate;
             new GetUpdate().execute(url);
         } // end if there is an available Internet connection.
         else {
-            GUITools.alert(
-                    context,
-                    context.getString(R.string.warning),
-                    context.getString(R.string.no_connection_for_update_new_words));
+            GUITools.alert(context, context.getString(R.string.warning), context.getString(R.string.no_connection_for_update_new_words));
         } // end if no Internet connection is available.
     } // end updateStart() method.
 
@@ -103,8 +99,7 @@ public class UpdateDictionary {
                 // Create a URLConnection object:
                 URLConnection urlConnection = url.openConnection();
                 // Wrap the URLConnection in a BufferedReader:
-                BufferedReader bufferedReader = new BufferedReader(
-                        new InputStreamReader(urlConnection.getInputStream()));
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                 String line;
                 // Read from the URLConnection via the BufferedReader:
                 while ((line = bufferedReader.readLine()) != null) {
@@ -211,8 +206,7 @@ public class UpdateDictionary {
                 } // end for.
                 String newWordsEn = sbEn.toString();
                 if (newWordsEn.length() > 0) {
-                    newWordsEn = newWordsEn.substring(0,
-                            newWordsEn.length() - 2);
+                    newWordsEn = newWordsEn.substring(0, newWordsEn.length() - 2);
                 } else {
                     newWordsEn = ".....";
                 }
@@ -231,23 +225,16 @@ public class UpdateDictionary {
                 } // end for.
                 String newWordsRo = sbRo.toString();
                 if (newWordsRo.length() > 0) {
-                    newWordsRo = newWordsRo.substring(0,
-                            newWordsRo.length() - 2);
+                    newWordsRo = newWordsRo.substring(0, newWordsRo.length() - 2);
                 } else {
                     newWordsRo = ".....";
                 }
 
-                String updMsg = String.format(
-                        context.getString(R.string.updated_successfully), ""
-                                + numberOfNewWords, "" + enro, "" + roen,
-                        newWordsEn, newWordsRo);
-                GUITools.alertHTML(context,
-                        context.getString(R.string.congratulations), updMsg,
-                        context.getString(R.string.msg_close));
+                String updMsg = String.format(context.getString(R.string.updated_successfully), "" + numberOfNewWords, "" + enro, "" + roen, newWordsEn, newWordsRo);
+                GUITools.alertHTML(context, context.getString(R.string.congratulations), updMsg, context.getString(R.string.msg_close));
                 // Save current date in seconds as timestamp in
                 // SharedPreferences:
-                Calendar now = new GregorianCalendar(
-                        TimeZone.getTimeZone("Europe/Bucharest"));
+                Calendar now = new GregorianCalendar(TimeZone.getTimeZone("Europe/Bucharest"));
                 int curTimestamp = (int) (now.getTimeInMillis() / 1000);
                 Settings set = new Settings(context);
                 set.saveIntSettings("lastUpdate", curTimestamp);
@@ -268,12 +255,8 @@ public class UpdateDictionary {
                 // Get the last update as string:
                 Settings set = new Settings(context);
                 int lastUpdate = set.getIntSettings("lastUpdate");
-                String tempLast = GUITools.timeStampToString(context,
-                        lastUpdate);
-                message = String
-                        .format(context
-                                        .getString(R.string.information_not_available_for_update),
-                                tempLast);
+                String tempLast = GUITools.timeStampToString(context, lastUpdate);
+                message = String.format(context.getString(R.string.information_not_available_for_update), tempLast);
                 // Add in statistics the success check, no updates found:
                 Statistics stats = new Statistics(context);
                 stats.postStats("71", 1);
@@ -287,18 +270,14 @@ public class UpdateDictionary {
                 stats.postStats("72", 1);
             }
 
-            GUITools.alertHTML(context, title, message,
-                    context.getString(R.string.msg_ok));
+            GUITools.alertHTML(context, title, message, context.getString(R.string.msg_ok));
         } // end if it is an error.
     } // end updateEffectively() method.
 
     // A method which inserts into database a new word:
-    private boolean insertNewWordInDB(int direction, String word,
-                                      String definition) {
+    private boolean insertNewWordInDB(int direction, String word, String definition) {
         // We prepare the string:
-        String sql = "INSERT INTO dictionar" + direction
-                + " (termen, explicatie) VALUES ('" + word + "', '"
-                + definition + "');";
+        String sql = "INSERT INTO dictionar" + direction + " (termen, explicatie) VALUES ('" + word + "', '" + definition + "');";
         return mDB.insertData(sql);
     } // end insertNewWordInDB() method.
 
@@ -306,64 +285,50 @@ public class UpdateDictionary {
     // A method to add a word:
     public void proposeStart() {
         // Make a new context:
-        Context newContext = new ContextThemeWrapper(context,
-                R.style.MyAlertDialog);
+        Context newContext = new ContextThemeWrapper(context, R.style.MyAlertDialog);
 
         if (GUITools.isNetworkAvailable(newContext)) {
             // Get the strings to make an alert:
-            String tempTitle = newContext
-                    .getString(R.string.title_propose_dialog);
+            String tempTitle = newContext.getString(R.string.title_propose_dialog);
 
             ScrollView sv = new ScrollView(newContext);
             LinearLayout ll = new LinearLayout(newContext);
             ll.setOrientation(LinearLayout.VERTICAL);
 
             // A LayoutParams to add the edit texts:
-            LinearLayout.LayoutParams etlp = new LinearLayout.LayoutParams(
-                    LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+            LinearLayout.LayoutParams etlp = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
             etlp.setMargins(0, MainActivity.mPaddingDP * 3, 0, 0);
 
             // A TextView for body of this action:
             TextView tv = new TextView(newContext);
             tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, MainActivity.textSize);
-            String message = newContext
-                    .getString(R.string.message_propose_dialog);
+            String message = newContext.getString(R.string.message_propose_dialog);
             tv.setText(message);
             tv.setFocusable(true);
             ll.addView(tv, etlp);
 
             // EditText for word:
             final EditText etWord = new EditText(newContext);
-            etWord.setTextSize(TypedValue.COMPLEX_UNIT_SP,
-                    MainActivity.textSize);
-            etWord.setPadding(MainActivity.mPaddingDP, MainActivity.mPaddingDP,
-                    MainActivity.mPaddingDP, MainActivity.mPaddingDP);
+            etWord.setTextSize(TypedValue.COMPLEX_UNIT_SP, MainActivity.textSize);
+            etWord.setPadding(MainActivity.mPaddingDP, MainActivity.mPaddingDP, MainActivity.mPaddingDP, MainActivity.mPaddingDP);
             etWord.setHint(newContext.getString(R.string.hint_propose_new_word));
-            etWord.setInputType(InputType.TYPE_TEXT_VARIATION_SHORT_MESSAGE
-                    | EditorInfo.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+            etWord.setInputType(InputType.TYPE_TEXT_VARIATION_SHORT_MESSAGE | EditorInfo.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
             etWord.setImeOptions(EditorInfo.IME_ACTION_NEXT);
             ll.addView(etWord, etlp);
 
             // EditText for explanation:
             final EditText etExplanation = new EditText(newContext);
-            etExplanation.setTextSize(TypedValue.COMPLEX_UNIT_SP,
-                    MainActivity.textSize);
-            etExplanation.setPadding(MainActivity.mPaddingDP,
-                    MainActivity.mPaddingDP, MainActivity.mPaddingDP,
-                    MainActivity.mPaddingDP);
-            etExplanation.setHint(newContext
-                    .getString(R.string.hint_propose_new_explanation));
-            etExplanation
-                    .setInputType(InputType.TYPE_TEXT_VARIATION_SHORT_MESSAGE
-                            | EditorInfo.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+            etExplanation.setTextSize(TypedValue.COMPLEX_UNIT_SP, MainActivity.textSize);
+            etExplanation.setPadding(MainActivity.mPaddingDP, MainActivity.mPaddingDP, MainActivity.mPaddingDP, MainActivity.mPaddingDP);
+            etExplanation.setHint(newContext.getString(R.string.hint_propose_new_explanation));
+            etExplanation.setInputType(InputType.TYPE_TEXT_VARIATION_SHORT_MESSAGE | EditorInfo.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
             etExplanation.setImeOptions(EditorInfo.IME_ACTION_DONE);
-            etExplanation
-                    .setOnEditorActionListener((v, actionId, event) -> {
-                        if (actionId == EditorInfo.IME_ACTION_DONE) {
-                            // Nothing happens yet, only hide the keyboard.
-                        } // end if DONE key was pressed.
-                        return false;
-                    });
+            etExplanation.setOnEditorActionListener((v, actionId, event) -> {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    // Nothing happens yet, only hide the keyboard.
+                } // end if DONE key was pressed.
+                return false;
+            });
             // End add action listener.
             ll.addView(etExplanation, etlp);
 
@@ -391,27 +356,16 @@ public class UpdateDictionary {
             sv.addView(ll);
 
             // end if send button was pressed.
-            AlertDialog.Builder alert = new AlertDialog.Builder(context)
-                    .setTitle(tempTitle)
-                    .setView(sv)
-                    .setPositiveButton(R.string.send,
-                            (dialog, whichButton) -> {
-                                String newWord = etWord.getText()
-                                        .toString();
-                                String newExplanation = etExplanation
-                                        .getText().toString();
-                                sendAdd(tempDirection, newWord,
-                                        newExplanation);
-                            }).setNegativeButton(android.R.string.cancel, null);
+            AlertDialog.Builder alert = new AlertDialog.Builder(context).setTitle(tempTitle).setView(sv).setPositiveButton(R.string.send, (dialog, whichButton) -> {
+                String newWord = etWord.getText().toString();
+                String newExplanation = etExplanation.getText().toString();
+                sendAdd(tempDirection, newWord, newExplanation);
+            }).setNegativeButton(android.R.string.cancel, null);
 
             alert.create();
             alert.show();
         } else {
-            GUITools.alert(
-                    newContext,
-                    newContext.getString(R.string.warning),
-                    newContext
-                            .getString(R.string.no_connection_for_propose_new_words));
+            GUITools.alert(newContext, newContext.getString(R.string.warning), newContext.getString(R.string.no_connection_for_propose_new_words));
         }
     } // end add Record() method.
 
@@ -421,21 +375,15 @@ public class UpdateDictionary {
         // Save now the new record:
         // First of all, check if both edit text have text:
         String newWord = (MyHtml.fromHtml(word).toString()).trim();
-        String newExplanation = (MyHtml.fromHtml(explanation).toString())
-                .trim();
+        String newExplanation = (MyHtml.fromHtml(explanation).toString()).trim();
         if (newWord.length() >= 2 && newExplanation.length() >= 2) {
             // Add here into online database:
-            String url = "http://www.limbalatina.ro/dictenro/new_words_proposals.php?direction="
-                    + direction
-                    + "&google_id="
-                    + MainActivity.myAccountName
-                    + "&termen=" + newWord + "&explicatie=" + newExplanation;
+            String url = "http://www.limbalatina.ro/dictenro/new_words_proposals.php?direction=" + direction + "&google_id=" + MainActivity.myAccountName + "&termen=" + newWord + "&explicatie=" + newExplanation;
             new SendUpdate().execute(url);
             toReturn = true;
         } // end if the length are OK.
         else {
-            GUITools.alert(context, context.getString(R.string.warning),
-                    context.getString(R.string.no_texts_for_edit));
+            GUITools.alert(context, context.getString(R.string.warning), context.getString(R.string.no_texts_for_edit));
             toReturn = false;
         } // end if edit text haven't text.
     } // end send new add Edit() method.
@@ -464,8 +412,7 @@ public class UpdateDictionary {
                 // Create a URLConnection object:
                 URLConnection urlConnection = url.openConnection();
                 // Wrap the URLConnection in a BufferedReader:
-                BufferedReader bufferedReader = new BufferedReader(
-                        new InputStreamReader(urlConnection.getInputStream()));
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                 String line;
                 // Read from the URLConnection via the BufferedReader:
                 while ((line = bufferedReader.readLine()) != null) {
@@ -484,11 +431,9 @@ public class UpdateDictionary {
             pd.dismiss();
 
             if (result.contains("successfully")) {
-                GUITools.alert(context, context.getString(R.string.success),
-                        context.getString(R.string.word_sent_successfully));
+                GUITools.alert(context, context.getString(R.string.success), context.getString(R.string.word_sent_successfully));
             } else {
-                GUITools.alert(context, context.getString(R.string.error),
-                        context.getString(R.string.word_not_sent_successfully));
+                GUITools.alert(context, context.getString(R.string.error), context.getString(R.string.word_not_sent_successfully));
             }
         } // end postExecute() method.
 

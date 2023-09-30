@@ -23,8 +23,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     private static String DB_PATH = "";
     private static final String DB_NAME = "dictenro.db"; // Database name
     private static final String SP_KEY_DB_VER = "dbVer";
-    private static final int DATABASE_VERSION = 15;
-    private static final int lastUpdateTimestamp = 1671764400; // 23 December 2022.
+    private static final int DATABASE_VERSION = 16;
+    private static final int lastUpdateTimestamp = 1696132800; // 30 September 2023.
 
     private SQLiteDatabase mDataBase;
     private final Context mContext;
@@ -69,7 +69,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             this.getWritableDatabase();
             this.close();
             try {
-                // Copy the database from assests:
+                // Copy the database from assets:
                 copyDataBase();
                 // Log.e(TAG, "createDatabase database created");
             } catch (IOException mIOException) {
@@ -107,14 +107,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     // Open the database, so we can query it
     public void openDataBase() throws SQLException {
         String mPath = DB_PATH;
-        mDataBase = SQLiteDatabase.openDatabase(mPath, null,
-                SQLiteDatabase.CREATE_IF_NECESSARY);
+        mDataBase = SQLiteDatabase.openDatabase(mPath, null, SQLiteDatabase.CREATE_IF_NECESSARY);
     }
 
     @Override
     public synchronized void close() {
-        if (mDataBase != null)
-            mDataBase.close();
+        if (mDataBase != null) mDataBase.close();
         super.close();
     }
 

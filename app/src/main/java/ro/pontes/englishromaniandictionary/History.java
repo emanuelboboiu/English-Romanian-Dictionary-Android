@@ -63,8 +63,7 @@ public class History {
             // If is first item, it's title:
             if (i == 0) {
                 tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize + 2);
-                tv.setPadding(mPaddingDP, mPaddingDP * 3, mPaddingDP,
-                        mPaddingDP * 2);
+                tv.setPadding(mPaddingDP, mPaddingDP * 3, mPaddingDP, mPaddingDP * 2);
                 tv.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
             } else {
                 tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);

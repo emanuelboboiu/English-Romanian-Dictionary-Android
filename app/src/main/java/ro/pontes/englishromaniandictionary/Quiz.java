@@ -38,9 +38,7 @@ public class Quiz {
         LinearLayout llTop = new LinearLayout(context);
         llTop.setOrientation(LinearLayout.VERTICAL);
         llTop.setGravity(Gravity.CENTER_HORIZONTAL);
-        LinearLayout.LayoutParams llTopParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams llTopParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         // Add it into llMainPart:
         llMainPart.addView(llTop, llTopParams);
         this.llTop = llTop;
@@ -48,9 +46,7 @@ public class Quiz {
         // Create the llMain:
         LinearLayout llMain = new LinearLayout(context);
         llMain.setOrientation(LinearLayout.VERTICAL);
-        LinearLayout.LayoutParams llMainParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT);
+        LinearLayout.LayoutParams llMainParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         // Add it into llMainPart:
         llMainPart.addView(llMain, llMainParams);
         this.llMain = llMain;

@@ -18,8 +18,7 @@ public class StringTools {
     // A constructor:
     public StringTools(Context context) {
         this.context = context;
-        InputMethodManager imm = (InputMethodManager) this.context
-                .getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) this.context.getSystemService(Context.INPUT_METHOD_SERVICE);
         InputMethodSubtype ims = imm.getCurrentInputMethodSubtype();
         String locale = "xx"; // an unknown one.
         if (ims != null) {
@@ -58,16 +57,10 @@ public class StringTools {
                 // Code here to make Kyrillic into Latin:
                 // The two arrays:
                 // The Kyrillic one:
-                char[] kyrillic = new char[]{'а', 'б', 'в', 'г', 'д', 'е', 'ё',
-                        'ж', 'з', 'и', 'й', 'к', 'л', 'м', 'н', 'о', 'п', 'р', 'с',
-                        'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ', 'ъ', 'ы', 'ь', 'э',
-                        'ю', 'я'};
+                char[] kyrillic = new char[]{'а', 'б', 'в', 'г', 'д', 'е', 'ё', 'ж', 'з', 'и', 'й', 'к', 'л', 'м', 'н', 'о', 'п', 'р', 'с', 'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ', 'ъ', 'ы', 'ь', 'э', 'ю', 'я'};
 
                 // The Latin one:
-                String[] latin = new String[]{"a", "b", "v", "g", "d", "e", "yo",
-                        "zh", "z", "i", "j", "k", "l", "m", "n", "o", "p", "r",
-                        "s", "t", "u", "f", "h", "ts", "ch", "sh", "shch", "'",
-                        "y", "'", "e", "yu", "ya"};
+                String[] latin = new String[]{"a", "b", "v", "g", "d", "e", "yo", "zh", "z", "i", "j", "k", "l", "m", "n", "o", "p", "r", "s", "t", "u", "f", "h", "ts", "ch", "sh", "shch", "'", "y", "'", "e", "yu", "ya"};
 
                 /*
                  * Create the new string replacing the Kyrillic letters with Latin
@@ -148,16 +141,14 @@ public class StringTools {
             int halfbyte = (b >>> 4) & 0x0F;
             int two_halfs = 0;
             do {
-                buf.append((0 <= halfbyte) && (halfbyte <= 9) ? (char) ('0' + halfbyte)
-                        : (char) ('a' + (halfbyte - 10)));
+                buf.append((0 <= halfbyte) && (halfbyte <= 9) ? (char) ('0' + halfbyte) : (char) ('a' + (halfbyte - 10)));
                 halfbyte = b & 0x0F;
             } while (two_halfs++ < 1);
         }
         return buf.toString();
     } // end convertToHex() method.
 
-    public static String SHA1(String text) throws NoSuchAlgorithmException,
-            UnsupportedEncodingException {
+    public static String SHA1(String text) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         MessageDigest md = MessageDigest.getInstance("SHA-1");
         md.update(text.getBytes(StandardCharsets.ISO_8859_1), 0, text.length());
         byte[] sha1hash = md.digest();
