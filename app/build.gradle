@@ -1,13 +1,17 @@
-apply plugin: 'com.android.application'
+plugins {
+    id 'com.android.application'
+}
 
 android {
-    compileSdkVersion 34
-    buildToolsVersion "33.0.0"
+    namespace "ro.pontes.englishromaniandictionary"
+    compileSdk 36
 
     defaultConfig {
         applicationId "ro.pontes.englishromaniandictionary"
-        minSdkVersion 23
-        targetSdkVersion 34
+        minSdk 23
+        targetSdk 36
+        versionCode 79
+        versionName "8.0"
     }
 
     buildTypes {
@@ -19,8 +23,8 @@ android {
 }
 
 dependencies {
-    implementation 'com.google.android.gms:play-services-ads:22.4.0'
+    implementation 'com.google.android.gms:play-services-ads:24.5.0'
     implementation "com.android.billingclient:billing:6.0.1"
     implementation 'androidx.core:core-ktx:1.12.0'
-    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.appcompat:appcompat:1.7.1'
 }

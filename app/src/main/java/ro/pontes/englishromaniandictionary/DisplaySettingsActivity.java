@@ -32,73 +32,37 @@ public class DisplaySettingsActivity extends Activity {
 
     } // end onCreate method.
 
+    // A method which sets the font size:
     public void onRadioButtonClicked(View view) {
         // Is the button now checked?
         boolean checked = ((RadioButton) view).isChecked();
 
         // Check which radio button was clicked:
-        switch (view.getId()) {
-            case R.id.rbRadio14:
-                if (checked) {
-                    MainActivity.textSize = 14;
-                }
-                break;
-            case R.id.rbRadio16:
-                if (checked) {
-                    MainActivity.textSize = 16;
-                }
-                break;
-            case R.id.rbRadio18:
-                if (checked) {
-                    MainActivity.textSize = 18;
-                }
-                break;
-            case R.id.rbRadio20:
-                if (checked) {
-                    MainActivity.textSize = 20;
-                }
-                break;
-            case R.id.rbRadio22:
-                if (checked) {
-                    MainActivity.textSize = 22;
-                }
-                break;
-            case R.id.rbRadio24:
-                if (checked) {
-                    MainActivity.textSize = 24;
-                }
-                break;
-            case R.id.rbRadio26:
-                if (checked) {
-                    MainActivity.textSize = 26;
-                }
-                break;
-            case R.id.rbRadio28:
-                if (checked) {
-                    MainActivity.textSize = 28;
-                }
-                break;
-            case R.id.rbRadio30:
-                if (checked) {
-                    MainActivity.textSize = 30;
-                }
-                break;
-            case R.id.rbRadio32:
-                if (checked) {
-                    MainActivity.textSize = 32;
-                }
-                break;
-            case R.id.rbRadio34:
-                if (checked) {
-                    MainActivity.textSize = 34;
-                }
-                break;
-            case R.id.rbRadio36:
-                if (checked) {
-                    MainActivity.textSize = 36;
-                }
-                break;
-        } // } // end switch.
+        if (view.getId() == R.id.rbRadio14 && checked) {
+            MainActivity.textSize = 14;
+        } else if (view.getId() == R.id.rbRadio16 && checked) {
+            MainActivity.textSize = 16;
+        } else if (view.getId() == R.id.rbRadio18 && checked) {
+            MainActivity.textSize = 18;
+        } else if (view.getId() == R.id.rbRadio20 && checked) {
+            MainActivity.textSize = 20;
+        } else if (view.getId() == R.id.rbRadio22 && checked) {
+            MainActivity.textSize = 22;
+        } else if (view.getId() == R.id.rbRadio24 && checked) {
+            MainActivity.textSize = 24;
+        } else if (view.getId() == R.id.rbRadio26 && checked) {
+            MainActivity.textSize = 26;
+        } else if (view.getId() == R.id.rbRadio28 && checked) {
+            MainActivity.textSize = 28;
+        } else if (view.getId() == R.id.rbRadio30 && checked) {
+            MainActivity.textSize = 30;
+        } else if (view.getId() == R.id.rbRadio32 && checked) {
+            MainActivity.textSize = 32;
+        } else if (view.getId() == R.id.rbRadio34 && checked) {
+            MainActivity.textSize = 34;
+        } else if (view.getId() == R.id.rbRadio36 && checked) {
+            MainActivity.textSize = 36;
+        }
 
         // Save now the setting:
         set.saveIntSettings("textSize", MainActivity.textSize);
@@ -106,10 +70,7 @@ public class DisplaySettingsActivity extends Activity {
         // Play also a sound:
         SoundPlayer.playSimple(this, "element_clicked");
 
-        /*
-         * Now recreate the activity, this way we have a correct radio button
-         * chosen:
-         */
+        // Now recreate the activity, this way we have a correct radio button chosen:
         recreateThisActivity();
     } // end onRadioButtonClicked.
 

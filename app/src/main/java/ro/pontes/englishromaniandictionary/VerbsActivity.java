@@ -695,23 +695,19 @@ public class VerbsActivity extends Activity implements OnItemSelectedListener {
         Settings set = new Settings(this); // to save changes.
 
         // Check which check box was clicked
-        switch (view.getId()) {
-            case R.id.cbtDerivedForms:
-                if (checked) {
-                    isDerivedForms = true;
-                    type = "%";
-                } else {
-                    isDerivedForms = false;
-                    type = "0";
-                }
-                set.saveBooleanSettings("isDerivedForms", isDerivedForms);
-                break;
-
-            case R.id.cbtArchaicForms:
-                isArchaicForms = checked;
-                set.saveBooleanSettings("isArchaicForms", isArchaicForms);
-                break;
-        } // end switch.
+        if (view.getId() == R.id.cbtDerivedForms) {
+            if (checked) {
+                isDerivedForms = true;
+                type = "%";
+            } else {
+                isDerivedForms = false;
+                type = "0";
+            }
+            set.saveBooleanSettings("isDerivedForms", isDerivedForms);
+        } else if (view.getId() == R.id.cbtArchaicForms) {
+            isArchaicForms = checked;
+            set.saveBooleanSettings("isArchaicForms", isArchaicForms);
+        }
 
         // Play also a sound:
         SoundPlayer.playSimple(this, "element_clicked");
@@ -719,7 +715,7 @@ public class VerbsActivity extends Activity implements OnItemSelectedListener {
         // We update the spinner:
         updateWelcomeMessage();
         updateSpinner();
-    } // end onClick method.
+    } // end onClick method .
 
     /*
      * Some small methods with VIEW at parameter for the simulated action bar in

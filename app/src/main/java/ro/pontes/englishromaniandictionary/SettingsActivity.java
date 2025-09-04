@@ -82,46 +82,34 @@ public class SettingsActivity extends Activity {
         Settings set = new Settings(this); // to save changes.
 
         // Check which check box was clicked
-        switch (view.getId()) {
-            case R.id.cbtSoundsSetting:
-                MainActivity.isSound = checked;
-                set.saveBooleanSettings("isSound", MainActivity.isSound);
-                break;
-
-            case R.id.cbtSearchFullTextSetting:
-                MainActivity.isSearchFullText = checked;
-                set.saveBooleanSettings("isSearchFullText", MainActivity.isSearchFullText);
-                break;
-
-            case R.id.cbtPortraitOrientationSetting:
-                MainActivity.isOrientationBlocked = checked;
-                set.saveBooleanSettings("isOrientationBlocked", MainActivity.isOrientationBlocked);
-                break;
-
-            case R.id.cbtOnshakeSetting:
-                MainActivity.isShake = checked;
-                set.saveBooleanSettings("isShake", MainActivity.isShake);
-                break;
-            case R.id.cbtScreenAwakeSetting:
-                MainActivity.isWakeLock = checked;
-                set.saveBooleanSettings("isWakeLock", MainActivity.isWakeLock);
-                break;
-            case R.id.cbtImeSetting:
-                MainActivity.isImeAction = checked;
-                set.saveBooleanSettings("isImeAction", MainActivity.isImeAction);
-                break;
-
-            case R.id.cbtHistorySetting:
-                if (checked) {
-                    MainActivity.isHistory = true;
-                } else {
-                    MainActivity.isHistory = false;
-                    // Try here to delete also the log:
-                    deleteLog();
-                }
-                set.saveBooleanSettings("isHistory", MainActivity.isHistory);
-                break;
-        } // end switch.
+        if (view.getId() == R.id.cbtSoundsSetting) {
+            MainActivity.isSound = checked;
+            set.saveBooleanSettings("isSound", MainActivity.isSound);
+        } else if (view.getId() == R.id.cbtSearchFullTextSetting) {
+            MainActivity.isSearchFullText = checked;
+            set.saveBooleanSettings("isSearchFullText", MainActivity.isSearchFullText);
+        } else if (view.getId() == R.id.cbtPortraitOrientationSetting) {
+            MainActivity.isOrientationBlocked = checked;
+            set.saveBooleanSettings("isOrientationBlocked", MainActivity.isOrientationBlocked);
+        } else if (view.getId() == R.id.cbtOnshakeSetting) {
+            MainActivity.isShake = checked;
+            set.saveBooleanSettings("isShake", MainActivity.isShake);
+        } else if (view.getId() == R.id.cbtScreenAwakeSetting) {
+            MainActivity.isWakeLock = checked;
+            set.saveBooleanSettings("isWakeLock", MainActivity.isWakeLock);
+        } else if (view.getId() == R.id.cbtImeSetting) {
+            MainActivity.isImeAction = checked;
+            set.saveBooleanSettings("isImeAction", MainActivity.isImeAction);
+        } else if (view.getId() == R.id.cbtHistorySetting) {
+            if (checked) {
+                MainActivity.isHistory = true;
+            } else {
+                MainActivity.isHistory = false;
+                // Try here to delete also the log:
+                deleteLog();
+            }
+            set.saveBooleanSettings("isHistory", MainActivity.isHistory);
+        }
 
         // Play also a sound:
         SoundPlayer.playSimple(this, "element_clicked");

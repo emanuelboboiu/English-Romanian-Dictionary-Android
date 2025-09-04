@@ -448,78 +448,75 @@ public class MainActivity extends Activity {
         menu.setHeaderTitle(cmTitle);
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.results_context_menu, menu);
-
     }
 
+    // A method for the context menu, options chosen there:
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         String w = lastCMW;
         String e = lastCME;
         @SuppressWarnings("unused") AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-        switch (item.getItemId()) {
-            case R.id.cmSpeakResult:
-                speakResult(w, e);
-                return true;
-            case R.id.cmSpeakExplanation:
-                speakExplanation(w, e);
-                return true;
 
-            case R.id.cmSpellResult:
-                spellResult(w, e);
-                return true;
-            case R.id.cmIPAResult:
-                getExternalResource(1, w, e);
-                return true;
-            case R.id.cmWordFrequencyResult:
-                getExternalResource(7, w, e);
-                return true;
-
-            case R.id.cmSynonymsResult:
-                getExternalResource(2, w, e);
-                return true;
-            case R.id.cmAntonymsResult:
-                getExternalResource(3, w, e);
-                return true;
-            case R.id.cmHomophonesResult:
-                getExternalResource(4, w, e);
-                return true;
-            case R.id.cmHypernymsResult:
-                getExternalResource(8, w, e);
-                return true;
-            case R.id.cmHyponymsResult:
-                getExternalResource(9, w, e);
-                return true;
-            case R.id.cmRhymesResult:
-                getExternalResource(5, w, e);
-                return true;
-            case R.id.cmDefinitionResult:
-                getExternalResource(6, w, e);
-                return true;
-            case R.id.cmFollowersResult:
-                getExternalResource(10, w, e);
-                return true;
-            case R.id.cmPredecessorsResult:
-                getExternalResource(11, w, e);
-                return true;
-
-            case R.id.cmCopyResult:
-                GUITools.copyIntoClipboard(this, tvResultForContext.getText().toString());
-                return true;
-            case R.id.cmCopyWord:
-                GUITools.copyIntoClipboard(this, w);
-                return true;
-            case R.id.cmCopyExplanation:
-                GUITools.copyIntoClipboard(this, e);
-                return true;
-            case R.id.cmCancelSearch:
-                cancelSearchActions(0);
-                return true;
-            case R.id.cmAddToVocabularyResult:
-                addToVocabulary(w, e);
-                return true;
-            default:
-                return super.onContextItemSelected(item);
-        } // end switch.
+        if (item.getItemId() == R.id.cmSpeakResult) {
+            speakResult(w, e);
+            return true;
+        } else if (item.getItemId() == R.id.cmSpeakExplanation) {
+            speakExplanation(w, e);
+            return true;
+        } else if (item.getItemId() == R.id.cmSpellResult) {
+            spellResult(w, e);
+            return true;
+        } else if (item.getItemId() == R.id.cmIPAResult) {
+            getExternalResource(1, w, e);
+            return true;
+        } else if (item.getItemId() == R.id.cmWordFrequencyResult) {
+            getExternalResource(7, w, e);
+            return true;
+        } else if (item.getItemId() == R.id.cmSynonymsResult) {
+            getExternalResource(2, w, e);
+            return true;
+        } else if (item.getItemId() == R.id.cmAntonymsResult) {
+            getExternalResource(3, w, e);
+            return true;
+        } else if (item.getItemId() == R.id.cmHomophonesResult) {
+            getExternalResource(4, w, e);
+            return true;
+        } else if (item.getItemId() == R.id.cmHypernymsResult) {
+            getExternalResource(8, w, e);
+            return true;
+        } else if (item.getItemId() == R.id.cmHyponymsResult) {
+            getExternalResource(9, w, e);
+            return true;
+        } else if (item.getItemId() == R.id.cmRhymesResult) {
+            getExternalResource(5, w, e);
+            return true;
+        } else if (item.getItemId() == R.id.cmDefinitionResult) {
+            getExternalResource(6, w, e);
+            return true;
+        } else if (item.getItemId() == R.id.cmFollowersResult) {
+            getExternalResource(10, w, e);
+            return true;
+        } else if (item.getItemId() == R.id.cmPredecessorsResult) {
+            getExternalResource(11, w, e);
+            return true;
+        } else if (item.getItemId() == R.id.cmCopyResult) {
+            GUITools.copyIntoClipboard(this, tvResultForContext.getText().toString());
+            return true;
+        } else if (item.getItemId() == R.id.cmCopyWord) {
+            GUITools.copyIntoClipboard(this, w);
+            return true;
+        } else if (item.getItemId() == R.id.cmCopyExplanation) {
+            GUITools.copyIntoClipboard(this, e);
+            return true;
+        } else if (item.getItemId() == R.id.cmCancelSearch) {
+            cancelSearchActions(0);
+            return true;
+        } else if (item.getItemId() == R.id.cmAddToVocabularyResult) {
+            addToVocabulary(w, e);
+            return true;
+        } else {
+            return super.onContextItemSelected(item);
+        }
     } // End context menu implementation.
 
     // Some methods to go to other activities from menu:

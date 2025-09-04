@@ -375,6 +375,7 @@ public class VocabularyActivity extends Activity implements OnItemSelectedListen
         tvResultForContext = (TextView) v;
     } // end onCreateContextMenu() method.
 
+    // The selected item in context menu:
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         // First we take the text from the longly clicked result:
@@ -399,42 +400,39 @@ public class VocabularyActivity extends Activity implements OnItemSelectedListen
         int idRecord = cur.getInt(0);
         cur.close();
         @SuppressWarnings("unused") AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-        switch (item.getItemId()) {
 
-            case R.id.cmSearchResult:
-                goToDictionaryAndSearch(w, direction);
-                return true;
-
-            case R.id.cmSpeakResult:
-                speak.sayUsingLanguage(englishPart, true);
-                return true;
-            case R.id.cmSpellResult:
-                speak.sayUsingLanguage("", true);
-                speak.spellUsingLanguage(englishPart);
-                return true;
-            case R.id.cmCopyResult:
-                GUITools.copyIntoClipboard(this, result);
-                return true;
-            case R.id.cmCopyWord:
-                GUITools.copyIntoClipboard(this, w);
-                return true;
-            case R.id.cmCopyExplanation:
-                GUITools.copyIntoClipboard(this, e);
-                return true;
-            case R.id.cmVocabularyEdit:
-                editRecord(idRecord);
-                return true;
-            case R.id.cmVocabularyDelete:
-                deleteRecord(w, e);
-                return true;
-            case R.id.cmVocabularyProperties:
-                showVocabularyProperties(w, e, idSection, direction, curTime);
-                return true;
-            default:
-                return super.onContextItemSelected(item);
+        if (item.getItemId() == R.id.cmSearchResult) {
+            goToDictionaryAndSearch(w, direction);
+            return true;
+        } else if (item.getItemId() == R.id.cmSpeakResult) {
+            speak.sayUsingLanguage(englishPart, true);
+            return true;
+        } else if (item.getItemId() == R.id.cmSpellResult) {
+            speak.sayUsingLanguage("", true);
+            speak.spellUsingLanguage(englishPart);
+            return true;
+        } else if (item.getItemId() == R.id.cmCopyResult) {
+            GUITools.copyIntoClipboard(this, result);
+            return true;
+        } else if (item.getItemId() == R.id.cmCopyWord) {
+            GUITools.copyIntoClipboard(this, w);
+            return true;
+        } else if (item.getItemId() == R.id.cmCopyExplanation) {
+            GUITools.copyIntoClipboard(this, e);
+            return true;
+        } else if (item.getItemId() == R.id.cmVocabularyEdit) {
+            editRecord(idRecord);
+            return true;
+        } else if (item.getItemId() == R.id.cmVocabularyDelete) {
+            deleteRecord(w, e);
+            return true;
+        } else if (item.getItemId() == R.id.cmVocabularyProperties) {
+            showVocabularyProperties(w, e, idSection, direction, curTime);
+            return true;
+        } else {
+            return super.onContextItemSelected(item);
         }
     } // end selected item in context menu.
-
     // End context menu implementation.
 
     // A method to change category name:

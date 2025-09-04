@@ -255,33 +255,28 @@ public class SearchHistoryActivity extends Activity implements OnItemSelectedLis
         // We take also the id of the word in database:
         int wordId = (int) tvResultForContext.getTag();
         @SuppressWarnings("unused") AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-        switch (item.getItemId()) {
-            case R.id.cmSearchResult:
-                goToDictionaryAndSearch(w, direction);
-                return true;
 
-            case R.id.cmSpeakResult:
-                speakWord(w);
-                return true;
-
-            case R.id.cmSpellResult:
-                speak.spellUsingLanguage(w);
-                return true;
-
-            case R.id.cmCopyResult:
-                GUITools.copyIntoClipboard(this, w);
-                return true;
-
-            case R.id.cmDeleteResult:
-                deleteWordHistory(wordId);
-                return true;
-
-            default:
-                return super.onContextItemSelected(item);
-        } // end switch.
+        if (item.getItemId() == R.id.cmSearchResult) {
+            goToDictionaryAndSearch(w, direction);
+            return true;
+        } else if (item.getItemId() == R.id.cmSpeakResult) {
+            speakWord(w);
+            return true;
+        } else if (item.getItemId() == R.id.cmSpellResult) {
+            speak.spellUsingLanguage(w);
+            return true;
+        } else if (item.getItemId() == R.id.cmCopyResult) {
+            GUITools.copyIntoClipboard(this, w);
+            return true;
+        } else if (item.getItemId() == R.id.cmDeleteResult) {
+            deleteWordHistory(wordId);
+            return true;
+        } else {
+            return super.onContextItemSelected(item);
+        }
     } // End context menu implementation.
+    // end things for context menu.
 
-    // end for context menu things.
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
