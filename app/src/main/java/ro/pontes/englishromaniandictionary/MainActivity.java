@@ -3,6 +3,9 @@ package ro.pontes.englishromaniandictionary;
 import static com.google.android.gms.common.util.CollectionUtils.listOf;
 
 import android.annotation.TargetApi;
+
+import androidx.annotation.NonNull;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
@@ -46,18 +49,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.billingclient.api.AcknowledgePurchaseParams;
-import com.android.billingclient.api.AcknowledgePurchaseResponseListener;
 import com.android.billingclient.api.BillingClient;
 import com.android.billingclient.api.BillingClientStateListener;
 import com.android.billingclient.api.BillingFlowParams;
 import com.android.billingclient.api.BillingResult;
 import com.android.billingclient.api.ProductDetails;
-import com.android.billingclient.api.ProductDetailsResponseListener;
 import com.android.billingclient.api.Purchase;
-import com.android.billingclient.api.PurchasesResponseListener;
 import com.android.billingclient.api.PurchasesUpdatedListener;
 import com.android.billingclient.api.QueryProductDetailsParams;
 import com.android.billingclient.api.QueryPurchasesParams;
+
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
@@ -159,7 +160,6 @@ public class MainActivity extends Activity {
     // For billing:
     private PurchasesUpdatedListener purchasesUpdatedListener;
     private BillingClient billingClient;
-    private AcknowledgePurchaseResponseListener acknowledgePurchaseResponseListener;
     List<ProductDetails> myProducts;
 
     // Creating object of AdView:
@@ -1674,64 +1674,64 @@ public class MainActivity extends Activity {
     } // end upgradeToPremiumActions() method.
 
     private void startBillingDependencies() {
-        purchasesUpdatedListener = new PurchasesUpdatedListener() {
-            @Override
-            public void onPurchasesUpdated(BillingResult billingResult, List<Purchase> purchases) {
-                // If item newly purchased
-                if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK && purchases != null) {
-                    for (Purchase purchase : purchases) {
-                        handlePurchase(purchase);
-                    } // end for.
-                }
-                // If item already purchased then check and reflect changes
-                else if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.ITEM_ALREADY_OWNED) {
-                    recreateThisActivityAfterRegistering();
-                }
-                //if purchase cancelled
-                else if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.USER_CANCELED) {
-                    GUITools.alert(mFinalContext, getString(R.string.warning), getString(R.string.purchase_canceled));
-                }
-                // Handle any other error msgs
-                else {
-                    GUITools.alert(mFinalContext, getString(R.string.warning), getString(R.string.billing_unknown_error));
-                }
-            } // end onPurchasesUpdated() method.
+        purchasesUpdatedListener = (billingResult, purchases) -> {
+            // If item newly purchased
+            if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK && purchases != null) {
+                for (Purchase purchase : purchases) {
+                    handlePurchase(purchase);
+                } // end for.
+            }
+            // If item already purchased then check and reflect changes
+            else if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.ITEM_ALREADY_OWNED) {
+                recreateThisActivityAfterRegistering();
+            }
+            //if purchase cancelled
+            else if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.USER_CANCELED) {
+                GUITools.alert(mFinalContext, getString(R.string.warning), getString(R.string.purchase_canceled));
+            }
+            // Handle any other error messages
+            else {
+                GUITools.alert(mFinalContext, getString(R.string.warning), getString(R.string.billing_unknown_error));
+            }
         };
 
-        billingClient = BillingClient.newBuilder(this).setListener(purchasesUpdatedListener).enablePendingPurchases().build();
+        billingClient = BillingClient.newBuilder(this)
+                .setListener(purchasesUpdatedListener)
+                .enablePendingPurchases(com.android.billingclient.api.PendingPurchasesParams.newBuilder().enableOneTimeProducts().build())
+                .build();
 
         billingClient.startConnection(new BillingClientStateListener() {
             @Override
-            public void onBillingSetupFinished(BillingResult billingResult) {
+            public void onBillingSetupFinished(@NonNull BillingResult billingResult) {
                 if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
                     // The BillingClient is ready. You can query purchases here,
                     QueryProductDetailsParams queryProductDetailsParams = QueryProductDetailsParams.newBuilder().setProductList(listOf(QueryProductDetailsParams.Product.newBuilder().setProductId(mProduct).setProductType(BillingClient.ProductType.INAPP).build())).build();
 
                     // Now check if it is already purchased:
-                    billingClient.queryPurchasesAsync(QueryPurchasesParams.newBuilder().setProductType(BillingClient.ProductType.INAPP).build(), new PurchasesResponseListener() {
-                        public void onQueryPurchasesResponse(BillingResult billingResult, List<Purchase> purchases) {
-                            // check billingResult and process returned purchase list, e.g. display the products user owns
-                            if (purchases != null && purchases.size() > 0) { // it means there are items:
-                                Purchase myOldPurchase = purchases.get(0);
-                                if (myOldPurchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED) {
-                                    recreateThisActivityAfterRegistering();
-                                }
-                            } // end process the purchases list.
-                        }
+                    billingClient.queryPurchasesAsync(QueryPurchasesParams.newBuilder().setProductType(BillingClient.ProductType.INAPP).build(), (billingResult12, purchases) -> {
+                        // check billingResult and process returned purchase list, e.g. display the products user owns
+                        if (purchases != null && purchases.size() > 0) { // it means there are items:
+                            Purchase myOldPurchase = purchases.get(0);
+                            if (myOldPurchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED) {
+                                recreateThisActivityAfterRegistering();
+                            }
+                        } // end process the purchases list.
                     });
                     // end check if it is already purchased.
 
                     // Now let's query for our product:
-                    billingClient.queryProductDetailsAsync(queryProductDetailsParams, new ProductDetailsResponseListener() {
-                        public void onProductDetailsResponse(BillingResult billingResult, List<ProductDetails> productDetailsList) {
-                            // check billingResult
-                            // process returned productDetailsList
-                            myProducts = productDetailsList;
+                    billingClient.queryProductDetailsAsync(queryProductDetailsParams, (billingResult1, queryProductDetailsResult) -> {
+                        // check billingResult
+                        // process returned productDetailsList from the result object
+                        if (billingResult1.getResponseCode() == BillingClient.BillingResponseCode.OK) {
+                            myProducts = queryProductDetailsResult.getProductDetailsList();
                             // Get the price of the 0 item if there is at least one product:
                             if (myProducts != null && myProducts.size() > 0) {
                                 ProductDetails productDetail = myProducts.get(0);
                                 ProductDetails.OneTimePurchaseOfferDetails offer = productDetail.getOneTimePurchaseOfferDetails();
-                                mUpgradePrice = offer.getFormattedPrice();
+                                if (offer != null) {
+                                    mUpgradePrice = offer.getFormattedPrice();
+                                }
                             }
                         }
                     });
@@ -1745,19 +1745,6 @@ public class MainActivity extends Activity {
                 // Google Play by calling the startConnection() method.
             }
         }); // end startConnection.
-
-        // Create also the acknowledge purchase listener:
-        acknowledgePurchaseResponseListener = new AcknowledgePurchaseResponseListener() {
-            @Override
-            public void onAcknowledgePurchaseResponse(BillingResult billingResult) {
-                if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-                    // if purchase is acknowledged
-                    // Grant entitlement to the user. and restart activity
-                    recreateThisActivityAfterRegistering(); // here is also saved everything in shared preferences.
-                }
-            }
-        };
-// End acknowledge listener creation..
     } // end startBillingDependencies() method.
 
     private void initiatePurchase() {
@@ -1768,7 +1755,7 @@ public class MainActivity extends Activity {
 // An activity reference from which the billing flow will be launched.
             Activity activity = this;
 
-            List productDetailsParamsList = listOf(BillingFlowParams.ProductDetailsParams.newBuilder()
+            List<BillingFlowParams.ProductDetailsParams> productDetailsParamsList = listOf(BillingFlowParams.ProductDetailsParams.newBuilder()
                     // retrieve a value for "productDetails" by calling queryProductDetailsAsync()
                     .setProductDetails(productDetails).build());
 
@@ -1786,7 +1773,15 @@ public class MainActivity extends Activity {
         if (purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED) {
             if (!purchase.isAcknowledged()) {
                 AcknowledgePurchaseParams acknowledgePurchaseParams = AcknowledgePurchaseParams.newBuilder().setPurchaseToken(purchase.getPurchaseToken()).build();
-                billingClient.acknowledgePurchase(acknowledgePurchaseParams, acknowledgePurchaseResponseListener);
+
+                // Updated for Billing Library 8.0.0 - using callback instead of deprecated listener
+                billingClient.acknowledgePurchase(acknowledgePurchaseParams, billingResult -> {
+                    if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
+                        // if purchase is acknowledged
+                        // Grant entitlement to the user. and restart activity
+                        recreateThisActivityAfterRegistering();
+                    }
+                });
             }
         }
     } // end handlePurchase() method.

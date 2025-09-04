@@ -62,9 +62,9 @@
 
     <!-- About dialog: -->
     <string name="about">About Dictionary</string>
-    <string name="app_version">English – Romanian Dictionary, version 7.1</string>
+    <string name="app_version">English – Romanian Dictionary, version 8.0</string>
     <string name="app_release_date">The 1.0 version was released on Wednesday, 9 September 2015</string>
-    <string name="app_last_update">Last update: Sunday, 1st of October 2023</string>
+    <string name="app_last_update">Last update: Thursday, 4th of September 2025</string>
     <string name="app_creator">Programmed by Emanuel Boboiu (Manu)</string>
     <string name="phone_number">Phone: +40740203043</string>
     <string name="email_address">E-mail: android.pontes.ro</string>
