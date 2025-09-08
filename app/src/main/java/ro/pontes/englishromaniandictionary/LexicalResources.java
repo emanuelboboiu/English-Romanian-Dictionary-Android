@@ -144,7 +144,7 @@ public class LexicalResources {
     // The method for format URLs for search in Datamuse:
     private void searchDatamuse(String word, int type) {
         // We make the URL depending of the type of resource we need:
-        String url = "http://api.datamuse.com/words?";
+        String url = "https://api.datamuse.com/words?";
         if (type == 1) { // IPA transcription:
             url += "sp=" + word + "&md=r&ipa=1&max=1";
         } else if (type == 2) { // synonyms:

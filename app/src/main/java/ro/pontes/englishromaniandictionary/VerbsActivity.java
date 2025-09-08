@@ -682,7 +682,7 @@ public class VerbsActivity extends Activity implements OnItemSelectedListener {
             GUITools.alert(this, getString(R.string.warning), getString(R.string.no_account_name_detected_because_permission));
         } // end if account name wasn't detected, permission issue.
         else {
-            String url = "http://www.android.pontes.ro/erd/get_name.php?google_id=" + MainActivity.myAccountName;
+            String url = "https://android.pontes.ro/erd/get_name.php?google_id=" + MainActivity.myAccountName;
             new GetWebData().execute(url);
         } // end if google account name exists.
     } // end beforeChangeNickname() method.

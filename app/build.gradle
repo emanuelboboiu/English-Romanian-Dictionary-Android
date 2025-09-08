@@ -10,8 +10,8 @@ android {
         applicationId "ro.pontes.englishromaniandictionary"
         minSdk 23
         targetSdk 36
-        versionCode 79
-        versionName "8.0"
+        versionCode 84
+        versionName "8.1"
     }
 
     buildTypes {
