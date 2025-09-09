@@ -1,12 +1,13 @@
 package ro.pontes.englishromaniandictionary;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
-public class PremiumVersionActivity extends Activity {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class PremiumVersionActivity extends AppCompatActivity {
 
     private final Context mFinalContext = this;
 

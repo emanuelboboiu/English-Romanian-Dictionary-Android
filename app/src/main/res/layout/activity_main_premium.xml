@@ -1,39 +1,48 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/layoutMain"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/llMain"
+    <include layout="@layout/action_bar" />
+
+    <RelativeLayout
+        android:id="@+id/layoutMain"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <include layout="@layout/ll_search_zone" />
-
-        <include layout="@layout/ll_results_zone" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/llBottomInfo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
-
-        <include layout="@layout/ll_bottom_status" />
-
-        <TextView
-            android:id="@+id/tvPremiumVersionStatus"
+        <LinearLayout
+            android:id="@+id/llMain"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical|center_horizontal"
-            android:text="@string/tv_premium_version_status"
-            android:textSize="@dimen/text_size_main"
-            android:textStyle="bold" />
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
-    </LinearLayout>
+            <include layout="@layout/ll_search_zone" />
 
-</RelativeLayout>
+            <include layout="@layout/ll_results_zone" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llBottomInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <include layout="@layout/ll_bottom_status" />
+
+            <TextView
+                android:id="@+id/tvPremiumVersionStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|center_horizontal"
+                android:text="@string/tv_premium_version_status"
+                android:textSize="@dimen/text_size_main"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+</LinearLayout>

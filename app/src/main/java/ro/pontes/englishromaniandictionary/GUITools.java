@@ -1,5 +1,9 @@
 package ro.pontes.englishromaniandictionary;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -43,6 +47,10 @@ import java.util.Random;
  */
 
 public class GUITools {
+
+    private GUITools() {
+        throw new IllegalStateException("Utility class");
+    }
 
     /*
      * We need a global alertToShow as alert to be able to dismiss it when
@@ -618,5 +626,27 @@ public class GUITools {
         String message = String.format(context.getString(R.string.last_db_update), tempLast);
         GUITools.alertHTML(context, context.getString(R.string.information), message, context.getString(R.string.msg_ok));
     } // end showLastDBUpdate|() method.
+
+
+    /**
+     * Sets up a toolbar for the given activity.
+     *
+     * @param activity  The AppCompatActivity instance.
+     * @param toolbarId The resource ID of the Toolbar element in the layout.
+     * @param titleId   The resource ID of the string for the toolbar title.
+     */
+    public static void setupToolbar(AppCompatActivity activity, int toolbarId, int titleId) {
+        // Find the toolbar using its ID from the activity's layout
+        Toolbar myToolbar = activity.findViewById(toolbarId);
+
+        // Set the toolbar as the activity's action bar
+        activity.setSupportActionBar(myToolbar);
+
+        // Get the ActionBar and set its title
+        ActionBar actionBar = activity.getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(activity.getString(titleId));
+        }
+    } // end setupToolbar() method.
 
 } // end GUITools class.

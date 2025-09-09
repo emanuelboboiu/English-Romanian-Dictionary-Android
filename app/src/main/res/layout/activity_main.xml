@@ -1,61 +1,67 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/layoutMain"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/llBottomInfo"
+    <include layout="@layout/action_bar" />
+
+    <RelativeLayout
+        android:id="@+id/layoutMain"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
-
-        <include layout="@layout/ll_bottom_status" />
-
-        <Button
-            android:id="@+id/bt_premium"
-            style="@style/style_main_buttons"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:gravity="center_horizontal"
-            android:onClick="upgradeToPremium"
-
-            android:text="@string/bt_premium" />
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/llBottomAd"
+            android:id="@+id/llBottomInfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/black"
+            android:layout_alignParentBottom="true"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
-            <!-- Banner AdView -->
-            <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/bannerAdView"
+            <include layout="@layout/ll_bottom_status" />
+
+            <Button
+                android:id="@+id/bt_premium"
+                style="@style/style_main_buttons"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center_horizontal"
+                android:onClick="upgradeToPremium"
+                android:text="@string/bt_premium" />
+
+            <LinearLayout
+                android:id="@+id/llBottomAd"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                ads:adSize="BANNER"
-                ads:adUnitId="@string/banner_ad_unit_id">
+                android:background="@color/black"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
 
-            </com.google.android.gms.ads.AdView>
+                <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/bannerAdView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    ads:adSize="BANNER"
+                    ads:adUnitId="@string/banner_ad_unit_id">
 
+                </com.google.android.gms.ads.AdView>
+
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/llMain"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/llBottomInfo"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
+        <LinearLayout
+            android:id="@+id/llMain"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/llBottomInfo"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
-        <include layout="@layout/ll_search_zone" />
+            <include layout="@layout/ll_search_zone" />
 
-        <include layout="@layout/ll_results_zone" />
-    </LinearLayout>
-
-</RelativeLayout>
+            <include layout="@layout/ll_results_zone" />
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

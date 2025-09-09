@@ -1,12 +1,13 @@
 package ro.pontes.englishromaniandictionary;
 
-import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RadioButton;
 
-public class DisplaySettingsActivity extends Activity {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class DisplaySettingsActivity extends AppCompatActivity {
 
     private Settings set;
 

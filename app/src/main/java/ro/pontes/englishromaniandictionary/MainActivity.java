@@ -1,5 +1,12 @@
 package ro.pontes.englishromaniandictionary;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast; // Example for handling clicks
+
 import static com.google.android.gms.common.util.CollectionUtils.listOf;
 
 import android.annotation.TargetApi;
@@ -18,7 +25,6 @@ import android.database.Cursor;
 import android.graphics.Typeface;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.speech.RecognizerIntent;
@@ -28,9 +34,7 @@ import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.ContextThemeWrapper;
 import android.view.Gravity;
-import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
@@ -46,7 +50,6 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.billingclient.api.AcknowledgePurchaseParams;
 import com.android.billingclient.api.BillingClient;
@@ -72,7 +75,7 @@ import java.util.Locale;
  * This is the main class of this application.
  * */
 
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
 
     // The following fields are used for the shake detection:
     private SensorManager mSensorManager;
@@ -184,10 +187,7 @@ public class MainActivity extends Activity {
             isTV = false;
         } // end determine if it's Android TV.
 
-        /*
-         * We charge different layouts depending of the premium status or
-         * android TV:
-         */
+        // We charge different layouts depending of the premium status or android TV:
         if (isTV) {
             if (isPremium) {
                 setContentView(R.layout.activity_main_premium_tv);
@@ -195,7 +195,7 @@ public class MainActivity extends Activity {
                 setContentView(R.layout.activity_main_tv);
             }
         } else {
-            // No if is not a TV:
+            // Now if is not a TV:
             if (isPremium) {
                 setContentView(R.layout.activity_main_premium);
             } else {
@@ -208,6 +208,12 @@ public class MainActivity extends Activity {
             } // end if isOrientationBlocked is true.
         }
         // end charging the correct layout.
+
+
+        // Call the static method from GUITools to set up the toolbar:
+        if (!isTV) {
+            GUITools.setupToolbar(this, R.id.my_toolbar, R.string.app_name);
+        }
 
         // Calculate the pixels in DP for mPaddingDP, for TextViews of the
         // results:

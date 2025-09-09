@@ -1,6 +1,5 @@
 package ro.pontes.englishromaniandictionary;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -26,6 +25,8 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
@@ -39,7 +40,7 @@ import java.util.Calendar;
 import java.util.Collections;
 
 
-public class VerbsActivity extends Activity implements OnItemSelectedListener {
+public class VerbsActivity extends AppCompatActivity implements OnItemSelectedListener {
 
     private boolean isDerivedForms = true;
     private boolean isArchaicForms = true;
@@ -85,20 +86,25 @@ public class VerbsActivity extends Activity implements OnItemSelectedListener {
             }
             // Set the orientation to be portrait if needed:
             if (MainActivity.isOrientationBlocked) {
-                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
             } // end if isOrientationBlocked is true.
         } // end if else, is not a TV.
         // end charging the correct layout.
+
+        // Call the static method from GUITools to set up the toolbar:
+        if (!MainActivity.isTV) {
+            GUITools.setupToolbar(this, R.id.my_toolbar, R.string.title_activity_verbs);
+        }
 
         // Check or check the check boxes, depending of current boolean values:
         Settings set = new Settings(this);
         isDerivedForms = set.getBooleanSettings("isDerivedForms");
         isArchaicForms = set.getBooleanSettings("isArchaicForms");
         // For derived forms:
-        CheckBox cbtDerivedForms = (CheckBox) findViewById(R.id.cbtDerivedForms);
+        CheckBox cbtDerivedForms = findViewById(R.id.cbtDerivedForms);
         cbtDerivedForms.setChecked(isDerivedForms);
         // For archaic forms:
-        CheckBox cbtArchaicForms = (CheckBox) findViewById(R.id.cbtArchaicForms);
+        CheckBox cbtArchaicForms = findViewById(R.id.cbtArchaicForms);
         cbtArchaicForms.setChecked(isArchaicForms);
         // end check boxes.
         if (isDerivedForms) {
@@ -167,7 +173,7 @@ public class VerbsActivity extends Activity implements OnItemSelectedListener {
         }
         cursor.close();
 
-        TextView tv = (TextView) findViewById(R.id.tvNumberOfVerbs);
+        TextView tv = findViewById(R.id.tvNumberOfVerbs);
         String message = String.format(getString(R.string.tv_welcome_verbs_message), "" + "" + numberOfTotalVerbs, "" + numberOfNonDerivedVerbs, "" + numberOfDerivedVerbs);
         tv.setText(MyHtml.fromHtml(message));
         tv.setFocusable(true);
@@ -202,7 +208,7 @@ public class VerbsActivity extends Activity implements OnItemSelectedListener {
         // end do ... while.
         cursor.close();
 
-        Spinner dropdown = (Spinner) findViewById(R.id.spinnerChoose);
+        Spinner dropdown = findViewById(R.id.spinnerChoose);
         String[] items = sb.toString().split("\\|");
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, items);
         dropdown.setAdapter(adapter);

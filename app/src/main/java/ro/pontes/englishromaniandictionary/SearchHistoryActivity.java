@@ -1,6 +1,5 @@
 package ro.pontes.englishromaniandictionary;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -25,7 +24,9 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-public class SearchHistoryActivity extends Activity implements OnItemSelectedListener {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class SearchHistoryActivity extends AppCompatActivity implements OnItemSelectedListener {
 
     private SearchHistory searchHistory;
     private final Context mFinalContext = this;
@@ -61,12 +62,17 @@ public class SearchHistoryActivity extends Activity implements OnItemSelectedLis
             setContentView(R.layout.activity_search_history_tv);
         } // end if is Android TV.
 
+        // Call the static method from GUITools to set up the toolbar:
+        if (!MainActivity.isTV) {
+            GUITools.setupToolbar(this, R.id.my_toolbar, R.string.title_activity_search_history);
+        }
+
         speak = new SpeakText(this);
         speak2 = new SpeakText2(this);
         st = new StringTools(this);
         searchHistory = new SearchHistory(this);
 
-        Spinner dropdown = (Spinner) findViewById(R.id.spinnerChooseSort);
+        Spinner dropdown = findViewById(R.id.spinnerChooseSort);
         dropdown.setOnItemSelectedListener(this);
 
         setBottomStatus();
@@ -74,7 +80,7 @@ public class SearchHistoryActivity extends Activity implements OnItemSelectedLis
     }
 
     private void setBottomStatus() {
-        TextView tv = (TextView) findViewById(R.id.tvStatus);
+        TextView tv = findViewById(R.id.tvStatus);
         int nrOfSearches = searchHistory.getNumberOfRecords();
         if (MainActivity.isHistory) {
             Resources res = getResources();
@@ -88,7 +94,7 @@ public class SearchHistoryActivity extends Activity implements OnItemSelectedLis
 
         // If no searches were done, disable the delete history button:
         if (nrOfSearches == 0) {
-            ImageButton ib = (ImageButton) findViewById(R.id.btDeleteHistory);
+            ImageButton ib = findViewById(R.id.btDeleteHistory);
             ib.setEnabled(false);
         } // end if no searches were done, disable the delete history button.
     } // end setBottomStatus() method.
@@ -96,14 +102,14 @@ public class SearchHistoryActivity extends Activity implements OnItemSelectedLis
     // A method to fill the scroll view with searched words:
     public void showResults(int category) {
         // First set the combo above to the curCategory item:
-        Spinner dropdown = (Spinner) findViewById(R.id.spinnerChooseSort);
+        Spinner dropdown = findViewById(R.id.spinnerChooseSort);
         dropdown.setSelection(curCategory);
 
         int mPaddingDP = MainActivity.mPaddingDP;
         int textSize = MainActivity.textSize;
 
         // Clear the previous content of the llResult layout:
-        LinearLayout llResults = (LinearLayout) findViewById(R.id.llResults);
+        LinearLayout llResults = findViewById(R.id.llResults);
         llResults.removeAllViews();
 
         Cursor cursor = searchHistory.getSearchesCursor(type, direction, orderBy);

@@ -1,6 +1,5 @@
 package ro.pontes.englishromaniandictionary;
 
-import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
@@ -8,7 +7,9 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class BackgroundActivity extends Activity {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class BackgroundActivity extends AppCompatActivity {
 
     private int curBackgroundNumber = 0;
     private final int BACKGROUNDS_AVAILABLE = 5;
@@ -32,9 +33,9 @@ public class BackgroundActivity extends Activity {
         GUITools.setLayoutInitial(this, 2);
 
         // Charge the main LinearLayout:
-        llLayoutMain = (LinearLayout) findViewById(R.id.layoutMain);
+        llLayoutMain = findViewById(R.id.layoutMain);
 
-        btSaveBackground = (Button) findViewById(R.id.btBackgroundSave);
+        btSaveBackground = findViewById(R.id.btBackgroundSave);
 
         // Determine current background number:
         Settings set = new Settings(this);
@@ -45,7 +46,7 @@ public class BackgroundActivity extends Activity {
 
     // A method to set current background text:
     private void setCurBackgroundTV(int nr) {
-        TextView tv = (TextView) findViewById(R.id.tvCurrentBackground);
+        TextView tv = findViewById(R.id.tvCurrentBackground);
         if (nr > 0) {
             tv.setText(String.format(getString(R.string.tv_current_background), "" + nr));
         } else {

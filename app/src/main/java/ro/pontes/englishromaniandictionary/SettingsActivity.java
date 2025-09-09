@@ -1,6 +1,5 @@
 package ro.pontes.englishromaniandictionary;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
@@ -9,7 +8,9 @@ import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.CheckBox;
 
-public class SettingsActivity extends Activity {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class SettingsActivity extends AppCompatActivity {
 
     final Context mFinalContext = this;
 
@@ -28,15 +29,15 @@ public class SettingsActivity extends Activity {
         // Check or check the check boxes, depending of current boolean values:
 
         // For sounds in program:
-        CheckBox cbtSoundsSetting = (CheckBox) findViewById(R.id.cbtSoundsSetting);
+        CheckBox cbtSoundsSetting = findViewById(R.id.cbtSoundsSetting);
         cbtSoundsSetting.setChecked(MainActivity.isSound);
 
         // For search full text in program:
-        CheckBox cbtSearchFullTextSetting = (CheckBox) findViewById(R.id.cbtSearchFullTextSetting);
+        CheckBox cbtSearchFullTextSetting = findViewById(R.id.cbtSearchFullTextSetting);
         cbtSearchFullTextSetting.setChecked(MainActivity.isSearchFullText);
 
         // For portrait orientation:
-        CheckBox cbtPortraitOrientationSetting = (CheckBox) findViewById(R.id.cbtPortraitOrientationSetting);
+        CheckBox cbtPortraitOrientationSetting = findViewById(R.id.cbtPortraitOrientationSetting);
         if (MainActivity.isTV) {
             // For Android TV we need it to be unavailable and unchecked:
             cbtPortraitOrientationSetting.setChecked(false);
@@ -46,7 +47,7 @@ public class SettingsActivity extends Activity {
         }
 
         // For shake:
-        CheckBox cbtOnshakeSetting = (CheckBox) findViewById(R.id.cbtOnshakeSetting);
+        CheckBox cbtOnshakeSetting = findViewById(R.id.cbtOnshakeSetting);
         if (MainActivity.isTV) {
             // For Android TV we need it to be unavailable and unchecked:
             cbtOnshakeSetting.setChecked(false);
@@ -56,7 +57,7 @@ public class SettingsActivity extends Activity {
         }
 
         // For keeping screen awake:
-        CheckBox cbtScreenAwakeSetting = (CheckBox) findViewById(R.id.cbtScreenAwakeSetting);
+        CheckBox cbtScreenAwakeSetting = findViewById(R.id.cbtScreenAwakeSetting);
         if (MainActivity.isTV) {
             // For Android TV we need it to be unavailable and unchecked:
             cbtScreenAwakeSetting.setChecked(false);
@@ -66,11 +67,11 @@ public class SettingsActivity extends Activity {
         }
 
         // For IME DONE button of the keyboard:
-        CheckBox cbtImeSetting = (CheckBox) findViewById(R.id.cbtImeSetting);
+        CheckBox cbtImeSetting = findViewById(R.id.cbtImeSetting);
         cbtImeSetting.setChecked(MainActivity.isImeAction);
 
         // For search history, activated or not:
-        CheckBox cbtHistorySetting = (CheckBox) findViewById(R.id.cbtHistorySetting);
+        CheckBox cbtHistorySetting = findViewById(R.id.cbtHistorySetting);
         cbtHistorySetting.setChecked(MainActivity.isHistory);
     } // end onCreate() method.
 

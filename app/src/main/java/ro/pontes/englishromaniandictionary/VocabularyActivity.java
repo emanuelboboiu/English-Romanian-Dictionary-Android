@@ -1,6 +1,5 @@
 package ro.pontes.englishromaniandictionary;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -32,6 +31,8 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
@@ -45,7 +46,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 
-public class VocabularyActivity extends Activity implements OnItemSelectedListener {
+public class VocabularyActivity extends AppCompatActivity implements OnItemSelectedListener {
 
     private DBAdapter2 mDbHelper;
     private SpeakText speak;
@@ -101,6 +102,11 @@ public class VocabularyActivity extends Activity implements OnItemSelectedListen
             } // end if isOrientationBlocked is true.
         } // end if else, not an Android TV.
         // end charging the correct layout.
+
+        // Call the static method from GUITools to set up the toolbar:
+        if (!MainActivity.isTV) {
+            GUITools.setupToolbar(this, R.id.my_toolbar, R.string.title_activity_vocabulary);
+        }
 
         st = new StringTools(this);
 

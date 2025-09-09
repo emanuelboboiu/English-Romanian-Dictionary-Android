@@ -1,77 +1,86 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/layoutMain"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin">
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/llBottomInfo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@color/search_icons_background"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+    <include layout="@layout/action_bar" />
 
-        <TextView
-            android:id="@+id/tvStatus"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.8"
-            android:focusable="true"
-            android:gravity="center_vertical"
-            android:text="@string/ellipsis"
-            android:textColor="@color/whiteText"
-            android:textSize="@dimen/text_size_main"
-            android:textStyle="bold" />
-
-        <ImageButton
-            android:id="@+id/btDeleteHistory"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.2"
-            android:contentDescription="@string/bt_delete_history"
-            android:onClick="deleteSearchHistory"
-            android:src="@android:drawable/ic_input_delete" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/llMain"
+    <RelativeLayout
+        android:id="@+id/layoutMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/llBottomInfo"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin">
 
-        <Spinner
-            android:id="@+id/spinnerChooseSort"
+        <LinearLayout
+            android:id="@+id/llBottomInfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:drawable/btn_dropdown"
-            android:drawSelectorOnTop="true"
-            android:entries="@array/array_history_options"
-            android:gravity="center_horizontal"
-            android:nextFocusDown="@+id/llResults"
-            android:spinnerMode="dropdown"
-            android:textSize="@dimen/text_size_history" />
+            android:layout_alignParentBottom="true"
+            android:background="@color/search_icons_background"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-        <ScrollView
-            android:id="@+id/svResults"
+            <TextView
+                android:id="@+id/tvStatus"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.8"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:text="@string/ellipsis"
+                android:textColor="@color/whiteText"
+                android:textSize="@dimen/text_size_main"
+                android:textStyle="bold" />
+
+            <ImageButton
+                android:id="@+id/btDeleteHistory"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"
+                android:contentDescription="@string/bt_delete_history"
+                android:onClick="deleteSearchHistory"
+                android:src="@android:drawable/ic_input_delete" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llMain"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:isScrollContainer="false"
-            android:orientation="vertical"
-            android:paddingTop="@dimen/results_top_margin">
+            android:layout_above="@id/llBottomInfo"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
-            <LinearLayout
-                android:id="@+id/llResults"
+            <Spinner
+                android:id="@+id/spinnerChooseSort"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" />
-        </ScrollView>
-    </LinearLayout>
+                android:background="@android:drawable/btn_dropdown"
+                android:drawSelectorOnTop="true"
+                android:entries="@array/array_history_options"
+                android:gravity="center_horizontal"
+                android:nextFocusDown="@+id/llResults"
+                android:spinnerMode="dropdown"
+                android:textSize="@dimen/text_size_history" />
 
-</RelativeLayout>
+            <ScrollView
+                android:id="@+id/svResults"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:isScrollContainer="false"
+                android:orientation="vertical"
+                android:paddingTop="@dimen/results_top_margin">
+
+                <LinearLayout
+                    android:id="@+id/llResults"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+            </ScrollView>
+        </LinearLayout>
+
+    </RelativeLayout>
+</LinearLayout>

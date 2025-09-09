@@ -1,6 +1,5 @@
 package ro.pontes.englishromaniandictionary;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
@@ -16,12 +15,14 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
-public class TTSSettingsActivity extends Activity {
+public class TTSSettingsActivity extends AppCompatActivity {
 
     private final Context mFinalContext = this;
 
@@ -70,7 +71,7 @@ public class TTSSettingsActivity extends Activity {
         List<TextToSpeech.EngineInfo> mEngines = tts.getEngines();
 
         // First of all we take the llEngines LinearLayout:
-        LinearLayout llEngines = (LinearLayout) findViewById(R.id.llEngines);
+        LinearLayout llEngines = findViewById(R.id.llEngines);
         llEngines.removeAllViews();
 
         /*
@@ -124,7 +125,7 @@ public class TTSSettingsActivity extends Activity {
         SoundPlayer.playSimple(this, "element_clicked");
         chosenEngine = engineName; // to have it for saving.
         // First of all we take the llVoices LinearLayout:
-        LinearLayout llVoices = (LinearLayout) findViewById(R.id.llVoices);
+        LinearLayout llVoices = findViewById(R.id.llVoices);
         llVoices.removeAllViews();
 
         /*
@@ -193,7 +194,7 @@ public class TTSSettingsActivity extends Activity {
     private void showVoice(final Locale tempLocale, String engineLabel) {
         SoundPlayer.playSimple(this, "element_clicked");
         // First of all we take the llVoices LinearLayout:
-        LinearLayout llVoices = (LinearLayout) findViewById(R.id.llVoices);
+        LinearLayout llVoices = findViewById(R.id.llVoices);
         llVoices.removeAllViews();
 
         // A LayoutParams to add some controls into llVoices:
