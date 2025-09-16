@@ -9,9 +9,9 @@
 
     <TextView
         android:id="@+id/tvStatus"
+        style="@style/bottomTVWhiteOnBlack"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/search_icons_background"
         android:clickable="true"
         android:focusable="true"
         android:gravity="center_vertical|center_horizontal"
@@ -20,7 +20,6 @@
         android:nextFocusForward="@id/tvStatus"
         android:onClick="goShowLastDBUpdate"
         android:text="@string/ellipsis"
-        android:textColor="@color/whiteText"
         android:textSize="@dimen/text_size_main" />
 
 </LinearLayout>

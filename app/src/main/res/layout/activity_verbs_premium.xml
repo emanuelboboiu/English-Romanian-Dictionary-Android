@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <include layout="@layout/action_bar" />
@@ -127,12 +128,12 @@
 
             <TextView
                 android:id="@+id/tvPremiumVersionStatus"
+                style="@style/bottomTVWhiteOnBlack"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical|center_horizontal"
                 android:text="@string/tv_premium_version_status"
-                android:textSize="@dimen/text_size_main"
-                android:textStyle="bold" />
+                android:textSize="@dimen/text_size_main" />
 
         </LinearLayout>
     </RelativeLayout>
