@@ -23,7 +23,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     private static String DB_PATH = "";
     private static final String DB_NAME = "dictenro.db"; // Database name
     private static final String SP_KEY_DB_VER = "dbVer";
-    private static final int DATABASE_VERSION = 16;
+    private static final int DATABASE_VERSION = 20;
     private static final int lastUpdateTimestamp = 1756998000; // 4 September 2025.
 
     private SQLiteDatabase mDataBase;
