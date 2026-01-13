@@ -180,7 +180,7 @@ public class GUITools {
 
     // A method to open the browser with an URL:
     private static final String HTTPS = "https://";
-    private static final String HTTP = "http://";
+    private static final String HTTP = "https://";
 
     public static void openBrowser(final Context context, String url) {
 
@@ -194,7 +194,7 @@ public class GUITools {
 
     // A method to open the help online:
     public static void openHelp(final Context context) {
-        openBrowser(context, "http://www.dictionar.limbalatina.ro/");
+        openBrowser(context, "https://dictionar.limbalatina.ro/");
     } // end open help online method.
 
     // For formatting a date:
@@ -264,7 +264,7 @@ public class GUITools {
     // A method to go to web page of the application:
     public static void goToAppWebPage(final Context context) {
 
-        String url = "http://www.android.pontes.ro/erd/index.php?lang=";
+        String url = "https://android.pontes.ro/erd/index.php?lang=";
 
         // Determine if is RO at the start of the current language:
         // Get the system current locale: // Get the locale:
@@ -287,7 +287,7 @@ public class GUITools {
     // A method to open statistics site:
     public static void viewOnlineStatistics(final Context context) {
 
-        String url = "http://www.android.pontes.ro/erd/stats";
+        String url = "https://android.pontes.ro/erd/stats";
 
         // Determine if is RO at the start of the current language:
         // Get the system current locale: // Get the locale:

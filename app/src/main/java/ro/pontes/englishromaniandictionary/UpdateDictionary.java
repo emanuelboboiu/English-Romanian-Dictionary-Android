@@ -60,7 +60,7 @@ public class UpdateDictionary {
             // Get the last update timestamp from SharedPreferences:
             Settings set = new Settings(context);
             int lastUpdate = set.getIntSettings("lastUpdate");
-            String url = "http://www.limbalatina.ro/dictenro/new_words.php?data=" + lastUpdate;
+            String url = "https://limbalatina.ro/dictenro/new_words.php?data=" + lastUpdate;
             new GetUpdate().execute(url);
         } // end if there is an available Internet connection.
         else {
@@ -378,7 +378,7 @@ public class UpdateDictionary {
         String newExplanation = (MyHtml.fromHtml(explanation).toString()).trim();
         if (newWord.length() >= 2 && newExplanation.length() >= 2) {
             // Add here into online database:
-            String url = "http://www.limbalatina.ro/dictenro/new_words_proposals.php?direction=" + direction + "&google_id=" + MainActivity.myAccountName + "&termen=" + newWord + "&explicatie=" + newExplanation;
+            String url = "https://limbalatina.ro/dictenro/new_words_proposals.php?direction=" + direction + "&google_id=" + MainActivity.myAccountName + "&termen=" + newWord + "&explicatie=" + newExplanation;
             new SendUpdate().execute(url);
             toReturn = true;
         } // end if the length are OK.

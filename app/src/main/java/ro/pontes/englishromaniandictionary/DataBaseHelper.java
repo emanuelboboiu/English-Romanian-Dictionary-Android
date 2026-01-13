@@ -23,8 +23,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     private static String DB_PATH = "";
     private static final String DB_NAME = "dictenro.db"; // Database name
     private static final String SP_KEY_DB_VER = "dbVer";
-    private static final int DATABASE_VERSION = 20;
-    private static final int lastUpdateTimestamp = 1756998000; // 4 September 2025.
+    private static final int DATABASE_VERSION = 21;
+    private static final int lastUpdateTimestamp = 1759428000; // 2 October 2025.
 
     private SQLiteDatabase mDataBase;
     private final Context mContext;
@@ -47,9 +47,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             int dbVersion = set.getIntSettings(SP_KEY_DB_VER);
             if (DATABASE_VERSION != dbVersion) {
                 File dbFile = mContext.getDatabasePath(DB_NAME);
-                if (!dbFile.delete()) {
-                    // Log.w(TAG, "Unable to update database");
-                } // end if file was not deleted.
+                dbFile.delete();// Log.w(TAG, "Unable to update database");
+// end if file was not deleted.
             } // end if the versions are different.
         } // end if DataBase exits.
         if (!checkDataBase()) {

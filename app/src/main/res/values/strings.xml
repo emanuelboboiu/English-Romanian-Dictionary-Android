@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Generalities: -->
-    <string name="app_name">English – Romanian – English Dictionary</string>
+    <string name="app_name">English–Romanian Dictionary</string>
     <string name="hello_world">Welcome world!</string>
     <string name="action_settings">General settings</string>
     <string name="bt_switch">Switch languages</string>
@@ -62,9 +62,9 @@
 
     <!-- About dialog: -->
     <string name="about">About Dictionary</string>
-    <string name="app_version">English – Romanian Dictionary, version 8.1.1</string>
+    <string name="app_version">English–Romanian Dictionary, version 8.3.1</string>
     <string name="app_release_date">The 1.0 version was released on Wednesday, 9 September 2015</string>
-    <string name="app_last_update">Last update: Saturday, 27th of September 2025</string>
+    <string name="app_last_update">Last update: Thursday, 1st of October 2025</string>
     <string name="app_creator">Programmed by Emanuel Boboiu (Manu)</string>
     <string name="phone_number">Phone: +40740203043</string>
     <string name="email_address">E-mail: android.pontes.ro</string>
@@ -93,9 +93,9 @@
     <string name="in_spinner_all_initials">all - %1$s</string>
     <string name="verb_in_list">%1$s. &lt;b>%2$s&lt;/b>, %3$s, %4$s – &lt;i>%5$s&lt;/i></string>
     <string name="choose_forms_to_fill_in">Choose the forms to fill in:</string>
-    <string name="bt_start_quiz">Start!</string>
+    <string name="bt_start_quiz">Start</string>
     <string name="bt_next_item">Next…</string>
-    <string name="bt_finish_quiz">Finish!</string>
+    <string name="bt_finish_quiz">Finish</string>
     <string name="text_unfilled">.......</string>
     <string name="content_description_unfilled">The %1$s form is missing. Click here to fill in it.</string>
 
@@ -152,7 +152,7 @@
     <string name="correctness_of_a_result">Correct: %1$s. </string>
     <string name="dictionary">Dictionary</string>
     <string name="verbs">Verbs</string>
-    <string name="please_wait">Connecting to server…\nPlease wait!</string>
+    <string name="please_wait">Connecting to server…\nPlease wait…</string>
     <string name="message_for_more_results">To avoid an excessive resources request of the device, only %1$s results were displayed.\nYou can try a more specific search or you can enable full text words searching in General Settings to narrow the results.</string>
 
     <!-- Some new string in 2.0 version: -->
@@ -165,19 +165,19 @@
     <string name="premium_version_alert_title">Premium Version</string>
     <string name="non_premium_version_alert_message">If you don\'t want the ads to appear anymore, you can make a payment of only %1$s.\nYou will have the Premium Version of the dictionary, the app will not connect to the internet to query the ads, data packets won\'t be consumed anymore for that.</string>
     <string name="premium_version_alert_message">You already have the Premium Version, thanks for your interest in this dictionary.</string>
-    <string name="bt_buy_premium">Get the Premium now!</string>
+    <string name="bt_buy_premium">Get the Premium now</string>
     <string name="title_activity_premium_version">Premium Version</string>
-    <string name="activity_premium_message">Congratulations!\nYou have purchased successfully the Premium Version of the English Romanian Dictionary.\nThe ads won\'t appear anymore.\nThanks for your interest in this dictionary.</string>
+    <string name="activity_premium_message">Congratulations!\nYou have purchased successfully the Premium Version of the English–Romanian Dictionary.\nThe ads won\'t appear anymore.\nThanks for your interest in this dictionary.</string>
 
     <!-- Context menu of the results: -->
     <string name="cm_result_title">Options (%1$s)</string>
     <string name="cm_add_to_vocabulary">Add to My Vocabulary</string>
-    <string name="cm_speak_result">Pronounce the term</string>
-    <string name="cm_speak_explanation">Pronounce the explanation</string>
-    <string name="cm_spell_result">Spell the term aloud</string>
-    <string name="cm_copy_result">Copy whole result into clipboard</string>
-    <string name="cm_copy_word">Copy only the word into clipboard</string>
-    <string name="cm_copy_explanation">Copy only the explanation into clipboard</string>
+    <string name="cm_speak_result">Pronounce term</string>
+    <string name="cm_speak_explanation">Pronounce explanation</string>
+    <string name="cm_spell_result">Spell term aloud</string>
+    <string name="cm_copy_result">Copy entire result to clipboard</string>
+    <string name="cm_copy_word">Copy word to clipboard</string>
+    <string name="cm_copy_explanation">Copy explanation to clipboard</string>
 
     <!-- Strings for my vocabulary -->
     <string name="add_to_vocabulary_alert_title">Add to my vocabularies</string>
@@ -197,7 +197,7 @@
         <item quantity="other">%1$s words</item>
     </plurals>
 
-    <string name="bt_add_now">Add!</string>
+    <string name="bt_add_now">Add</string>
     <string name="bt_cancel">Cancel</string>
     <string name="no_category_chosen">You didn\'t choose a vocabulary section for selected result.\nPlease try again!.</string>
     <string name="this_record_already_exists_in_vocabulary">This word and explanation already exists in the vocabulary.\nYou cannot add the same word twice.</string>
@@ -217,8 +217,8 @@
     <string name="properties_direction">Dictionary: &lt;b>%1$s&lt;/b></string>
     <string name="properties_category">Section: &lt;b>%1$s&lt;/b></string>
     <string name="properties_date">Added: &lt;i>%1$s&lt;/i></string>
-    <string name="properties_english_romanian">English – Romanian</string>
-    <string name="properties_romanian_english">Romanian – English</string>
+    <string name="properties_english_romanian">English–Romanian</string>
+    <string name="properties_romanian_english">Romanian–English</string>
     <string name="cm_delete">Delete</string>
     <string name="title_delete_record_in_vocabulary">Delete record</string>
     <string name="body_delete_record_in_vocabulary">Are you sure you want to delete &lt;b>%1$s&lt;/b> from your vocabulary?</string>
@@ -243,7 +243,7 @@
     <string name="body_default_vocabulary">Do you also want to delete all the records in your vocabulary?\nThis will take effect at the next launch of the dictionary.</string>
     <string name="cm_edit">Edit</string>
     <string name="title_edit_record_in_vocabulary">Edit record</string>
-    <string name="save">Save!</string>
+    <string name="save">Save</string>
     <string name="no_texts_for_edit">Both edit fields must contain text.\nPlease try again!</string>
     <string name="mnu_add_in_section">Add in section…</string>
     <string name="title_add_in_section">Add new word</string>
@@ -256,7 +256,7 @@
     <string name="title_export_category">Export section</string>
     <string name="body_export_category">The &lt;b>%1$s&lt;/b> section will be exported into &lt;b>%2$s&lt;/b> file.\nThis file will be created in the folder named &lt;b>%3$s&lt;/b>, found on the external storage.</string>
     <string name="category_exported_successfully">The section &lt;b>%1$s&lt;/b> was exported successfully.\nNumber of records: &lt;b>%2$s&lt;/b>.</string>
-    <string name="bt_continue">Continue!</string>
+    <string name="bt_continue">Continue</string>
     <string name="export_error">The export process didn\'t succeed.\nBe sure the necessary permission was granted to this application.</string>
     <string name="title_import">Import section</string>
     <string name="file_not_found">The file could not be found or opened.\nBe sure the necessar permission was granted to this application.</string>
@@ -271,8 +271,8 @@
     <string name="mnu_rate">Rate application…</string>
     <string name="title_rate_app">Rate application</string>
     <string name="body_rate_app">If you find this dictionary useful, please rate it in Google Play.</string>
-    <string name="bt_rate">Rate now!</string>
-    <string name="bt_not_now">Not now!</string>
+    <string name="bt_rate">Rate now</string>
+    <string name="bt_not_now">Not now</string>
 
     <!-- String for permissions and others: -->
     <string name="information">Information</string>
@@ -299,8 +299,8 @@
     <string name="tv_no_english_available">No English voice was detected for this Text to Speech engine.\nPlease try another engine from the list above.</string>
     <string name="one_english_voice_in_list">%1$s &lt;b>%2$s&lt;/b> &lt;i>%3$s&lt;/i></string>
     <string name="a_voice_chosen_to_check" tools:ignore="MissingTranslation">&lt;b>%1$s (%2$s)&lt;/b></string>
-    <string name="bt_tts_sample">Sample!</string>
-    <string name="bt_tts_save">Save!</string>
+    <string name="bt_tts_sample">Sample</string>
+    <string name="bt_tts_save">Save</string>
     <string name="tv_set_tts_rate">Voice rate:</string>
     <string name="tv_set_tts_pitch">Voice pitch:</string>
     <string name="the_sample">The text</string>
@@ -318,7 +318,7 @@
     <string name="tv_without_background">NO BACKGROUND</string>
     <string name="bt_previous_background">&lt;- Previous</string>
     <string name="bt_next_background">Next -&gt;</string>
-    <string name="bt_save_background">Save this background!</string>
+    <string name="bt_save_background">Save this background</string>
 
     <!-- New in 3.0: -->
     <string name="bt_voice">Voice search</string>
@@ -406,9 +406,9 @@
 
     <!-- New in version 5.0 - Datamuse and others: -->
     <string name="no_connection_for_external_resource">No Internet connection is available…\nTo obtain the information you requested, an Internet connection is required.\nPlease try again…</string>
-    <string name="please_wait_external_resources">Obtaining data…\nPlease wait!</string>
+    <string name="please_wait_external_resources">Obtaining data…\nPlease wait…</string>
     <string name="information_not_available">Sorry!\nNo information found.</string>
-    <string name="information_available_only_in_en_ro">This information is available only in English – Romanian version of this dictionary.\nYou can switch the search direction clicking the flags button found at the left of the edit field.</string>
+    <string name="information_available_only_in_en_ro">This information is available only in English–Romanian version of this dictionary.\nYou can switch the search direction clicking the flags button found at the left of the edit field.</string>
     <string name="information_available_only_in_premium">This information is available only in the &lt;b>premium version&lt;/b> of the dictionary.&lt;br>You can buy the &lt;b>premium version&lt;/b> paying only &lt;b>%1$s&lt;/b>.&lt;br>If you want to buy it, go in Main menu of the application and choose &lt;i>Premium Version&lt;/i>.&lt;br>&lt;b>Premium version&lt;/b> removes the Google Ads from the bottom part of the windows and gives access to information like frequent followers or frequent predecessors of a searched word.</string>
     <string name="mnu_datamuse_submenu">Lexical resources…</string>
     <string name="mnu_pronunciation_submenu">Pronunciation options…</string>
@@ -428,8 +428,8 @@
     <string name="cm_rhymes_result">Rhymes list</string>
     <string name="rhymes_list_title">Rhymes</string>
     <string name="rhymes_list_message">Rhymes for &lt;i>%1$s&lt;/i>:&lt;br>&lt;b>%2$s&lt;/b>.</string>
-    <string name="cm_definition_result">English definition</string>
-    <string name="definition_title">English Definition</string>
+    <string name="cm_definition_result">English definitions</string>
+    <string name="definition_title">English Definitions</string>
     <string name="definition_message">&lt;b>%1$s&lt;/b>:&lt;br>&lt;i>%2$s&lt;/i>.</string>
     <string name="cm_word_frequency">Word frequency</string>
     <string name="word_frequency_title">Word Frequency</string>
@@ -459,18 +459,18 @@
     <string name="title_rename_section">Rename Section</string>
     <string name="message_rename_section">Fill in the edit field below to rename the current &lt;b>%1$s&lt;/b> section:</string>
     <string name="hint_write_new_section_name">Write here a new name…</string>
-    <string name="rename">Rename!</string>
+    <string name="rename">Rename</string>
     <string name="no_texts_for_new_section_name">You must write at least two letters for a new section name!\nPlease try again!</string>
     <string name="this_vocabulary_section_already_exists_rename">You filled in a vocabulary section name that already exists.\nPlease try again writing a different name.</string>
 
     <!-- String for update dictionary -->
-    <string name="please_wait_updating">Searching for new words…\nPlease wait!</string>
+    <string name="please_wait_updating">Searching for new words…\nPlease wait…</string>
     <string name="mnu_update_new_words">Update database…</string>
     <string name="no_connection_for_update_new_words">No Internet connection is available…\nTo search for new words to update the database, an Internet connection is required.\nPlease try again…</string>
     <string name="congratulations">Congratulations!</string>
     <string name="information_not_available_for_update">No updates found, your database is up to date.&lt;br>&lt;br>The last successful update:&lt;br>&lt;b>%1$s&lt;/b></string>
     <string name="error_for_update">Sorry!\nAn unknown error has occurred.\nPlease try again later.</string>
-    <string name="updated_successfully">The update process has been finished successfully!&lt;br>Total new records: &lt;b>%1$s&lt;/b>;&lt;br> - English – Romanian: &lt;b>%2$s&lt;/b>;&lt;br> - Romanian – English: &lt;b>%3$s&lt;/b>.&lt;br>&lt;br>Examples of added words&lt;br> - &lt;b>English&lt;/b>: &lt;i>%4$s&lt;/i>&lt;br> - &lt;b>Romanian&lt;/b>: &lt;i>%5$s&lt;/i></string>
+    <string name="updated_successfully">The update process has been finished successfully!&lt;br>Total new records: &lt;b>%1$s&lt;/b>;&lt;br> - English–Romanian: &lt;b>%2$s&lt;/b>;&lt;br> - Romanian–English: &lt;b>%3$s&lt;/b>.&lt;br>&lt;br>Examples of added words&lt;br> - &lt;b>English&lt;/b>: &lt;i>%4$s&lt;/i>&lt;br> - &lt;b>Romanian&lt;/b>: &lt;i>%5$s&lt;/i></string>
     <string name="mnu_tv_update_database">Update</string>
     <string name="last_db_update">The latest database update on your device:&lt;br>&lt;b>%1$s&lt;/b></string>
     <string name="mnu_tv_propose_database">Propose</string>
@@ -479,10 +479,10 @@
     <string name="message_propose_dialog">Fill in the edit fields below to propose a new word:</string>
     <string name="hint_propose_new_word">Write here a new word…</string>
     <string name="hint_propose_new_explanation">Write here an explanation…</string>
-    <string name="send">Send!</string>
+    <string name="send">Send</string>
     <string name="no_connection_for_propose_new_words">No Internet connection is available…\nTo propose a new word for our database, an Internet connection is required.\nPlease try again…</string>
-    <string name="rb_en_ro">English – Romanian</string>
-    <string name="rb_ro_en">Romanian – English</string>
+    <string name="rb_en_ro">English–Romanian</string>
+    <string name="rb_ro_en">Romanian–English</string>
     <string name="word_sent_successfully">Thanks for submitting a new proposal for our database.\nYour new word will be checked by an administrator as soon as possible and it will be included into updates.\nTo check for database updates , go in main menu of the dictionary and choose Update database.</string>
     <string name="word_not_sent_successfully">An error has occurred…\nYour proposal was not sent.\nPlease try again later…</string>
     <string name="please_wait_sending">Sending information…\nPlease wait…</string>
@@ -498,6 +498,6 @@
     <string name="purchase_canceled">The purchase process was canceled.</string>
     <string name="no_purchases_available">There are no items to be purchased.</string>
     <string name="billing_unknown_error">An unknown error has occurred during purchase process.</string>
-    <string name="bt_premium">Premium!</string>
+    <string name="bt_premium">Premium</string>
 
 </resources>

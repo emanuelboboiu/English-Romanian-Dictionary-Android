@@ -126,7 +126,7 @@ public class MainActivity extends Activity {
     private String[] aDirection; // for text edit hint.
     private String[] aSpeechDirection; // for recognise prompt. edit.
 
-    private int searchedWords = 0; // increment to post the number.
+    private int searchedWords = 0; // increment to post the number in the statistics.
     private int spokenWords = 0; // increment to post the number.
     private int spokenExplanations = 0; // increment to post the number.
     private int spelledWords = 0; // increment to post the number.
@@ -578,6 +578,7 @@ public class MainActivity extends Activity {
         input.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 searchDirectlyFromKeyboard();
+                return true; // consume the event, stop double execution
             }
             return false;
         });
@@ -1601,10 +1602,6 @@ public class MainActivity extends Activity {
         GUITools.aboutDialog(this);
     }
 
-    public void goToRate(View view) {
-        GUITools.showRateDialog(this);
-    }
-
     public void resetToDefaults(View view) {
         resetToDefaults();
     }
@@ -1710,7 +1707,7 @@ public class MainActivity extends Activity {
                     // Now check if it is already purchased:
                     billingClient.queryPurchasesAsync(QueryPurchasesParams.newBuilder().setProductType(BillingClient.ProductType.INAPP).build(), (billingResult12, purchases) -> {
                         // check billingResult and process returned purchase list, e.g. display the products user owns
-                        if (purchases != null && purchases.size() > 0) { // it means there are items:
+                        if (purchases != null && !purchases.isEmpty()) { // it means there are items:
                             Purchase myOldPurchase = purchases.get(0);
                             if (myOldPurchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED) {
                                 recreateThisActivityAfterRegistering();
@@ -1726,7 +1723,7 @@ public class MainActivity extends Activity {
                         if (billingResult1.getResponseCode() == BillingClient.BillingResponseCode.OK) {
                             myProducts = queryProductDetailsResult.getProductDetailsList();
                             // Get the price of the 0 item if there is at least one product:
-                            if (myProducts != null && myProducts.size() > 0) {
+                            if (myProducts != null && !myProducts.isEmpty()) {
                                 ProductDetails productDetail = myProducts.get(0);
                                 ProductDetails.OneTimePurchaseOfferDetails offer = productDetail.getOneTimePurchaseOfferDetails();
                                 if (offer != null) {
@@ -1749,7 +1746,7 @@ public class MainActivity extends Activity {
 
     private void initiatePurchase() {
         // We purchase here the only one item found in myProducts list:
-        if (myProducts != null && myProducts.size() > 0) { // only if there is at least one product available:
+        if (myProducts != null && !myProducts.isEmpty()) { // only if there is at least one product available:
             ProductDetails productDetails = myProducts.get(0);
 
 // An activity reference from which the billing flow will be launched.

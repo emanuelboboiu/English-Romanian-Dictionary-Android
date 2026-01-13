@@ -54,7 +54,7 @@ public class Statistics {
                 postStats("75", offlineRecords);
             }
 
-            String url = "http://www.pontes.ro/ro/divertisment/games/soft_counts.php?pid=" + appIdInDB + "&score=" + totalSearches;
+            String url = "https://pontes.ro/ro/divertisment/games/soft_counts.php?pid=" + appIdInDB + "&score=" + totalSearches;
 
             new GetWebData().execute(url);
         } // end if there is an Internet connection available.
@@ -75,13 +75,13 @@ public class Statistics {
 
     public void postTestFinished(final String googleId, final String testType, final double mark) {
 
-        String url = "http://android.pontes.ro/erd/insert_test_finished.php?google_id=" + googleId + "&tip=" + testType + "&nota=" + mark;
+        String url = "https://android.pontes.ro/erd/insert_test_finished.php?google_id=" + googleId + "&tip=" + testType + "&nota=" + mark;
         new GetWebData().execute(url);
     } // end post data for a test finished.
 
     // A method to change the name for mark statistics, tests finished:
     public void postNewName(final String googleId, final String newName) {
-        String url = "http://android.pontes.ro/erd/change_name.php?google_id=" + googleId + "&nume=" + newName;
+        String url = "https://android.pontes.ro/erd/change_name.php?google_id=" + googleId + "&nume=" + newName;
 
         new GetWebData().execute(url);
     } // end postNewName() method.
