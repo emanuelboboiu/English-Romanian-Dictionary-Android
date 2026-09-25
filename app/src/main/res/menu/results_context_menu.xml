@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
         android:id="@+id/cmAddToVocabularyResult"
         android:icon="@android:drawable/ic_menu_add"
         android:orderInCategory="200"
         android:title="@string/cm_add_to_vocabulary"
-        app:showAsAction="never" />
+        android:showAsAction="never" />
     <item
         android:id="@+id/mnuPronunciationSubmenu"
         android:orderInCategory="250"
         android:title="@string/mnu_pronunciation_submenu"
-        app:showAsAction="never">
+        android:showAsAction="never">
 
         <!-- Pronunciation submenu: -->
         <menu>
@@ -20,34 +19,34 @@
                 android:id="@+id/cmSpeakResult"
                 android:orderInCategory="255"
                 android:title="@string/cm_speak_result"
-                app:showAsAction="never" />
+                android:showAsAction="never" />
             <item
                 android:id="@+id/cmSpeakExplanation"
                 android:orderInCategory="260"
                 android:title="@string/cm_speak_explanation"
-                app:showAsAction="never" />
+                android:showAsAction="never" />
             <item
                 android:id="@+id/cmSpellResult"
                 android:orderInCategory="265"
                 android:title="@string/cm_spell_result"
-                app:showAsAction="never" />
+                android:showAsAction="never" />
         </menu>
     </item>
     <item
         android:id="@+id/cmIPAResult"
         android:orderInCategory="350"
         android:title="@string/cm_ipa_result"
-        app:showAsAction="never" />
+        android:showAsAction="never" />
     <item
         android:id="@+id/cmDefinitionResult"
         android:orderInCategory="390"
         android:title="@string/cm_definition_result"
-        app:showAsAction="never" />
+        android:showAsAction="never" />
     <item
         android:id="@+id/mnuDatamuseSubmenu"
         android:orderInCategory="400"
         android:title="@string/mnu_datamuse_submenu"
-        app:showAsAction="never">
+        android:showAsAction="never">
 
         <!-- Datamuse submenu: -->
         <menu>
@@ -55,54 +54,54 @@
                 android:id="@+id/cmWordFrequencyResult"
                 android:orderInCategory="405"
                 android:title="@string/cm_word_frequency"
-                app:showAsAction="never" />
+                android:showAsAction="never" />
             <item
                 android:id="@+id/cmSynonymsResult"
                 android:orderInCategory="410"
                 android:title="@string/cm_synonims_result"
-                app:showAsAction="never" />
+                android:showAsAction="never" />
             <item
                 android:id="@+id/cmAntonymsResult"
                 android:orderInCategory="420"
                 android:title="@string/cm_antonyms_result"
-                app:showAsAction="never" />
+                android:showAsAction="never" />
             <item
                 android:id="@+id/cmHomophonesResult"
                 android:orderInCategory="430"
                 android:title="@string/cm_homophones_result"
-                app:showAsAction="never" />
+                android:showAsAction="never" />
             <item
                 android:id="@+id/cmHypernymsResult"
                 android:orderInCategory="435"
                 android:title="@string/cm_hypernyms_result"
-                app:showAsAction="never" />
+                android:showAsAction="never" />
             <item
                 android:id="@+id/cmHyponymsResult"
                 android:orderInCategory="436"
                 android:title="@string/cm_hyponyms_result"
-                app:showAsAction="never" />
+                android:showAsAction="never" />
             <item
                 android:id="@+id/cmRhymesResult"
                 android:orderInCategory="440"
                 android:title="@string/cm_rhymes_result"
-                app:showAsAction="never" />
+                android:showAsAction="never" />
             <item
                 android:id="@+id/cmFollowersResult"
                 android:orderInCategory="450"
                 android:title="@string/cm_followers_result"
-                app:showAsAction="never" />
+                android:showAsAction="never" />
             <item
                 android:id="@+id/cmPredecessorsResult"
                 android:orderInCategory="451"
                 android:title="@string/cm_predecessors_result"
-                app:showAsAction="never" />
+                android:showAsAction="never" />
         </menu>
     </item>
     <item
         android:id="@+id/mnuCopySubmenu"
         android:orderInCategory="500"
         android:title="@string/mnu_copy_submenu"
-        app:showAsAction="never">
+        android:showAsAction="never">
 
         <!-- Copy submenu: -->
         <menu>
@@ -110,23 +109,23 @@
                 android:id="@+id/cmCopyResult"
                 android:orderInCategory="510"
                 android:title="@string/cm_copy_result"
-                app:showAsAction="never" />
+                android:showAsAction="never" />
             <item
                 android:id="@+id/cmCopyWord"
                 android:orderInCategory="511"
                 android:title="@string/cm_copy_word"
-                app:showAsAction="never" />
+                android:showAsAction="never" />
             <item
                 android:id="@+id/cmCopyExplanation"
                 android:orderInCategory="512"
                 android:title="@string/cm_copy_explanation"
-                app:showAsAction="never" />
+                android:showAsAction="never" />
         </menu>
     </item>
     <item
         android:id="@+id/cmCancelSearch"
         android:orderInCategory="700"
         android:title="@string/cm_cancel_search"
-        app:showAsAction="never" />
+        android:showAsAction="never" />
 
 </menu>

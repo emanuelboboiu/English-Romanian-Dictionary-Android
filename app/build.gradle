@@ -3,25 +3,30 @@ plugins {
 }
 
 android {
-    namespace "ro.pontes.englishromaniandictionary"
-    compileSdk 36
+    namespace = "ro.pontes.englishromaniandictionary"
+    compileSdk = 36
 
     defaultConfig {
-        applicationId "ro.pontes.englishromaniandictionary"
-        minSdk 23
-        targetSdk 36
-        versionCode 93
-        versionName "8.3.3"
+        applicationId = "ro.pontes.englishromaniandictionary"
+        minSdk = 23
+        targetSdk = 36
+        versionCode = 93
+        versionName = "8.3.3"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     buildTypes {
         debug {
-            applicationIdSuffix ".debug"
-            versionNameSuffix "-debug"
+            applicationIdSuffix = ".debug"
+            versionNameSuffix = "-debug"
         }
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            minifyEnabled = false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.txt'
         }
     }
 
@@ -34,8 +39,8 @@ android {
 }
 
 dependencies {
-    implementation 'com.google.android.gms:play-services-ads:24.6.0'
-    implementation "com.android.billingclient:billing:8.0.0"
-    implementation 'androidx.core:core-ktx:1.12.0'
-    implementation 'androidx.appcompat:appcompat:1.7.1'
+    implementation 'com.google.android.gms:play-services-ads:25.4.0'
+    implementation 'com.android.billingclient:billing:9.1.0'
+    implementation 'androidx.activity:activity:1.12.2'
+    implementation 'androidx.annotation:annotation:1.11.0'
 }

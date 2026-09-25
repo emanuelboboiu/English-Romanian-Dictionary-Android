@@ -1,6 +1,5 @@
 package ro.pontes.englishromaniandictionary;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -32,6 +31,9 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.activity.ComponentActivity;
+import androidx.activity.OnBackPressedCallback;
+
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
@@ -45,7 +47,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 
-public class VocabularyActivity extends Activity implements OnItemSelectedListener {
+public class VocabularyActivity extends ComponentActivity implements OnItemSelectedListener {
 
     private DBAdapter2 mDbHelper;
     private SpeakText speak;
@@ -78,6 +80,13 @@ public class VocabularyActivity extends Activity implements OnItemSelectedListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                finish();
+                GUITools.goToDictionary(VocabularyActivity.this);
+            }
+        });
         /*
          * We charge different layouts depending of the premium status or
          * android TV:
@@ -1082,12 +1091,6 @@ public class VocabularyActivity extends Activity implements OnItemSelectedListen
     private void recreateThisActivity() {
         recreate();
     } // end recreateThisActivity() method.
-
-    @Override
-    public void onBackPressed() {
-        this.finish();
-        GUITools.goToDictionary(this);
-    } // end onBackPressed()
 
     public void onPause() {
         speak.stop();

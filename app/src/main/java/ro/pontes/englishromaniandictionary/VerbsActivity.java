@@ -1,6 +1,5 @@
 package ro.pontes.englishromaniandictionary;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -25,6 +24,9 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.activity.ComponentActivity;
+import androidx.activity.OnBackPressedCallback;
+
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
@@ -34,7 +36,7 @@ import java.util.Calendar;
 import java.util.Collections;
 
 
-public class VerbsActivity extends Activity implements OnItemSelectedListener {
+public class VerbsActivity extends ComponentActivity implements OnItemSelectedListener {
 
     private boolean isDerivedForms = true;
     private boolean isArchaicForms = true;
@@ -61,6 +63,13 @@ public class VerbsActivity extends Activity implements OnItemSelectedListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                finish();
+                GUITools.goToDictionary(VerbsActivity.this);
+            }
+        });
         /*
          * We charge different layouts depending of the premium status or
          * android TV:
@@ -216,12 +225,6 @@ public class VerbsActivity extends Activity implements OnItemSelectedListener {
         speak.close();
         super.onDestroy();
     } // end onDestroy method.
-
-    @Override
-    public void onBackPressed() {
-        this.finish();
-        GUITools.goToDictionary(this);
-    } // end onBackPressed()
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -1,6 +1,5 @@
 package ro.pontes.englishromaniandictionary;
 
-import android.annotation.TargetApi;
 import android.os.Build;
 import android.text.Html;
 import android.text.Spanned;
@@ -8,7 +7,6 @@ import android.text.Spanned;
 /* I did this class on 12 August 2017 to have the deprecated fromHtml method only in one place. This way wit will be easier to deal with these deprecated methods. */
 public class MyHtml {
 
-    @TargetApi(24)
     public static Spanned fromHtml(String source) {
         Spanned spanned;
         if (Build.VERSION.SDK_INT >= 24) {

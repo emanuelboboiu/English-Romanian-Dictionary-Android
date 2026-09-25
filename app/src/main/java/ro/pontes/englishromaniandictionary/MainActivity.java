@@ -2,11 +2,10 @@ package ro.pontes.englishromaniandictionary;
 
 import static com.google.android.gms.common.util.CollectionUtils.listOf;
 
-import android.annotation.TargetApi;
-
+import androidx.activity.ComponentActivity;
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -72,7 +71,7 @@ import java.util.Locale;
  * This is the main class of this application.
  * */
 
-public class MainActivity extends Activity {
+public class MainActivity extends ComponentActivity {
 
     // The following fields are used for the shake detection:
     private SensorManager mSensorManager;
@@ -168,6 +167,12 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                goToDeviceHome();
+            }
+        });
         // Charge settings:
         Settings set = new Settings(this);
         set.chargeSettings();
@@ -367,14 +372,13 @@ public class MainActivity extends Activity {
         super.onDestroy();
     } // end onDestroy method.
 
-    @Override
-    public void onBackPressed() {
-        this.finish();
+    private void goToDeviceHome() {
+        finish();
         Intent setIntent = new Intent(Intent.ACTION_MAIN);
         setIntent.addCategory(Intent.CATEGORY_HOME);
         setIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(setIntent);
-    } // end onBackPressed()
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -1102,6 +1106,7 @@ public class MainActivity extends Activity {
     // The finishing of the speak:
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         // If it's here after speech:
         if (requestCode == REQ_CODE_SPEECH_INPUT) {
             if (resultCode == RESULT_OK && null != data) {
@@ -1485,7 +1490,6 @@ public class MainActivity extends Activity {
     } // end getExternalResource() method.
 
     // This method sets the locale independent of the OS language:
-    @TargetApi(24)
     public void setLocale(int numLang) {
         // If it is not the device language, normal change:
         if (numLang > 0) {
@@ -1792,9 +1796,6 @@ public class MainActivity extends Activity {
         if (myProducts != null && !myProducts.isEmpty()) { // only if there is at least one product available:
             ProductDetails productDetails = myProducts.get(0);
 
-// An activity reference from which the billing flow will be launched.
-            Activity activity = this;
-
             List<BillingFlowParams.ProductDetailsParams> productDetailsParamsList = listOf(BillingFlowParams.ProductDetailsParams.newBuilder()
                     // retrieve a value for "productDetails" by calling queryProductDetailsAsync()
                     .setProductDetails(productDetails).build());
@@ -1802,7 +1803,7 @@ public class MainActivity extends Activity {
             BillingFlowParams billingFlowParams = BillingFlowParams.newBuilder().setProductDetailsParamsList(productDetailsParamsList).build();
 
 // Launch the billing flow
-            BillingResult billingResult = billingClient.launchBillingFlow(activity, billingFlowParams);
+            BillingResult billingResult = billingClient.launchBillingFlow(this, billingFlowParams);
         } // end if there is at least one productDetails object in myProducts list.
         else { // no items available:
             GUITools.alert(mFinalContext, getString(R.string.warning), getString(R.string.no_purchases_available));
