@@ -71,6 +71,10 @@ public class SearchHistoryActivity extends Activity implements OnItemSelectedLis
 
         setBottomStatus();
         showResults(curCategory); // default value is 0.
+
+        if (MainActivity.isTV) {
+            dropdown.post(dropdown::requestFocus);
+        }
     }
 
     private void setBottomStatus() {
@@ -116,10 +120,11 @@ public class SearchHistoryActivity extends Activity implements OnItemSelectedLis
             // We need the string with place holders:
             String tvSearchedWord = getString(R.string.tv_searched_word);
             TextView tv;
-            int it = 0;
-            int curResultId = 1000001;
-            cursor.moveToFirst();
-            do {
+            int firstResultId = View.NO_ID;
+            TextView previousResult = null;
+            TextView lastResult = null;
+            if (cursor.moveToFirst()) {
+                do {
                 tv = new TextView(this);
                 tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
                 tv.setPadding(mPaddingDP, mPaddingDP, mPaddingDP, mPaddingDP);
@@ -132,14 +137,18 @@ public class SearchHistoryActivity extends Activity implements OnItemSelectedLis
                 tv.setText(tvSeq);
                 int id = cursor.getInt(0);
                 tv.setTag(id);
-                tv.setId(curResultId);
-                if (it > 0) {
-                    tv.setNextFocusUpId(curResultId - 1);
+                tv.setId(View.generateViewId());
+                if (previousResult != null) {
+                    tv.setNextFocusUpId(previousResult.getId());
+                    previousResult.setNextFocusDownId(tv.getId());
                 } else {
+                    firstResultId = tv.getId();
                     tv.setNextFocusUpId(R.id.spinnerChooseSort);
                 }
-                tv.setNextFocusDownId(++curResultId);
                 tv.setFocusable(true);
+                if (MainActivity.isTV) {
+                    tv.setBackgroundResource(R.drawable.selector_background_selected);
+                }
 
                 // For a short click, speak result:
                 tv.setOnClickListener(view -> speakWord(w));
@@ -148,9 +157,17 @@ public class SearchHistoryActivity extends Activity implements OnItemSelectedLis
                 registerForContextMenu(tv);
 
                 llResults.addView(tv, tvParams);
-                it++;
-            } while (cursor.moveToNext());
+                previousResult = tv;
+                lastResult = tv;
+                } while (cursor.moveToNext());
+            }
             // end do ... while.
+
+            if (lastResult != null) {
+                dropdown.setNextFocusDownId(firstResultId);
+                lastResult.setNextFocusDownId(R.id.spinnerChooseSort);
+            }
+            cursor.close();
         } // end if there where results.
 
         else {
@@ -163,6 +180,14 @@ public class SearchHistoryActivity extends Activity implements OnItemSelectedLis
             String tvText = getString(R.string.tv_no_results_found_in_history);
             CharSequence tvSeq = MyHtml.fromHtml(tvText);
             tv.setText(tvSeq);
+            tv.setId(View.generateViewId());
+            tv.setFocusable(true);
+            tv.setNextFocusUpId(R.id.spinnerChooseSort);
+            tv.setNextFocusDownId(R.id.spinnerChooseSort);
+            if (MainActivity.isTV) {
+                tv.setBackgroundResource(R.drawable.selector_background_selected);
+            }
+            dropdown.setNextFocusDownId(tv.getId());
             llResults.addView(tv);
 
         } // end if no results where found in history.

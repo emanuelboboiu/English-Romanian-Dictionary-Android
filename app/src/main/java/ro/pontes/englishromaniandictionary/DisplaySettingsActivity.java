@@ -76,8 +76,7 @@ public class DisplaySettingsActivity extends Activity {
 
     // A method which recreates this activity:
     private void recreateThisActivity() {
-        startActivity(getIntent());
-        finish();
+        recreate();
     } // end recreateThisActivity() method.
 
 } // end DisplaySettingsClass.

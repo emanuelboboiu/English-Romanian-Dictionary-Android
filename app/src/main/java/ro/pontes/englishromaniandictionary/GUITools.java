@@ -264,21 +264,16 @@ public class GUITools {
     // A method to go to web page of the application:
     public static void goToAppWebPage(final Context context) {
 
-        String url = "https://android.pontes.ro/erd/index.php?lang=";
-
         // Determine if is RO at the start of the current language:
         // Get the system current locale: // Get the locale:
         String curLocale = Locale.getDefault().getDisplayName();
         curLocale = curLocale.substring(0, 2);
         curLocale = curLocale.toLowerCase(Locale.getDefault());
-        if (curLocale.equals("ro")) {
-            url += "ro";
-        } else {
-            url += "en";
-        }
-
-        // Add also the google ID:
-        url += "&google_id=" + MainActivity.myAccountName;
+        String language = curLocale.equals("ro") ? "ro" : "en";
+        String url = WebDataClient.buildUrl(
+                "https://android.pontes.ro/erd/index.php",
+                "lang", language,
+                "google_id", String.valueOf(MainActivity.myAccountName));
 
         // Call now the openBrowser method():
         openBrowser(context, url);

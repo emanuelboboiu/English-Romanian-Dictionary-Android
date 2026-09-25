@@ -15,9 +15,20 @@ android {
     }
 
     buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+            versionNameSuffix "-debug"
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+
+    bundle {
+        language {
+            // Both languages are required for the in-app language switcher.
+            enableSplit = false
         }
     }
 }

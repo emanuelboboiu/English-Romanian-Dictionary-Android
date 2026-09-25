@@ -42,7 +42,11 @@ public class DBAdapter {
     }
 
     public Cursor queryData(String sql) {
-        Cursor mCur = mDb.rawQuery(sql, null);
+        return queryData(sql, null);
+    }
+
+    public Cursor queryData(String sql, String[] selectionArgs) {
+        Cursor mCur = mDb.rawQuery(sql, selectionArgs);
         if (mCur != null) {
             mCur.moveToNext();
         }
@@ -54,10 +58,19 @@ public class DBAdapter {
         mDb.execSQL(sql);
     } // end update data.
 
+    public void updateData(String sql, Object[] bindArgs) {
+        mDb.execSQL(sql, bindArgs);
+    }
+
     // A method to insert into a table:
     public boolean insertData(String sql) {
         mDb.execSQL(sql);
         return true;
     } // end insert data.
+
+    public boolean insertData(String sql, Object[] bindArgs) {
+        mDb.execSQL(sql, bindArgs);
+        return true;
+    }
 
 } // end class DBAdapter.

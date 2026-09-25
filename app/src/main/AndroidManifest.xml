@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="ro.pontes.englishromaniandictionary">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -25,7 +24,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/round_icon"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true"
+        android:usesCleartextTraffic="false"
         tools:ignore="UnusedAttribute">
 
         <!-- This meta-data tag is required to use Google Play Services. -->
@@ -64,7 +63,7 @@
         <activity
             android:name=".VocabularyActivity"
             android:configChanges="orientation|screenSize"
-            android:exported="true"
+            android:exported="false"
             android:label="@string/title_activity_vocabulary" />
         <activity
             android:name=".TTSSettingsActivity"

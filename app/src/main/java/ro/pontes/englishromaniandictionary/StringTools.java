@@ -112,9 +112,7 @@ public class StringTools {
 
         String toReturn = sb.toString();
 
-        // Make also realEscapeString::
-        toReturn = realEscapeString(toReturn);
-        return toReturn;
+        return toReturn.trim();
     } // end replace special letters.
 
     // A method instead RealEscapeString:

@@ -5,13 +5,7 @@ package ro.pontes.englishromaniandictionary;
  * Methods for statistics, like postStatistics.
  */
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
-
 import android.content.Context;
-import android.os.AsyncTask;
 
 public class Statistics {
 
@@ -54,9 +48,12 @@ public class Statistics {
                 postStats("75", offlineRecords);
             }
 
-            String url = "https://pontes.ro/ro/divertisment/games/soft_counts.php?pid=" + appIdInDB + "&score=" + totalSearches;
+            String url = WebDataClient.buildUrl(
+                    "https://pontes.ro/ro/divertisment/games/soft_counts.php",
+                    "pid", appIdInDB,
+                    "score", String.valueOf(totalSearches));
 
-            new GetWebData().execute(url);
+            WebDataClient.get(url, null);
         } // end if there is an Internet connection available.
         else { // No Internet available:
             /*
@@ -75,57 +72,22 @@ public class Statistics {
 
     public void postTestFinished(final String googleId, final String testType, final double mark) {
 
-        String url = "https://android.pontes.ro/erd/insert_test_finished.php?google_id=" + googleId + "&tip=" + testType + "&nota=" + mark;
-        new GetWebData().execute(url);
+        String url = WebDataClient.buildUrl(
+                "https://android.pontes.ro/erd/insert_test_finished.php",
+                "google_id", String.valueOf(googleId),
+                "tip", testType,
+                "nota", String.valueOf(mark));
+        WebDataClient.get(url, null);
     } // end post data for a test finished.
 
     // A method to change the name for mark statistics, tests finished:
     public void postNewName(final String googleId, final String newName) {
-        String url = "https://android.pontes.ro/erd/change_name.php?google_id=" + googleId + "&nume=" + newName;
+        String url = WebDataClient.buildUrl(
+                "https://android.pontes.ro/erd/change_name.php",
+                "google_id", String.valueOf(googleId),
+                "nume", newName);
 
-        new GetWebData().execute(url);
+        WebDataClient.get(url, null);
     } // end postNewName() method.
-
-    // This is a subclass:
-    private static class GetWebData extends AsyncTask<String, String, String> {
-
-        // execute before task:
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        // Execute task
-        String urlText = "";
-
-        @Override
-        protected String doInBackground(String... strings) {
-            StringBuilder content = new StringBuilder();
-            urlText = strings[0];
-            try {
-                // Create a URL object:
-                URL url = new URL(urlText);
-                // Create a URLConnection object:
-                URLConnection urlConnection = url.openConnection();
-                // Wrap the URLConnection in a BufferedReader:
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-                String line;
-                // Read from the URLConnection via the BufferedReader:
-                while ((line = bufferedReader.readLine()) != null) {
-                    content.append(line);
-                }
-                bufferedReader.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return content.toString();
-        } // end doInBackground() method.
-
-        // Execute after task with the task result as string:
-        @Override
-        protected void onPostExecute(String s) {
-            // Do nothing yet.
-        } // end postExecute() method.
-    } // end subclass.
 
 } // end statistics class.

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
-    <string-array name="information_array">
+    <!-- Paragraphs are intentionally grouped differently in each language. -->
+    <string-array name="information_array" tools:ignore="InconsistentArrays">
         <item>&lt;b>Generalities&lt;/b></item>
         <item>English Romanian Dictionary is very simple, easy to use and comprehensive.</item>
         <item>It contains half a million words - basic vocabulary, proper nouns, and technical terms in any areas: engineering, sciences, medicine etc.</item>

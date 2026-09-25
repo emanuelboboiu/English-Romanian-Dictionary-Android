@@ -8,7 +8,6 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Typeface;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
@@ -30,10 +29,6 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -121,6 +116,11 @@ public class VerbsActivity extends Activity implements OnItemSelectedListener {
 
         // Call the method which fills the spinner:
         updateSpinner();
+
+        if (MainActivity.isTV) {
+            View initialFocus = findViewById(R.id.spinnerChoose);
+            initialFocus.post(initialFocus::requestFocus);
+        }
 
         // Call the method to show banner if is not premium:
         if (!MainActivity.isPremium) {
@@ -411,8 +411,7 @@ public class VerbsActivity extends Activity implements OnItemSelectedListener {
     // A method which recreates this activity:
     private void recreateThisActivity() {
         SoundPlayer.playSimple(this, "go_to_left");
-        startActivity(getIntent());
-        finish();
+        recreate();
     } // end recreateThisActivity() method.
 
     public void onPause() {
@@ -501,6 +500,9 @@ public class VerbsActivity extends Activity implements OnItemSelectedListener {
             CharSequence tvSeq = MyHtml.fromHtml(tvText);
             tv.setText(tvSeq);
             tv.setFocusable(true);
+            if (MainActivity.isTV) {
+                tv.setBackgroundResource(R.drawable.selector_background_selected);
+            }
 
             // Make a string for be spoken when tapping the text view:
             StringBuilder sb = new StringBuilder();
@@ -525,6 +527,7 @@ public class VerbsActivity extends Activity implements OnItemSelectedListener {
 
             ll.addView(tv);
         } while (cursor.moveToNext());
+        cursor.close();
     }// end createList() method.
 
     @Override
@@ -624,57 +627,23 @@ public class VerbsActivity extends Activity implements OnItemSelectedListener {
         set.saveStringSettings("lastXMarks", sb.toString());
     } // end saveLastXMarks() method.
 
-    // This is a subclass:
-    private class GetWebData extends AsyncTask<String, String, String> {
+    private void getNickname(String url) {
+        ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage(getString(R.string.please_wait));
+        progressDialog.setIndeterminate(false);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
 
-        private ProgressDialog pd;
-
-        // execute before task:
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            pd = new ProgressDialog(mFinalContext);
-            pd.setMessage(getString(R.string.please_wait));
-            pd.setIndeterminate(false);
-            pd.setCancelable(false);
-            pd.show();
-        }
-
-        // Execute task
-        String urlText = "";
-
-        @Override
-        protected String doInBackground(String... strings) {
-            StringBuilder content = new StringBuilder();
-            urlText = strings[0];
-            try {
-                // Create a URL object:
-                URL url = new URL(urlText);
-                // Create a URLConnection object:
-                URLConnection urlConnection = url.openConnection();
-                // Wrap the URLConnection in a BufferedReader:
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-                String line;
-                // Read from the URLConnection via the BufferedReader:
-                while ((line = bufferedReader.readLine()) != null) {
-                    content.append(line);
-                }
-                bufferedReader.close();
-            } catch (Exception e) {
-                e.printStackTrace();
+        WebDataClient.get(url, result -> {
+            if (!WebDataClient.isUiContextActive(this)) {
+                return;
             }
-            return content.toString();
-        } // end doInBackground() method.
-
-        // Execute after task with the task result as string:
-        @Override
-        protected void onPostExecute(String s) {
-            // Clear progress dialog:
-            pd.dismiss();
-            // Do something with the interface:
-            GUITools.changeNickname(mFinalContext, s);
-        } // end postExecute() method.
-    } // end subclass.
+            if (progressDialog.isShowing()) {
+                progressDialog.dismiss();
+            }
+            GUITools.changeNickname(this, result);
+        });
+    }
 
     public void beforeChangeNickname() {
         // Check if we have the Google Account Name:
@@ -682,8 +651,10 @@ public class VerbsActivity extends Activity implements OnItemSelectedListener {
             GUITools.alert(this, getString(R.string.warning), getString(R.string.no_account_name_detected_because_permission));
         } // end if account name wasn't detected, permission issue.
         else {
-            String url = "https://android.pontes.ro/erd/get_name.php?google_id=" + MainActivity.myAccountName;
-            new GetWebData().execute(url);
+            String url = WebDataClient.buildUrl(
+                    "https://android.pontes.ro/erd/get_name.php",
+                    "google_id", String.valueOf(MainActivity.myAccountName));
+            getNickname(url);
         } // end if google account name exists.
     } // end beforeChangeNickname() method.
 

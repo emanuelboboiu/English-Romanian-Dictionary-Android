@@ -121,6 +121,11 @@ public class VocabularyActivity extends Activity implements OnItemSelectedListen
             updateSpinner();
         } // end if there is at least one record.
 
+        if (MainActivity.isTV) {
+            View initialFocus = findViewById(R.id.spinnerChoose);
+            initialFocus.post(initialFocus::requestFocus);
+        }
+
         // To keep screen awake:
         if (MainActivity.isWakeLock) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -227,7 +232,6 @@ public class VocabularyActivity extends Activity implements OnItemSelectedListen
     // The method which writes the list of records:
     private void createList(String categoryName) {
         curCategoryName = categoryName;
-        categoryName = st.realEscapeString(categoryName);
         // Hide the bottom layout, AdMob:
         if (MainActivity.isPremium) {
             hideAdMob(true); // is the bottom layout, not only the admob.
@@ -241,8 +245,8 @@ public class VocabularyActivity extends Activity implements OnItemSelectedListen
         String idSection = "%";
         if (!categoryName.equals("%")) {
             // Query from DB the idSection number:
-            String sqlTemp = "SELECT id FROM sectiuni WHERE nume='" + categoryName + "';";
-            Cursor cur = mDbHelper.queryData(sqlTemp);
+            String sqlTemp = "SELECT id FROM sectiuni WHERE nume = ?";
+            Cursor cur = mDbHelper.queryData(sqlTemp, new String[]{categoryName});
             idSection = cur.getString(0);
             cur.close();
         } // end get idSection number as string.
@@ -250,7 +254,9 @@ public class VocabularyActivity extends Activity implements OnItemSelectedListen
         // Create TextViews for each record:
         int mPaddingDP = MainActivity.mPaddingDP;
         TextView tv;
-        Cursor cursor = mDbHelper.queryData("SELECT * FROM vocabular WHERE idSectiune LIKE '" + idSection + "' ORDER BY termen COLLATE NOCASE, explicatie COLLATE NOCASE");
+        Cursor cursor = mDbHelper.queryData(
+                "SELECT * FROM vocabular WHERE idSectiune LIKE ? ORDER BY termen COLLATE NOCASE, explicatie COLLATE NOCASE",
+                new String[]{idSection});
         cursor.moveToFirst();
         String toFormat = getString(R.string.tv_word_and_explanation);
         do {
@@ -264,6 +270,9 @@ public class VocabularyActivity extends Activity implements OnItemSelectedListen
             CharSequence tvSeq = MyHtml.fromHtml(tvText);
             tv.setText(tvSeq);
             tv.setFocusable(true);
+            if (MainActivity.isTV) {
+                tv.setBackgroundResource(R.drawable.selector_background_selected);
+            }
             // No add an listener for short tap:
             // Get also the tip, the direction EN_RO or RO_EN:
             final int direction = cursor.getInt(5);
@@ -283,6 +292,7 @@ public class VocabularyActivity extends Activity implements OnItemSelectedListen
 
             ll.addView(tv);
         } while (cursor.moveToNext());
+        cursor.close();
     }// end createList() method.
 
     @Override
@@ -385,9 +395,8 @@ public class VocabularyActivity extends Activity implements OnItemSelectedListen
         String e = st.cleanString(aResult[1]);
 
         // Get from database the record for this w:
-        String sql = "SELECT * FROM vocabular where termen = '" + st.realEscapeString(w) + "' AND explicatie = '" + st.realEscapeString(e) + "'";
-
-        Cursor cur = mDbHelper.queryData(sql);
+        String sql = "SELECT * FROM vocabular WHERE termen = ? AND explicatie = ?";
+        Cursor cur = mDbHelper.queryData(sql, new String[]{w, e});
         int direction = cur.getInt(5);
         String englishPart;
         if (direction == 0) {
@@ -501,20 +510,21 @@ public class VocabularyActivity extends Activity implements OnItemSelectedListen
 
         if (newname.length() >= 2) {
             // The new name must not be already in DB:
-            if (!fieldExists("sectiuni", "nume", newname)) {
+            if (!categoryExists(newname)) {
                 // Add it effectively:
                 // Determine current sectionId:
-                String sql = "SELECT id FROM sectiuni WHERE nume = '" + st.realEscapeString(curCategoryName) + "'";
-                Cursor cur = mDbHelper.queryData(sql);
+                String sql = "SELECT id FROM sectiuni WHERE nume = ?";
+                Cursor cur = mDbHelper.queryData(sql, new String[]{curCategoryName});
                 int sectionId = cur.getInt(0);
+                cur.close();
 
                 // Update:
-                sql = "UPDATE sectiuni SET nume='" + st.realEscapeString(newname) + "' WHERE id=" + sectionId + ";";
-                mDbHelper.updateData(sql);
+                sql = "UPDATE sectiuni SET nume = ? WHERE id = ?";
+                mDbHelper.updateData(sql, new Object[]{newname, sectionId});
                 SoundPlayer.playSimple(mFinalContext, "hand_writting");
 
                 // Re-charge this section:
-                curCategoryName = st.realEscapeString(newname);
+                curCategoryName = newname;
                 updateSpinner();
                 createList(curCategoryName);
                 toReturn = true;
@@ -604,17 +614,18 @@ public class VocabularyActivity extends Activity implements OnItemSelectedListen
         if (newWord.length() >= 2 && newExplanation.length() >= 2) {
 
             // The new record must not be already in DB:
-            if (!recordExistsInVocabulary(st.realEscapeString(newWord), st.realEscapeString(newExplanation))) {
+            if (!recordExistsInVocabulary(newWord, newExplanation)) {
                 // Add it effectively:
                 long curTime = GUITools.getTimeInSeconds();
                 // Determine current sectionId:
-                String sql = "SELECT id FROM sectiuni WHERE nume = '" + st.realEscapeString(curCategoryName) + "'";
-                Cursor cur = mDbHelper.queryData(sql);
+                String sql = "SELECT id FROM sectiuni WHERE nume = ?";
+                Cursor cur = mDbHelper.queryData(sql, new String[]{curCategoryName});
                 int sectionId = cur.getInt(0);
+                cur.close();
 
                 // Insert into:
-                sql = "INSERT INTO vocabular (idSectiune, termen, explicatie, data) VALUES ('" + sectionId + "', '" + st.realEscapeString(newWord) + "', '" + st.realEscapeString(newExplanation) + "', '" + curTime + "')";
-                mDbHelper.insertData(sql);
+                sql = "INSERT INTO vocabular (idSectiune, termen, explicatie, data) VALUES (?, ?, ?, ?)";
+                mDbHelper.insertData(sql, new Object[]{sectionId, newWord, newExplanation, curTime});
                 SoundPlayer.playSimple(mFinalContext, "hand_writting");
 
                 /*
@@ -644,8 +655,8 @@ public class VocabularyActivity extends Activity implements OnItemSelectedListen
         // Make a new context:
         Context context = new ContextThemeWrapper(this, R.style.MyAlertDialog);
 
-        String sql = "SELECT * FROM vocabular where id = '" + idRecord + "'";
-        Cursor cur = mDbHelper.queryData(sql);
+        String sql = "SELECT * FROM vocabular WHERE id = ?";
+        Cursor cur = mDbHelper.queryData(sql, new String[]{String.valueOf(idRecord)});
         final int idRecordTemp = cur.getInt(0);
         final String word = cur.getString(2);
         final String explanation = cur.getString(3);
@@ -709,10 +720,10 @@ public class VocabularyActivity extends Activity implements OnItemSelectedListen
         if (newWord.length() >= 2 && newExplanation.length() >= 2) {
 
             // The new record must not be already in DB:
-            if (!recordExistsInVocabulary(st.realEscapeString(newWord), st.realEscapeString(newExplanation))) {
+            if (!recordExistsInVocabulary(newWord, newExplanation)) {
                 // Edit it effectively:
-                String sql = "UPDATE vocabular SET termen = '" + st.realEscapeString(newWord) + "', explicatie = '" + st.realEscapeString(newExplanation) + "' WHERE id = '" + idRecordTemp + "'";
-                mDbHelper.updateData(sql);
+                String sql = "UPDATE vocabular SET termen = ?, explicatie = ? WHERE id = ?";
+                mDbHelper.updateData(sql, new Object[]{newWord, newExplanation, idRecordTemp});
                 SoundPlayer.playSimple(mFinalContext, "hand_writting");
 
                 /*
@@ -735,15 +746,15 @@ public class VocabularyActivity extends Activity implements OnItemSelectedListen
         return toReturn;
     } // end save Edit() method.
 
-    // A method which check if a field exists in a database:
-    private boolean fieldExists(String table, String field, String text) {
+    // A method which checks if a category exists in the database:
+    private boolean categoryExists(String name) {
         boolean exists = false;
         DBAdapter2 mDbHelperTemp = new DBAdapter2(this);
         mDbHelperTemp.createDatabase();
         mDbHelperTemp.open();
 
-        String sql = "SELECT COUNT(*) AS total FROM " + table + " WHERE " + field + " = '" + text + "';";
-        Cursor cur = mDbHelperTemp.queryData(sql);
+        String sql = "SELECT COUNT(*) AS total FROM sectiuni WHERE nume = ?";
+        Cursor cur = mDbHelperTemp.queryData(sql, new String[]{name});
         int count = cur.getInt(0);
         cur.close();
         mDbHelperTemp.close();
@@ -753,7 +764,7 @@ public class VocabularyActivity extends Activity implements OnItemSelectedListen
         }
 
         return exists;
-    } // end fieldExists() method.
+    } // end categoryExists() method.
 
     // A method which checks if this entry already exists in DB:
     private boolean recordExistsInVocabulary(String word, String explanation) {
@@ -763,8 +774,8 @@ public class VocabularyActivity extends Activity implements OnItemSelectedListen
         mDbHelperTemp.createDatabase();
         mDbHelperTemp.open();
 
-        String sql = "SELECT COUNT(*) AS total FROM vocabular WHERE termen='" + word + "' AND explicatie='" + explanation + "'";
-        Cursor cur = mDbHelperTemp.queryData(sql);
+        String sql = "SELECT COUNT(*) AS total FROM vocabular WHERE termen = ? AND explicatie = ?";
+        Cursor cur = mDbHelperTemp.queryData(sql, new String[]{word, explanation});
         int count = cur.getInt(0);
         cur.close();
         mDbHelperTemp.close();
@@ -778,8 +789,8 @@ public class VocabularyActivity extends Activity implements OnItemSelectedListen
 
     // A method to delete a word:
     private void deleteRecord(final String word, final String explanation) {
-        String sql = "SELECT * FROM vocabular where termen='" + st.realEscapeString(word) + "' AND explicatie ='" + st.realEscapeString(explanation) + "'";
-        Cursor cur = mDbHelper.queryData(sql);
+        String sql = "SELECT * FROM vocabular WHERE termen = ? AND explicatie = ?";
+        Cursor cur = mDbHelper.queryData(sql, new String[]{word, explanation});
         final int idSectionTemp = cur.getInt(1);
         cur.close();
 
@@ -791,15 +802,18 @@ public class VocabularyActivity extends Activity implements OnItemSelectedListen
         new AlertDialog.Builder(context).setTitle(tempTitle).setMessage(MyHtml.fromHtml(tempBody)).setIcon(android.R.drawable.ic_delete).setPositiveButton(R.string.yes, (dialog, whichButton) -> {
 
             // Delete now the record:
-            String sql1 = "DELETE FROM vocabular where termen='" + st.realEscapeString(word) + "' AND explicatie ='" + st.realEscapeString(explanation) + "'";
-            mDbHelper.deleteData(sql1);
+            String sql1 = "DELETE FROM vocabular WHERE termen = ? AND explicatie = ?";
+            mDbHelper.deleteData(sql1, new Object[]{word, explanation});
 
             /*
              * Check if this category idSectionTemp has
              * records left:
              */
-            Cursor cur1 = mDbHelper.queryData("SELECT COUNT(*) FROM vocabular WHERE idSectiune = '" + idSectionTemp + "'");
+            Cursor cur1 = mDbHelper.queryData(
+                    "SELECT COUNT(*) FROM vocabular WHERE idSectiune = ?",
+                    new String[]{String.valueOf(idSectionTemp)});
             int recordsLeft = cur1.getInt(0);
+            cur1.close();
             if (recordsLeft > 0) {
                 updateSpinner();
                 createList(curCategoryName);
@@ -821,13 +835,14 @@ public class VocabularyActivity extends Activity implements OnItemSelectedListen
         String categoryName;
 
         // Get first the category name if isn't from menu:
-        sql = "SELECT nume FROM sectiuni WHERE id='" + idSectionTemp + "'";
-        Cursor cur = mDbHelper.queryData(sql);
+        sql = "SELECT nume FROM sectiuni WHERE id = ?";
+        Cursor cur = mDbHelper.queryData(sql, new String[]{String.valueOf(idSectionTemp)});
         categoryName = cur.getString(0);
+        cur.close();
 
         // Delete now it:
-        sql = "DELETE FROM sectiuni WHERE id='" + idSectionTemp + "'";
-        mDbHelper.deleteData(sql);
+        sql = "DELETE FROM sectiuni WHERE id = ?";
+        mDbHelper.deleteData(sql, new Object[]{idSectionTemp});
         mDbHelper.executeSQLCode("VACUUM;");
 
         // Show an alert and restart the activity:
@@ -872,8 +887,8 @@ public class VocabularyActivity extends Activity implements OnItemSelectedListen
                  * We delete only the section, the records
                  * will be deleted in cascade:
                  */
-                String sql = "DELETE FROM sectiuni WHERE nume='" + st.realEscapeString(curCategoryName) + "'";
-                mDbHelper.deleteData(sql);
+                String sql = "DELETE FROM sectiuni WHERE nume = ?";
+                mDbHelper.deleteData(sql, new Object[]{curCategoryName});
                 mDbHelper.executeSQLCode("VACUUM;");
                 SoundPlayer.playSimple(mFinalContext, "vocabulary_deleted");
                 recreateThisActivity();
@@ -978,8 +993,8 @@ public class VocabularyActivity extends Activity implements OnItemSelectedListen
             Context context = new ContextThemeWrapper(this, R.style.MyAlertDialog);
 
             // Get from database the category row:
-            String sql = "SELECT * FROM sectiuni WHERE nume='" + st.realEscapeString(curCategoryName) + "'";
-            Cursor cur = mDbHelper.queryData(sql);
+            String sql = "SELECT * FROM sectiuni WHERE nume = ?";
+            Cursor cur = mDbHelper.queryData(sql, new String[]{curCategoryName});
             int tempIdSection = cur.getInt(0);
             String tempCategoryName = cur.getString(1);
             int curTime = cur.getInt(3);
@@ -1065,6 +1080,7 @@ public class VocabularyActivity extends Activity implements OnItemSelectedListen
 
     // A method which recreates this activity:
     private void recreateThisActivity() {
+        recreate();
     } // end recreateThisActivity() method.
 
     @Override
@@ -1102,24 +1118,23 @@ public class VocabularyActivity extends Activity implements OnItemSelectedListen
             int nrRejected = 0;
 
             // Determine the section id:
-            String sql = "SELECT COUNT(*) FROM sectiuni WHERE nume='" + st.realEscapeString(categoryName) + "'";
-            Cursor cur = mDbHelper.queryData(sql);
+            String sql = "SELECT COUNT(*) FROM sectiuni WHERE nume = ?";
+            Cursor cur = mDbHelper.queryData(sql, new String[]{categoryName});
             int count = cur.getInt(0);
             cur.close();
             if (count > 0) {
                 // It means the category already exists:
-                sql = "SELECT id FROM sectiuni  WHERE nume='" + st.realEscapeString(categoryName) + "'";
-                cur = mDbHelper.queryData(sql);
+                sql = "SELECT id FROM sectiuni WHERE nume = ?";
+                cur = mDbHelper.queryData(sql, new String[]{categoryName});
                 sectionId = cur.getInt(0);
                 cur.close();
             } else {
                 // The category doesn't exist, we create it:
-                sql = "INSERT INTO sectiuni (nume, data) VALUES ('" + st.realEscapeString(categoryName) + "', '" + data + "')";
-                mDbHelper.insertData(sql);
+                sql = "INSERT INTO sectiuni (nume, data) VALUES (?, ?)";
+                mDbHelper.insertData(sql, new Object[]{categoryName, data});
                 // Determine now the sectionId:
-                cur.close();
-                sql = "SELECT id FROM sectiuni WHERE nume='" + st.realEscapeString(categoryName) + "'";
-                cur = mDbHelper.queryData(sql);
+                sql = "SELECT id FROM sectiuni WHERE nume = ?";
+                cur = mDbHelper.queryData(sql, new String[]{categoryName});
                 sectionId = cur.getInt(0);
                 cur.close();
             } // end if category doesn't exist.
@@ -1129,7 +1144,6 @@ public class VocabularyActivity extends Activity implements OnItemSelectedListen
                 String line;
                 while ((line = br.readLine()) != null) {
                     // We process current line:
-                    line = st.realEscapeString(line);
                     // Make an array for word and explanation:
                     String[] aLine = line.split("-=-");
                     if (aLine.length == 2) {
@@ -1137,8 +1151,8 @@ public class VocabularyActivity extends Activity implements OnItemSelectedListen
                         String explanation = aLine[1].trim();
                         // Check if this record already exist:
                         if (!recordExistsInVocabulary(word, explanation)) {
-                            sql = "INSERT INTO vocabular (idSectiune, termen, explicatie, data) VALUES ('" + sectionId + "', '" + word + "', '" + explanation + "', '" + data + "')";
-                            mDbHelper.insertData(sql);
+                            sql = "INSERT INTO vocabular (idSectiune, termen, explicatie, data) VALUES (?, ?, ?, ?)";
+                            mDbHelper.insertData(sql, new Object[]{sectionId, word, explanation, data});
                             nrAdded++;
                         } // end if record doesn't exist.
                         else {

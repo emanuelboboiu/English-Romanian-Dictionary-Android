@@ -1,17 +1,11 @@
 package ro.pontes.englishromaniandictionary;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.os.AsyncTask;
 
 public class LexicalResources {
 
@@ -143,151 +137,116 @@ public class LexicalResources {
 
     // The method for format URLs for search in Datamuse:
     private void searchDatamuse(String word, int type) {
-        // We make the URL depending of the type of resource we need:
-        String url = "http://api.datamuse.com/words?";
+        String baseUrl = "https://api.datamuse.com/words";
+        String url;
         if (type == 1) { // IPA transcription:
-            url += "sp=" + word + "&md=r&ipa=1&max=1";
+            url = WebDataClient.buildUrl(baseUrl, "sp", word, "md", "r", "ipa", "1", "max", "1", "k", "boboiu");
         } else if (type == 2) { // synonyms:
-            url += "rel_syn=" + word + "&max=10";
+            url = WebDataClient.buildUrl(baseUrl, "rel_syn", word, "max", "10", "k", "boboiu");
         } else if (type == 3) { // antonyms:
-            url += "rel_ant=" + word + "&max=10";
+            url = WebDataClient.buildUrl(baseUrl, "rel_ant", word, "max", "10", "k", "boboiu");
         } else if (type == 4) { // homophones:
-            url += "rel_hom=" + word + "&max=10";
+            url = WebDataClient.buildUrl(baseUrl, "rel_hom", word, "max", "10", "k", "boboiu");
         } else if (type == 5) { // rhymes:
-            url += "rel_rhy=" + word + "&max=30";
+            url = WebDataClient.buildUrl(baseUrl, "rel_rhy", word, "max", "30", "k", "boboiu");
         } else if (type == 6) { // definition:
-            url += "sp=" + word + "&md=d&max=1";
+            url = WebDataClient.buildUrl(baseUrl, "sp", word, "md", "d", "max", "1", "k", "boboiu");
         } else if (type == 7) { // word frequency:
-            url += "sp=" + word + "&md=f&max=1";
+            url = WebDataClient.buildUrl(baseUrl, "sp", word, "md", "f", "max", "1", "k", "boboiu");
         } else if (type == 8) { // hypernyms:
-            url += "rel_spc=" + word + "&max=10";
+            url = WebDataClient.buildUrl(baseUrl, "rel_spc", word, "max", "10", "k", "boboiu");
         } else if (type == 9) { // hyponyms:
-            url += "rel_gen=" + word + "&max=30";
+            url = WebDataClient.buildUrl(baseUrl, "rel_gen", word, "max", "30", "k", "boboiu");
         } else if (type == 10) { // followers:
-            url += "rel_bga=" + word + "&max=30";
+            url = WebDataClient.buildUrl(baseUrl, "rel_bga", word, "max", "30", "k", "boboiu");
         } else if (type == 11) { // predecessors:
-            url += "rel_bgb=" + word + "&max=30";
+            url = WebDataClient.buildUrl(baseUrl, "rel_bgb", word, "max", "30", "k", "boboiu");
+        } else {
+            return;
         }
 
-        // Add now the Datamuse key to identify my application there:
-        url += "&k=boboiu";
-
-        new GetDatamuse().execute(url);
+        loadDatamuse(url);
     } // end ipaResult() method.
 
-    /*
-     * Here is a subclass to take and parse JSon for other resources for the
-     * dictionary.
-     */
-    private class GetDatamuse extends AsyncTask<String, String, String> {
-        private ProgressDialog pd;
+    private void loadDatamuse(String url) {
+        ProgressDialog progressDialog = new ProgressDialog(context);
+        progressDialog.setMessage(context.getString(R.string.please_wait_external_resources));
+        progressDialog.setIndeterminate(false);
+        progressDialog.setCancelable(true);
+        progressDialog.show();
 
-        // execute before task:
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            pd = new ProgressDialog(context);
-            pd.setMessage(context.getString(R.string.please_wait_external_resources));
-            pd.setIndeterminate(false);
-            pd.setCancelable(true);
-            pd.show();
-        }
-
-        // Execute task
-        String urlText = "";
-
-        @Override
-        protected String doInBackground(String... strings) {
-            StringBuilder content = new StringBuilder();
-            urlText = strings[0];
-            try {
-                // Create a URL object:
-                URL url = new URL(urlText);
-                // Create a URLConnection object:
-                URLConnection urlConnection = url.openConnection();
-                // Wrap the URLConnection in a BufferedReader:
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-                String line;
-                // Read from the URLConnection via the BufferedReader:
-                while ((line = bufferedReader.readLine()) != null) {
-                    content.append(line);
-                }
-                bufferedReader.close();
-            } catch (Exception e) {
-                // e.printStackTrace();
+        final int requestedResourceType = externalResourceType;
+        WebDataClient.get(url, result -> {
+            if (!WebDataClient.isUiContextActive(context)) {
+                return;
             }
-            return content.toString();
-        } // end doInBackground() method.
+            if (progressDialog.isShowing()) {
+                progressDialog.dismiss();
+            }
+            showDatamuseResult(result, requestedResourceType);
+        });
+    }
 
-        // Execute after task with the task result as string:
-        @Override
-        protected void onPostExecute(String s) {
+    private void showDatamuseResult(String result, int resourceType) {
+        SoundPlayer.playSimple(context, "new_dialog");
 
-            // Clear progress dialog:
-            pd.dismiss();
-
-            // we make things depending of the externalResourceType:
-            // Before, a specific sound:
-            SoundPlayer.playSimple(context, "new_dialog");
-
-            switch (externalResourceType) {
+        switch (resourceType) {
                 case 1:
                     // IPA transcription:
-                    showIPATranscription(s);
+                    showIPATranscription(result);
                     return;
                 // end case IPA.
                 case 2:
                     // Synonyms list:
-                    showRelList(s, 2);
+                    showRelList(result, 2);
                     return;
                 // end case synonyms.
                 case 3:
                     // Antonyms list:
-                    showRelList(s, 3);
+                    showRelList(result, 3);
                     return;
                 // end case antonyms.
                 case 4:
                     // Homophones list:
-                    showRelList(s, 4);
+                    showRelList(result, 4);
                     return;
                 // end case homophones.
                 case 5:
                     // Rhymes list:
-                    showRelList(s, 5);
+                    showRelList(result, 5);
                     return;
                 // end case rhymes.
                 case 6:
                     // Word definition:
-                    showWordDefinition(s);
+                    showWordDefinition(result);
                     return;
                 // end case word definition.
                 case 7:
                     // Word frequency:
-                    showWordFrequency(s);
+                    showWordFrequency(result);
                     return;
                 // end case word frequency.
                 case 8:
                     // Hypernyms list:
-                    showRelList(s, 8);
+                    showRelList(result, 8);
                     return;
                 // end case hypernyms.
                 case 9:
                     // Hyponyms list:
-                    showRelList(s, 9);
+                    showRelList(result, 9);
                     return;
                 // end case hyponyms.
                 case 10:
                     // Followers list:
-                    showRelList(s, 10);
+                    showRelList(result, 10);
                     return;
                 // end case followers.
                 case 11:
                     // Predecessors list:
-                    showRelList(s, 11);
+                    showRelList(result, 11);
                     // end case predecessors.
-            } // end switch(externalResourceType).
-        } // end postExecute() method.
-    } // end subclass.
+        }
+    }
 
     // The methods called from postExecute:
     public void showIPATranscription(String s) {

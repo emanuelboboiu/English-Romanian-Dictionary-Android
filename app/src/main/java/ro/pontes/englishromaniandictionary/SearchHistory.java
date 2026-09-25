@@ -27,14 +27,16 @@ public class SearchHistory {
         // We need the time in seconds:
         long timeInSeconds = GUITools.getTimeInSeconds();
         int status = 0; // 1 means processed item.
-        String sql = "INSERT INTO istoric (tip, status, directie, termen, data) VALUES ('" + type + "', '" + status + "', '" + direction + "', '" + word + "', '" + timeInSeconds + "');";
-        mDbHelper.executeSQLCode(sql);
+        String sql = "INSERT INTO istoric (tip, status, directie, termen, data) VALUES (?, ?, ?, ?, ?)";
+        mDbHelper.executeSQLCode(sql, new Object[]{type, status, direction, word, timeInSeconds});
     } // end addRecord() method.
 
     public int getNumberOfRecords() {
         String sql = "SELECT COUNT(*) AS total FROM istoric;";
         Cursor cursor = mDbHelper.queryData(sql);
-        return cursor.getInt(0);
+        int numberOfRecords = cursor.getInt(0);
+        cursor.close();
+        return numberOfRecords;
     } // end getNumberOfRecords() method.
 
     public void deleteSearchHistory() {
@@ -47,8 +49,8 @@ public class SearchHistory {
 
     // A method to delete a search from history:
     public void deleteWordFromHistory(int id) {
-        String sql = "DELETE FROM istoric where id=" + id + ";";
-        mDbHelper.deleteData(sql);
+        String sql = "DELETE FROM istoric WHERE id=?";
+        mDbHelper.deleteData(sql, new Object[]{id});
     } // end deleteWordFromHistory() method.
 
     public Cursor getSearchesCursor(int type, int direction, String orderBy) {
@@ -57,8 +59,11 @@ public class SearchHistory {
          * English, 0 means Romanian. orderBy contains a string containing the
          * name of the column to order, word or date:
          */
-        String sql = "SELECT * FROM istoric WHERE tip=" + type + " AND directie=" + direction + " ORDER BY " + orderBy + ";";
-        Cursor cursor = mDbHelper.queryData(sql);
+        String safeOrderBy = "termen ASC".equals(orderBy)
+                ? "termen ASC"
+                : "data DESC";
+        String sql = "SELECT * FROM istoric WHERE tip=? AND directie=? ORDER BY " + safeOrderBy;
+        Cursor cursor = mDbHelper.queryData(sql, new String[]{String.valueOf(type), String.valueOf(direction)});
         // Only if there are results:
         int count = cursor.getCount();
         if (count > 0) {
@@ -66,6 +71,7 @@ public class SearchHistory {
         } // end if there were results in cursor.
         // If there are no results, getCount is 0:
         else {
+            cursor.close();
             return null;
         } // end if there were no results.
     } // end getSearchesCursor() method.

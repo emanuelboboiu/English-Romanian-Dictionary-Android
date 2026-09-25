@@ -40,7 +40,11 @@ public class DBAdapter2 {
     }
 
     public Cursor queryData(String sql) {
-        Cursor mCur = mDb.rawQuery(sql, null);
+        return queryData(sql, null);
+    }
+
+    public Cursor queryData(String sql, String[] selectionArgs) {
+        Cursor mCur = mDb.rawQuery(sql, selectionArgs);
         if (mCur != null) {
             mCur.moveToNext();
         }
@@ -52,18 +56,34 @@ public class DBAdapter2 {
         mDb.execSQL(sql);
     } // end executeSQLCode() method.
 
+    public void executeSQLCode(String sql, Object[] bindArgs) {
+        mDb.execSQL(sql, bindArgs);
+    }
+
     // A method to update a table:
     public void updateData(String sql) {
         mDb.execSQL(sql);
     } // end update data.
+
+    public void updateData(String sql, Object[] bindArgs) {
+        mDb.execSQL(sql, bindArgs);
+    }
 
     // A method to insert into a table:
     public void insertData(String sql) {
         mDb.execSQL(sql);
     } // end insert data.
 
+    public void insertData(String sql, Object[] bindArgs) {
+        mDb.execSQL(sql, bindArgs);
+    }
+
     public void deleteData(String sql) {
         mDb.execSQL(sql);
     } // end deleteData() method..
+
+    public void deleteData(String sql, Object[] bindArgs) {
+        mDb.execSQL(sql, bindArgs);
+    }
 
 } // end DBAdapter2 class, for using my vocabulary.

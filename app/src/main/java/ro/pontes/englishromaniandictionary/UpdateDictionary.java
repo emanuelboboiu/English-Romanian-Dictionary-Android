@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.text.InputType;
 import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
@@ -21,16 +20,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
-
-import ro.pontes.englishromaniandictionary.R.color;
 
 public class UpdateDictionary {
 
@@ -60,69 +53,33 @@ public class UpdateDictionary {
             // Get the last update timestamp from SharedPreferences:
             Settings set = new Settings(context);
             int lastUpdate = set.getIntSettings("lastUpdate");
-            String url = "https://limbalatina.ro/dictenro/new_words.php?data=" + lastUpdate;
-            new GetUpdate().execute(url);
+            String url = WebDataClient.buildUrl(
+                    "https://limbalatina.ro/dictenro/new_words.php",
+                    "data", String.valueOf(lastUpdate));
+            getUpdate(url);
         } // end if there is an available Internet connection.
         else {
             GUITools.alert(context, context.getString(R.string.warning), context.getString(R.string.no_connection_for_update_new_words));
         } // end if no Internet connection is available.
     } // end updateStart() method.
 
-    /*
-     * Here is a subclass to take and parse JSon for other resources for the
-     * dictionary.
-     */
-    private class GetUpdate extends AsyncTask<String, String, String> {
-        private ProgressDialog pd;
+    private void getUpdate(String url) {
+        ProgressDialog progressDialog = new ProgressDialog(context);
+        progressDialog.setMessage(context.getString(R.string.please_wait_updating));
+        progressDialog.setIndeterminate(false);
+        progressDialog.setCancelable(true);
+        progressDialog.show();
 
-        // execute before task:
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            pd = new ProgressDialog(context);
-            pd.setMessage(context.getString(R.string.please_wait_updating));
-            pd.setIndeterminate(false);
-            pd.setCancelable(true);
-            pd.show();
-        } // end onPreExecute() method.
-
-        // Execute task
-        String urlText = "";
-
-        @Override
-        protected String doInBackground(String... strings) {
-            StringBuilder content = new StringBuilder();
-            urlText = strings[0];
-            try {
-                // Create a URL object:
-                URL url = new URL(urlText);
-                // Create a URLConnection object:
-                URLConnection urlConnection = url.openConnection();
-                // Wrap the URLConnection in a BufferedReader:
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-                String line;
-                // Read from the URLConnection via the BufferedReader:
-                while ((line = bufferedReader.readLine()) != null) {
-                    content.append(line);
-                }
-                bufferedReader.close();
-            } catch (Exception e) {
-                // e.printStackTrace();
+        WebDataClient.get(url, result -> {
+            if (!WebDataClient.isUiContextActive(context)) {
+                return;
             }
-            return content.toString();
-        } // end doInBackground() method.
-
-        // Execute after task with the task result as string:
-        @Override
-        protected void onPostExecute(String s) {
-
-            // Clear progress dialog:
-            pd.dismiss();
-
-            // s is the string which contains what we need:
-            updateEffectively(s);
-        } // end postExecute() method.
-    } // end subclass GetUpdate..
+            if (progressDialog.isShowing()) {
+                progressDialog.dismiss();
+            }
+            updateEffectively(result);
+        });
+    }
 
     // The methods called from postExecute:
     private void updateEffectively(String s) {
@@ -276,9 +233,9 @@ public class UpdateDictionary {
 
     // A method which inserts into database a new word:
     private boolean insertNewWordInDB(int direction, String word, String definition) {
-        // We prepare the string:
-        String sql = "INSERT INTO dictionar" + direction + " (termen, explicatie) VALUES ('" + word + "', '" + definition + "');";
-        return mDB.insertData(sql);
+        String dictionaryTable = direction == 1 ? "dictionar1" : "dictionar0";
+        String sql = "INSERT INTO " + dictionaryTable + " (termen, explicatie) VALUES (?, ?)";
+        return mDB.insertData(sql, new Object[]{word, definition});
     } // end insertNewWordInDB() method.
 
     // From here a new proposal:
@@ -335,7 +292,6 @@ public class UpdateDictionary {
             // Now add two radio buttons for EnRo or RoEn:
             RadioGroup radioGroup = new RadioGroup(newContext);
             RadioButton rb0 = new RadioButton(newContext);
-            rb0.setHintTextColor(color.black);
             rb0.setTextSize(TypedValue.COMPLEX_UNIT_SP, MainActivity.textSize);
             rb0.setText(newContext.getString(R.string.rb_en_ro));
             rb0.setTextColor(Color.BLACK);
@@ -378,8 +334,13 @@ public class UpdateDictionary {
         String newExplanation = (MyHtml.fromHtml(explanation).toString()).trim();
         if (newWord.length() >= 2 && newExplanation.length() >= 2) {
             // Add here into online database:
-            String url = "https://limbalatina.ro/dictenro/new_words_proposals.php?direction=" + direction + "&google_id=" + MainActivity.myAccountName + "&termen=" + newWord + "&explicatie=" + newExplanation;
-            new SendUpdate().execute(url);
+            String url = WebDataClient.buildUrl(
+                    "https://limbalatina.ro/dictenro/new_words_proposals.php",
+                    "direction", String.valueOf(direction),
+                    "google_id", String.valueOf(MainActivity.myAccountName),
+                    "termen", newWord,
+                    "explicatie", newExplanation);
+            sendUpdate(url);
             toReturn = true;
         } // end if the length are OK.
         else {
@@ -388,55 +349,26 @@ public class UpdateDictionary {
         } // end if edit text haven't text.
     } // end send new add Edit() method.
 
-    // A subclass to send data to server:
-    private class SendUpdate extends AsyncTask<String, String, String> {
-        private ProgressDialog pd;
+    private void sendUpdate(String url) {
+        ProgressDialog progressDialog = new ProgressDialog(context);
+        progressDialog.setMessage(context.getString(R.string.please_wait_sending));
+        progressDialog.setIndeterminate(false);
+        progressDialog.setCancelable(true);
+        progressDialog.show();
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            pd = new ProgressDialog(context);
-            pd.setMessage(context.getString(R.string.please_wait_sending));
-            pd.setIndeterminate(false);
-            pd.setCancelable(true);
-            pd.show();
-        } // end onPreExecute() method.
-
-        @Override
-        protected String doInBackground(String... params) {
-            StringBuilder content = new StringBuilder();
-            String urlString = params[0]; // URL to call
-            try {
-                // Create a URL object:
-                URL url = new URL(urlString);
-                // Create a URLConnection object:
-                URLConnection urlConnection = url.openConnection();
-                // Wrap the URLConnection in a BufferedReader:
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-                String line;
-                // Read from the URLConnection via the BufferedReader:
-                while ((line = bufferedReader.readLine()) != null) {
-                    content.append(line);
-                }
-                bufferedReader.close();
-            } catch (Exception e) {
-                // e.printStackTrace();
+        WebDataClient.get(url, result -> {
+            if (!WebDataClient.isUiContextActive(context)) {
+                return;
             }
-            return content.toString();
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            // Clear progress dialog:
-            pd.dismiss();
-
+            if (progressDialog.isShowing()) {
+                progressDialog.dismiss();
+            }
             if (result.contains("successfully")) {
                 GUITools.alert(context, context.getString(R.string.success), context.getString(R.string.word_sent_successfully));
             } else {
                 GUITools.alert(context, context.getString(R.string.error), context.getString(R.string.word_not_sent_successfully));
             }
-        } // end postExecute() method.
-
-    } // end subclass SendUpdate.
+        });
+    }
 
 } // end UpdateDictionary class.

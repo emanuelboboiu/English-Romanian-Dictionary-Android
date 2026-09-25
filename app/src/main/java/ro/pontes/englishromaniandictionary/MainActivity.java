@@ -251,6 +251,13 @@ public class MainActivity extends Activity {
         // a method found in this class.
         updateGUIFirst();
 
+        // TV users must always start on an actionable control. Posting the
+        // request waits until the complete TV layout has been measured.
+        if (isTV) {
+            View initialFocus = findViewById(R.id.btTVVocabulary);
+            initialFocus.post(initialFocus::requestFocus);
+        }
+
         // ShakeDetector initialisation:
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -691,16 +698,29 @@ public class MainActivity extends Activity {
             // Make now the query string depending if is search middle or
             // not:
             String SQL;
+            String[] selectionArgs;
+            String dictionaryTable = direction == 1 ? "dictionar1" : "dictionar0";
 
             // Make the SQL query string depending of the search type:
             if (isSearchFullText) {
-                SQL = "SELECT *, 1 AS sortare FROM dictionar" + direction + " WHERE termen='" + word + "' OR termen LIKE '" + word + ",%' OR termen LIKE '" + word + ".%' OR termen LIKE '" + word + " %' UNION SELECT *, 2 AS sortare FROM dictionar" + direction + " WHERE termen LIKE '% " + word + "' OR termen LIKE '% " + word + ",%' OR termen LIKE '% " + word + ".%' OR termen LIKE '% " + word + " %' ORDER BY sortare, termen";
+                SQL = "SELECT *, 1 AS sortare FROM " + dictionaryTable
+                        + " WHERE termen=? OR termen LIKE ? OR termen LIKE ? OR termen LIKE ?"
+                        + " UNION SELECT *, 2 AS sortare FROM " + dictionaryTable
+                        + " WHERE termen LIKE ? OR termen LIKE ? OR termen LIKE ? OR termen LIKE ?"
+                        + " ORDER BY sortare, termen";
+                selectionArgs = new String[]{
+                        word, word + ",%", word + ".%", word + " %",
+                        "% " + word, "% " + word + ",%", "% " + word + ".%", "% " + word + " %"
+                };
             } else {
                 // No full text search:
-                SQL = "SELECT *, 1 AS sortare from dictionar" + direction + " WHERE termen LIKE '" + word + "%' union SELECT *,2 AS sortare from dictionar" + direction + " WHERE termen LIKE '%" + word + "%' AND termen NOT LIKE '" + word + "%' ORDER BY sortare, termen";
+                SQL = "SELECT *, 1 AS sortare FROM " + dictionaryTable
+                        + " WHERE termen LIKE ? UNION SELECT *, 2 AS sortare FROM " + dictionaryTable
+                        + " WHERE termen LIKE ? AND termen NOT LIKE ? ORDER BY sortare, termen";
+                selectionArgs = new String[]{word + "%", "%" + word + "%", word + "%"};
             } // end SQL query string for not full text.
 
-            Cursor cursor = mDbHelper.queryData(SQL);
+            Cursor cursor = mDbHelper.queryData(SQL, selectionArgs);
             int type = 0; // word not found.
             // Only if there are results:
             int count = cursor.getCount();
@@ -773,6 +793,7 @@ public class MainActivity extends Activity {
                 LinearLayout.LayoutParams lpChild2 = new LinearLayout.LayoutParams(ibMoreHeight, ibMoreHeight);
 
                 final TextView[] tv = new TextView[resultsLimit + 1];
+                final ImageButton[] moreButtons = new ImageButton[resultsLimit];
                 cursor.moveToFirst();
                 do {
                     llOneResult = new LinearLayout(this);
@@ -798,6 +819,9 @@ public class MainActivity extends Activity {
                     tv[it].setNextFocusRightId(curResultId + idDifference);
                     tv[it].setNextFocusDownId(++curResultId);
                     tv[it].setFocusable(true);
+                    if (isTV) {
+                        tv[it].setBackgroundResource(R.drawable.selector_background_selected);
+                    }
 
                     // For a short click, speak result:
                     tv[it].setOnClickListener(view -> speakResult(w, e));
@@ -809,6 +833,7 @@ public class MainActivity extends Activity {
 
                     // Create also the ImageButton for more options:
                     ImageButton ib = new ImageButton(this);
+                    moreButtons[it] = ib;
                     ib.setImageResource(android.R.drawable.ic_menu_more);
                     ib.setBackgroundResource(R.drawable.selector_background_selected);
                     ib.setContentDescription(String.format(getString(R.string.ib_more_for_results), w));
@@ -856,10 +881,26 @@ public class MainActivity extends Activity {
                     tv[it].setPadding(mPaddingDP, mPaddingDP * 2, mPaddingDP, mPaddingDP);
                     tv[it].setText(moreResultsMessage);
                     tv[it].setNextFocusUpId(curResultId - 1);
+                    tv[it].setNextFocusDownId(R.id.tvNumberOfResults);
                     tv[it].setId(curResultId);
                     tv[it].setFocusable(true);
+                    if (isTV) {
+                        tv[it].setBackgroundResource(R.drawable.selector_background_selected);
+                    }
                     llResults.addView(tv[it]);
                 } // end show message for more results.
+
+                /*
+                 * Close the focus graph using controls that really exist.
+                 * Previously the last result and its More button pointed to
+                 * generated IDs beyond the end of the list.
+                 */
+                int lastResultIndex = it - 1;
+                int focusAfterLastResult = count > resultsLimit
+                        ? curResultId
+                        : R.id.tvNumberOfResults;
+                tv[lastResultIndex].setNextFocusDownId(focusAfterLastResult);
+                moreButtons[lastResultIndex].setNextFocusDownId(focusAfterLastResult);
             } // end if there were results in cursor.
             // If there are no results, getCount is 0:
             else {
@@ -870,6 +911,7 @@ public class MainActivity extends Activity {
             if (isHistory) {
                 searchHistory.addRecord(word, direction, type);
             } // end if search history is activated.
+            cursor.close();
         } // end if there was something typed in the EditText.
     } // end getWordFromDB() method.
 
@@ -1075,8 +1117,7 @@ public class MainActivity extends Activity {
 
     // A method which recreates this activity:
     private void recreateThisActivity() {
-        finish();
-        startActivity(getIntent());
+        recreate();
     } // end recreateThisActivity() method.
 
     // Methods for add to vocabulary:
@@ -1170,6 +1211,7 @@ public class MainActivity extends Activity {
             } while (cursorSections.moveToNext());
             ll.addView(rg);
         } // end if there are sections.
+        cursorSections.close();
 
         sv.addView(ll);
         addLLMain.addView(sv);
@@ -1193,11 +1235,11 @@ public class MainActivity extends Activity {
              */
             String etText = et.getText().toString();
             if (etText.length() > 1 && !(etText.equals(" ") || etText.equals("  ") || etText.equals("   "))) {
-                etText = st.realEscapeString(etText);
+                etText = etText.trim();
                 // Check if section doesn't already exist:
                 if (!fieldExists("sectiuni", "nume", etText)) {
-                    String sql1 = "INSERT INTO sectiuni (nume, descriere, data) VALUES ('" + etText + "', 'none', '" + timeInSeconds + "');";
-                    mDbHelper2.insertData(sql1);
+                    String sql1 = "INSERT INTO sectiuni (nume, descriere, data) VALUES (?, ?, ?)";
+                    mDbHelper2.insertData(sql1, new Object[]{etText, "none", timeInSeconds});
 
                     /*
                      * Post a record into DB Statistics about
@@ -1214,9 +1256,10 @@ public class MainActivity extends Activity {
                  * After we created this new section, we must
                  * extract the idSection of this:
                  */
-                String sql1 = "SELECT id FROM sectiuni WHERE nume='" + etText + "'";
-                Cursor tempCursor = mDbHelper2.queryData(sql1);
+                String sql1 = "SELECT id FROM sectiuni WHERE nume=?";
+                Cursor tempCursor = mDbHelper2.queryData(sql1, new String[]{etText});
                 idSection = tempCursor.getInt(0);
+                tempCursor.close();
             } // end if etText was not empty.
 
             /*
@@ -1227,9 +1270,9 @@ public class MainActivity extends Activity {
 
                 // Add the word and explanation effectively if
                 // record doesn't exists:
-                if (!recordExistsInVocabulary(st.realEscapeString(word), st.realEscapeString(explanation))) {
-                    String sql1 = "INSERT INTO vocabular (idSectiune, termen, explicatie, data, tip) VALUES ('" + idSection + "', '" + st.realEscapeString(word) + "', '" + st.realEscapeString(explanation) + "', '" + timeInSeconds + "', '" + direction + "')";
-                    mDbHelper2.insertData(sql1);
+                if (!recordExistsInVocabulary(word, explanation)) {
+                    String sql1 = "INSERT INTO vocabular (idSectiune, termen, explicatie, data, tip) VALUES (?, ?, ?, ?, ?)";
+                    mDbHelper2.insertData(sql1, new Object[]{idSection, word, explanation, timeInSeconds, direction});
                     SoundPlayer.playSimple(mFinalContext, "hand_writting");
 
                     /*
@@ -1268,8 +1311,8 @@ public class MainActivity extends Activity {
         mDbHelperTemp.createDatabase();
         mDbHelperTemp.open();
 
-        String sql = "SELECT COUNT(*) AS total FROM vocabular WHERE termen='" + word + "' AND explicatie='" + explanation + "'";
-        Cursor cur = mDbHelperTemp.queryData(sql);
+        String sql = "SELECT COUNT(*) AS total FROM vocabular WHERE termen=? AND explicatie=?";
+        Cursor cur = mDbHelperTemp.queryData(sql, new String[]{word, explanation});
         int count = cur.getInt(0);
         cur.close();
         mDbHelperTemp.close();
@@ -1288,8 +1331,8 @@ public class MainActivity extends Activity {
         mDbHelperTemp.createDatabase();
         mDbHelperTemp.open();
 
-        String sql = "SELECT COUNT(*) AS total FROM " + table + " WHERE " + field + " = '" + text + "';";
-        Cursor cur = mDbHelperTemp.queryData(sql);
+        String sql = "SELECT COUNT(*) AS total FROM sectiuni WHERE nume=?";
+        Cursor cur = mDbHelperTemp.queryData(sql, new String[]{text});
         int count = cur.getInt(0);
         cur.close();
         mDbHelperTemp.close();
@@ -1307,8 +1350,8 @@ public class MainActivity extends Activity {
         mDbHelperTemp.createDatabase();
         mDbHelperTemp.open();
 
-        String sql = "SELECT COUNT(*) AS total FROM vocabular WHERE idSectiune = '" + id + "';";
-        Cursor cur = mDbHelperTemp.queryData(sql);
+        String sql = "SELECT COUNT(*) AS total FROM vocabular WHERE idSectiune=?";
+        Cursor cur = mDbHelperTemp.queryData(sql, new String[]{String.valueOf(id)});
         int count = cur.getInt(0);
         cur.close();
         mDbHelperTemp.close();
