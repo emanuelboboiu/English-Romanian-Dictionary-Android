@@ -59,9 +59,7 @@ import com.android.billingclient.api.PurchasesUpdatedListener;
 import com.android.billingclient.api.QueryProductDetailsParams;
 import com.android.billingclient.api.QueryPurchasesParams;
 
-import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -1109,20 +1107,9 @@ public class MainActivity extends ComponentActivity {
 
     // The method to generate the AdMob sequence:
     private void adMobSequence() {
-        //initializing the Google Admob SDK
-        MobileAds.initialize(this, initializationStatus -> {
-            // Now, because it is initialized, we load the ad:
-            loadBannerAd();
-        });
+        new AdsConsentController(this, bannerAdView);
     } // end adMobSequence().
 
-    // Now we will create a simple method to load the Banner Ad inside QuizActivity class as shown below:
-    private void loadBannerAd() {
-        // Creating  a Ad Request
-        AdRequest adRequest = new AdRequest.Builder().build();
-        // load Ad with the Request
-        bannerAdView.loadAd(adRequest);
-    } // end loadBannerAd() method.
 // end Google ads section.
 
     // The finishing of the speak:

@@ -1,0 +1,5 @@
+<resources>
+    <string name="ad_privacy_options">Ad privacy options</string>
+    <string name="ad_privacy_error">Privacy options could not be loaded. Please try again later.</string>
+    <item name="menu_ad_privacy" type="id" />
+</resources>

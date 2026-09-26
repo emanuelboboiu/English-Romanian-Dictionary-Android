@@ -34,9 +34,7 @@ import android.widget.TextView;
 import androidx.activity.ComponentActivity;
 import androidx.activity.OnBackPressedCallback;
 
-import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -311,20 +309,9 @@ public class VocabularyActivity extends ComponentActivity implements OnItemSelec
 
     // The method to generate the AdMob sequence:
     private void adMobSequence() {
-        //initializing the Google Admob SDK
-        MobileAds.initialize(this, initializationStatus -> {
-            // Now, because it is initialized, we load the ad:
-            loadBannerAd();
-        });
+        new AdsConsentController(this, bannerAdView);
     } // end adMobSequence().
 
-    // Now we will create a simple method to load the Banner Ad inside QuizActivity class as shown below:
-    private void loadBannerAd() {
-        // Creating  a Ad Request
-        AdRequest adRequest = new AdRequest.Builder().build();
-        // load Ad with the Request
-        bannerAdView.loadAd(adRequest);
-    } // end loadBannerAd() method.
 // end Google ads section.
 
     // A method to hide or show AdMob zone:

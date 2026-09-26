@@ -1,0 +1,4 @@
+<resources>
+    <string name="ad_privacy_options">Confidențialitatea reclamelor</string>
+    <string name="ad_privacy_error">Opțiunile de confidențialitate nu au putut fi încărcate. Încearcă din nou mai târziu.</string>
+</resources>
