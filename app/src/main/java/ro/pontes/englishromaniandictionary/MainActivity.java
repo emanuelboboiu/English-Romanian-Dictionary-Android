@@ -139,8 +139,10 @@ public class MainActivity extends ComponentActivity {
      * The height of the more about a word imageButton will be the height of a
      * normal text view, the height of the tvStatus:
      */
-    private int ibMoreHeight = 0;
-    private int llResultsWidth = 0;
+    private String displayedQuery;
+    private int displayedDirection;
+    private boolean displayedFullText;
+    private boolean restoringSearch;
 
     /*
      * We need a global variable TextView for of a result. A value will be
@@ -176,6 +178,7 @@ public class MainActivity extends ComponentActivity {
         // Charge settings:
         Settings set = new Settings(this);
         set.chargeSettings();
+        st = new StringTools(this);
 
         // We charge if needed the language chosen, if is not default:
         setLocale(langNumber);
@@ -258,7 +261,7 @@ public class MainActivity extends ComponentActivity {
 
         // TV users must always start on an actionable control. Posting the
         // request waits until the complete TV layout has been measured.
-        if (isTV) {
+        if (isTV && savedInstanceState == null) {
             View initialFocus = findViewById(R.id.btTVVocabulary);
             initialFocus.post(initialFocus::requestFocus);
         }
@@ -283,15 +286,28 @@ public class MainActivity extends ComponentActivity {
         // Some lines for detecting if search is from history or vocabulary
         // regions:
         String historyMessage = getIntent().getStringExtra("wordFromHistory");
-        if (historyMessage != null && !historyMessage.isEmpty()) {
+        if (savedInstanceState == null && historyMessage != null && !historyMessage.isEmpty()) {
             int historyDirection = Integer.parseInt(historyMessage.substring(historyMessage.length() - 1));
             String historyWord = historyMessage.substring(0, historyMessage.length() - 1);
             searchFromHistory(historyWord, historyDirection);
         }
         // end search from history or vocabulary via intent.
 
-        // To determine the tvStatusHeight and the llResults width:
-        determineSomeSizes();
+        // Rebuild results without counting a restored screen as a new search.
+        if (savedInstanceState != null) {
+            displayedQuery = savedInstanceState.getString("displayedQuery");
+            if (displayedQuery != null) {
+                boolean currentFullText = isSearchFullText;
+                restoringSearch = true;
+                try {
+                    isSearchFullText = savedInstanceState.getBoolean("displayedFullText");
+                    showQuery(displayedQuery, savedInstanceState.getInt("displayedDirection"));
+                } finally {
+                    isSearchFullText = currentFullText;
+                    restoringSearch = false;
+                }
+            }
+        }
 
         if (!isPremium) {
             // For billing:
@@ -301,29 +317,13 @@ public class MainActivity extends ComponentActivity {
         }
     } // end onCreate() method.
 
-    private void determineSomeSizes() {
-        /*
-         * Determine the height of the tvStatus, this height will be the height
-         * and the width of the more ImageButton for each result:
-         */
-        llBottomInfo.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
-            // Only if it is not already determined:
-            if (ibMoreHeight == 0) {
-                TextView tv = findViewById(R.id.tvStatus);
-                ibMoreHeight = tv.getHeight();
-            } // end if it was not determined.
-        });
-        // End determine the height of the tvStatus.
-
-        llResults.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
-            // Only if it is not already determined:
-            if (llResultsWidth == 0) {
-                llResultsWidth = llResults.getWidth();
-
-            } // end if llResultsWidth was not determined.
-        });
-        // End determine the width of the llResults.
-    }// end determineSomeSizes() method.
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("displayedQuery", displayedQuery);
+        outState.putInt("displayedDirection", displayedDirection);
+        outState.putBoolean("displayedFullText", displayedFullText);
+    }
 
     //
     @Override
@@ -696,9 +696,15 @@ public class MainActivity extends ComponentActivity {
         // Get the string filled in the EditText:
         String word = getTextFromEditText();
         lastStringInSearchEdit = word;
+        showQuery(word, direction);
+    }
 
+    private void showQuery(String word, int direction) {
         // Only if there is something typed in the EditText:
         if (word != null) {
+            displayedQuery = word;
+            displayedDirection = direction;
+            displayedFullText = isSearchFullText;
             // Make now the query string depending if is search middle or
             // not:
             String SQL;
@@ -731,7 +737,7 @@ public class MainActivity extends ComponentActivity {
             if (count > 0) {
                 type = 1; // word found.
                 // Play a specific sound for results shown:
-                SoundPlayer.playSimple(this, "results_shown");
+                if (!restoringSearch) SoundPlayer.playSimple(this, "results_shown");
 
                 // Hide the llBottomInfo layout if is premium version or TV:
                 if (isPremium || isTV) {
@@ -789,12 +795,12 @@ public class MainActivity extends ComponentActivity {
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 
                 // We need also a LayoutParams for each text view:
-                /* The width of a TV is the llResults width minus ibMoreHeight: */
-                int tvWidth = llResultsWidth - ibMoreHeight;
-                LinearLayout.LayoutParams lpChild1 = new LinearLayout.LayoutParams(tvWidth, LayoutParams.WRAP_CONTENT);
+                // Let the text follow the available width after resizing.
+                LinearLayout.LayoutParams lpChild1 = new LinearLayout.LayoutParams(0, LayoutParams.WRAP_CONTENT, 1f);
 
                 // We need also a LayoutParams for each more options button:
-                LinearLayout.LayoutParams lpChild2 = new LinearLayout.LayoutParams(ibMoreHeight, ibMoreHeight);
+                int moreSize = Math.round(48 * getResources().getDisplayMetrics().density);
+                LinearLayout.LayoutParams lpChild2 = new LinearLayout.LayoutParams(moreSize, moreSize);
 
                 final TextView[] tv = new TextView[resultsLimit + 1];
                 final ImageButton[] moreButtons = new ImageButton[resultsLimit];
@@ -912,7 +918,7 @@ public class MainActivity extends ComponentActivity {
             } // end if there were no results.
 
             // Insert last search into database:
-            if (isHistory) {
+            if (isHistory && !restoringSearch) {
                 searchHistory.addRecord(word, direction, type);
             } // end if search history is activated.
             cursor.close();
@@ -925,6 +931,7 @@ public class MainActivity extends ComponentActivity {
     } // end cancelButton method.
 
     private void cancelSearchActions(int where) {
+        displayedQuery = null;
         // Find the edit text to erase all content:
         EditText et = findViewById(R.id.etWord);
         et.setText("");
@@ -959,7 +966,7 @@ public class MainActivity extends ComponentActivity {
     private void showWhenNoResults(String searchedWord) {
 
         // Play a corresponding sound if results are not available:
-        SoundPlayer.playSimple(this, "results_not_available");
+        if (!restoringSearch) SoundPlayer.playSimple(this, "results_not_available");
 
         // Clear the previous content of the llResult layout:
         llResults.removeAllViews();
