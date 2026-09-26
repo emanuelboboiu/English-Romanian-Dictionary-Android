@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.UiModeManager;
 import android.content.ClipData;
+import android.content.ActivityNotFoundException;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
@@ -171,6 +172,18 @@ public class GUITools {
         builder.setTitle(R.string.app_name);
         builder.setView(messageView);
         builder.setPositiveButton(context.getString(R.string.msg_close), null);
+        builder.setNeutralButton(R.string.privacy_policy_title, (dialog, which) -> {
+            if (!isAndroidTV(parentContext)) {
+                try {
+                    parentContext.startActivity(new Intent(Intent.ACTION_VIEW,
+                            Uri.parse(PrivacyPolicyActivity.POLICY_URL)));
+                    return;
+                } catch (ActivityNotFoundException ignored) {
+                    // Devices without a browser can use the same internal reader as TV.
+                }
+            }
+            parentContext.startActivity(new Intent(parentContext, PrivacyPolicyActivity.class));
+        });
         builder.create();
         builder.show();
     } // end about dialog.

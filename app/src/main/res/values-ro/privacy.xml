@@ -1,4 +1,11 @@
 <resources>
+    <string name="privacy_policy_title">Politica de confidențialitate</string>
+    <string name="privacy_loading">Se încarcă politica de confidențialitate…</string>
+    <string name="privacy_load_error">Pagina nu a putut fi încărcată. Verifică conexiunea la internet și alege Reîncarcă.</string>
+    <string name="privacy_reload">Reîncarcă</string>
+    <string name="privacy_page_up">Pagina în sus</string>
+    <string name="privacy_page_down">Pagina în jos</string>
+    <string name="privacy_link_unavailable">Acest link nu poate fi deschis aici: %1$s</string>
     <string name="ad_privacy_options">Confidențialitatea reclamelor</string>
     <string name="ad_privacy_error">Opțiunile de confidențialitate nu au putut fi încărcate. Încearcă din nou mai târziu.</string>
 </resources>

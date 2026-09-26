@@ -1,4 +1,11 @@
 <resources>
+    <string name="privacy_policy_title">Privacy policy</string>
+    <string name="privacy_loading">Loading privacy policy…</string>
+    <string name="privacy_load_error">The page could not be loaded. Check your internet connection and choose Reload.</string>
+    <string name="privacy_reload">Reload</string>
+    <string name="privacy_page_up">Page up</string>
+    <string name="privacy_page_down">Page down</string>
+    <string name="privacy_link_unavailable">This link cannot be opened here: %1$s</string>
     <string name="ad_privacy_options">Ad privacy options</string>
     <string name="ad_privacy_error">Privacy options could not be loaded. Please try again later.</string>
     <item name="menu_ad_privacy" type="id" />
