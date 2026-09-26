@@ -15,6 +15,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Typeface;
+import android.graphics.Rect;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
@@ -243,6 +244,20 @@ public class MainActivity extends ComponentActivity {
 
         // Charge the bottom linear layout:
         llBottomInfo = findViewById(R.id.llBottomInfo);
+        if (!isTV && !isPremium) {
+            // Keep the editor accessible when the keyboard leaves little vertical space.
+            View root = findViewById(R.id.layoutMain);
+            Rect visibleFrame = new Rect();
+            int keyboardThreshold = Math.round(150 * getResources().getDisplayMetrics().density);
+            root.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
+                root.getWindowVisibleDisplayFrame(visibleFrame);
+                boolean keyboardVisible = root.getRootView().getHeight() - visibleFrame.bottom > keyboardThreshold;
+                int visibility = keyboardVisible ? View.GONE : View.VISIBLE;
+                if (llBottomInfo.getVisibility() != visibility) {
+                    llBottomInfo.setVisibility(visibility);
+                }
+            });
+        }
 
         // Charge the layout with status and update buttons:
         llStatusAndImageButtons = findViewById(R.id.llStatusAndImageButtons);
