@@ -157,6 +157,14 @@ public class GUITools {
         // Inflate the about message contents
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View messageView = inflater.inflate(R.layout.about_dialog, null);
+        TextView versionView = messageView.findViewById(R.id.tvAppVersion);
+        try {
+            String versionName = context.getPackageManager()
+                    .getPackageInfo(context.getPackageName(), 0).versionName;
+            versionView.setText(context.getString(R.string.app_version, versionName));
+        } catch (PackageManager.NameNotFoundException exception) {
+            versionView.setText(R.string.app_name);
+        }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         // builder.setIcon(R.drawable.app_icon);
