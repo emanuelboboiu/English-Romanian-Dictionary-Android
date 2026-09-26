@@ -1,0 +1,7 @@
+<resources>
+    <string name="billing_price_unavailable">preț momentan indisponibil; va fi afișat de Google Play înainte de plată</string>
+    <string name="billing_loading">Se realizează conexiunea cu Google Play. Încearcă din nou în câteva momente.</string>
+    <string name="billing_retry">Google Play nu a putut finaliza operațiunea. Verifică conexiunea și încearcă din nou. Accesul Premium existent nu a fost modificat.</string>
+    <string name="billing_pending">Plata este în așteptare. Premium se va activa după confirmarea plății de către Google Play. Nu cumpăra din nou.</string>
+    <string name="billing_ack_retry">Achiziția a fost găsită, dar confirmarea nu a putut fi finalizată. Revino la dicționar cu o conexiune la internet pentru reîncercare. Nu cumpăra din nou.</string>
+</resources>

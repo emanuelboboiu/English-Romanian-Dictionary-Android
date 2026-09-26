@@ -163,11 +163,11 @@
     <string name="mnu_get_premium_version">Versiune Premium…</string>
     <string name="tv_premium_version_status">Aveți versiunea Premium</string>
     <string name="premium_version_alert_title">Versiune Premium</string>
-    <string name="non_premium_version_alert_message">Dacă vreți ca reclamele să nu mai apară niciodată în acest program, puteți achiziționa versiunea Premium pentru doar %1$s.\nAvând versiunea Premium va fi economisit de asemenea trafic de internet consumat în prezent pentru afișarea reclamelor.</string>
-    <string name="premium_version_alert_message">Aveți deja versiunea Premium.\nVă mulțumim pentru interesul acordat acestui dicționar.</string>
+    <string name="non_premium_version_alert_message">Premium — plată unică: %1$s.\n• Fără reclame în Dicționar, Vocabular și Verbe.\n• Acces la cuvintele care apar frecvent înaintea și după termenul englezesc selectat.\nResursele lexicale necesită internet și direcția englez–român. Achiziția poate fi restaurată cu același cont Google Play.</string>
+    <string name="premium_version_alert_message">Aveți Premium: fără reclame și cu acces la predecesori și succesori frecvenți ai cuvintelor englezești.\nResursele lexicale necesită internet. Vă mulțumim pentru sprijin!</string>
     <string name="bt_buy_premium">Obțineți Premium acum</string>
     <string name="title_activity_premium_version">Versiune Premium</string>
-    <string name="activity_premium_message">Felicitări!\nAți achiziționat cu succes versiunea Premium a Dicționarului Englez–Român.\nDe acum ați scăpat de reclame și aveți acces la mai multe informații.\nMulțumim pentru interesul acordat acestui dicționar.</string>
+    <string name="activity_premium_message">Premium este activ.\nNu mai sunt afișate reclame și aveți acces la predecesori și succesori frecvenți ai cuvintelor englezești.\nAceste resurse necesită internet. Vă mulțumim pentru sprijin!</string>
 
     <!-- Context menu of the results: -->
     <string name="cm_result_title">Opțiuni (%1$s)</string>

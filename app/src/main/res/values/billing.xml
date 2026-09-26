@@ -1,0 +1,7 @@
+<resources>
+    <string name="billing_price_unavailable">price currently unavailable; it will be shown by Google Play before payment</string>
+    <string name="billing_loading">Connecting to Google Play. Please try again shortly.</string>
+    <string name="billing_retry">Google Play could not complete this operation. Check your connection and try again. Existing Premium access has not been changed.</string>
+    <string name="billing_pending">Your payment is pending. Premium will activate after Google Play confirms payment. Do not purchase again.</string>
+    <string name="billing_ack_retry">Your purchase was found, but confirmation could not be completed. Return to the dictionary with an internet connection to retry. Do not purchase again.</string>
+</resources>

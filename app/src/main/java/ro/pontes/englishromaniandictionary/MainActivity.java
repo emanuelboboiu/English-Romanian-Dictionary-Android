@@ -62,7 +62,6 @@ import com.android.billingclient.api.QueryPurchasesParams;
 import com.google.android.gms.ads.AdView;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 /*
@@ -98,8 +97,8 @@ public class MainActivity extends ComponentActivity {
     public static String myAccountName = "Anonymous";
     private static final String myUniqueId = "xyzxyzxyz890890890";
     public static boolean isPremium = false;
-    private final String mProduct = "erd.premium";
-    public static String mUpgradePrice = "�";
+    private final String mProduct = PremiumPurchasePolicy.PRODUCT_ID;
+    public static String mUpgradePrice = "…";
     private int idSection = 0;
     public static int numberOfLaunches = 0;
     public static String weSeparator = " � ";
@@ -160,7 +159,12 @@ public class MainActivity extends ComponentActivity {
     // For billing:
     private PurchasesUpdatedListener purchasesUpdatedListener;
     private BillingClient billingClient;
-    List<ProductDetails> myProducts;
+    private boolean billingConnecting;
+    private boolean purchaseQueryRunning;
+    private boolean productPurchaseLoading;
+    private boolean pendingNoticeShown;
+    private boolean premiumActivationStarted;
+    private final java.util.Set<String> acknowledgingTokens = new java.util.HashSet<>();
 
     // Creating object of AdView:
     private AdView bannerAdView;
@@ -342,6 +346,7 @@ public class MainActivity extends ComponentActivity {
     @Override
     public void onResume() {
         super.onResume();
+        refreshBilling();
 
         // Some initial things like background:
         GUITools.setLayoutInitial(this, 1);
@@ -376,6 +381,7 @@ public class MainActivity extends ComponentActivity {
 
     @Override
     protected void onDestroy() {
+        if (billingClient != null) billingClient.endConnection();
         // Close the database connection:
         mDbHelper.close();
 
@@ -1679,7 +1685,7 @@ public class MainActivity extends ComponentActivity {
         Context context = new ContextThemeWrapper(this, R.style.MyAlertDialog);
         // Create now the alert:
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
-        if (GUITools.isNetworkAvailable(this)) {
+        if (isPremium || GUITools.isNetworkAvailable(this)) {
             ScrollView sv = new ScrollView(context);
             LinearLayout ll = new LinearLayout(context);
             ll.setOrientation(LinearLayout.VERTICAL);
@@ -1691,7 +1697,9 @@ public class MainActivity extends ComponentActivity {
             if (isPremium) {
                 message = getString(R.string.premium_version_alert_message);
             } else {
-                message = String.format(getString(R.string.non_premium_version_alert_message), mUpgradePrice);
+                String price = "…".equals(mUpgradePrice)
+                        ? getString(R.string.billing_price_unavailable) : mUpgradePrice;
+                message = getString(R.string.non_premium_version_alert_message, price);
             } // end if is not premium.
             tv.setText(message);
             tv.setFocusable(true);
@@ -1726,118 +1734,181 @@ public class MainActivity extends ComponentActivity {
         initiatePurchase();
     } // end upgradeToPremiumActions() method.
 
-    private void startBillingDependencies() {
-        purchasesUpdatedListener = (billingResult, purchases) -> {
-            // If item newly purchased
-            if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK && purchases != null) {
-                for (Purchase purchase : purchases) {
-                    handlePurchase(purchase);
-                } // end for.
-            }
-            // If item already purchased then check and reflect changes
-            else if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.ITEM_ALREADY_OWNED) {
-                recreateThisActivityAfterRegistering();
-            }
-            //if purchase cancelled
-            else if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.USER_CANCELED) {
-                GUITools.alert(mFinalContext, getString(R.string.warning), getString(R.string.purchase_canceled));
-            }
-            // Handle any other error messages
-            else {
-                GUITools.alert(mFinalContext, getString(R.string.warning), getString(R.string.billing_unknown_error));
-            }
-        };
+    private boolean billingUiAlive() {
+        return !isFinishing() && !isDestroyed();
+    }
 
+    private void billingNotice(int message) {
+        if (billingUiAlive()) Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    }
+
+    private void startBillingDependencies() {
+        purchasesUpdatedListener = (result, purchases) -> runOnUiThread(() -> {
+            if (!billingUiAlive()) return;
+            if (result.getResponseCode() == BillingClient.BillingResponseCode.OK && purchases != null) {
+                for (Purchase purchase : purchases) handlePurchase(purchase);
+            } else if (result.getResponseCode() == BillingClient.BillingResponseCode.ITEM_ALREADY_OWNED) {
+                queryOwnedPurchases(false);
+            } else if (result.getResponseCode() == BillingClient.BillingResponseCode.USER_CANCELED) {
+                billingNotice(R.string.purchase_canceled);
+            } else {
+                billingNotice(R.string.billing_retry);
+            }
+        });
         billingClient = BillingClient.newBuilder(this)
                 .setListener(purchasesUpdatedListener)
-                .enablePendingPurchases(com.android.billingclient.api.PendingPurchasesParams.newBuilder().enableOneTimeProducts().build())
+                .enablePendingPurchases(com.android.billingclient.api.PendingPurchasesParams.newBuilder()
+                        .enableOneTimeProducts().build())
+                .enableAutoServiceReconnection()
                 .build();
+        refreshBilling();
+    }
 
-        billingClient.startConnection(new BillingClientStateListener() {
-            @Override
-            public void onBillingSetupFinished(@NonNull BillingResult billingResult) {
-                if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-                    // The BillingClient is ready. You can query purchases here,
-                    QueryProductDetailsParams queryProductDetailsParams = QueryProductDetailsParams.newBuilder().setProductList(listOf(QueryProductDetailsParams.Product.newBuilder().setProductId(mProduct).setProductType(BillingClient.ProductType.INAPP).build())).build();
-
-                    // Now check if it is already purchased:
-                    billingClient.queryPurchasesAsync(QueryPurchasesParams.newBuilder().setProductType(BillingClient.ProductType.INAPP).build(), (billingResult12, purchases) -> {
-                        // check billingResult and process returned purchase list, e.g. display the products user owns
-                        if (purchases != null && !purchases.isEmpty()) { // it means there are items:
-                            Purchase myOldPurchase = purchases.get(0);
-                            if (myOldPurchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED) {
-                                recreateThisActivityAfterRegistering();
-                            }
-                        } // end process the purchases list.
-                    });
-                    // end check if it is already purchased.
-
-                    // Now let's query for our product:
-                    billingClient.queryProductDetailsAsync(queryProductDetailsParams, (billingResult1, queryProductDetailsResult) -> {
-                        // check billingResult
-                        // process returned productDetailsList from the result object
-                        if (billingResult1.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-                            myProducts = queryProductDetailsResult.getProductDetailsList();
-                            // Get the price of the 0 item if there is at least one product:
-                            if (myProducts != null && !myProducts.isEmpty()) {
-                                ProductDetails productDetail = myProducts.get(0);
-                                ProductDetails.OneTimePurchaseOfferDetails offer = productDetail.getOneTimePurchaseOfferDetails();
-                                if (offer != null) {
-                                    mUpgradePrice = offer.getFormattedPrice();
-                                }
-                            }
+    private void refreshBilling() {
+        if (billingClient == null || !billingUiAlive() || isPremium || isTV) return;
+        if (billingClient.isReady()) {
+            queryOwnedPurchases(false);
+            queryPremiumProduct(false);
+        } else if (!billingConnecting) {
+            billingConnecting = true;
+            billingClient.startConnection(new BillingClientStateListener() {
+                @Override public void onBillingSetupFinished(@NonNull BillingResult result) {
+                    runOnUiThread(() -> {
+                        billingConnecting = false;
+                        if (!billingUiAlive()) return;
+                        if (result.getResponseCode() == BillingClient.BillingResponseCode.OK) {
+                            queryOwnedPurchases(false);
+                            queryPremiumProduct(false);
                         }
                     });
-                    // End query purchase.
                 }
-            } // end startConnection successfully.
+                @Override public void onBillingServiceDisconnected() {
+                    // Automatic reconnection handles subsequent API calls; foreground entry
+                    // also retries an initial connection that never completed.
+                    runOnUiThread(() -> billingConnecting = false);
+                }
+            });
+        }
+    }
 
-            @Override
-            public void onBillingServiceDisconnected() {
-                // Try to restart the connection on the next request to
-                // Google Play by calling the startConnection() method.
+    private void queryOwnedPurchases(boolean buyIfNotOwned) {
+        if (billingClient == null || !billingUiAlive() || isPremium) return;
+        if (purchaseQueryRunning) {
+            if (buyIfNotOwned) billingNotice(R.string.billing_loading);
+            return;
+        }
+        purchaseQueryRunning = true;
+        billingClient.queryPurchasesAsync(QueryPurchasesParams.newBuilder()
+                .setProductType(BillingClient.ProductType.INAPP).build(), (result, purchases) ->
+                runOnUiThread(() -> {
+                    purchaseQueryRunning = false;
+                    if (!billingUiAlive() || isPremium) return;
+                    if (result.getResponseCode() != BillingClient.BillingResponseCode.OK) {
+                        // Never revoke a locally saved entitlement on a failed/empty query.
+                        if (buyIfNotOwned) billingNotice(R.string.billing_retry);
+                        return;
+                    }
+                    boolean premiumPurchaseFound = false;
+                    if (purchases != null) {
+                        for (Purchase purchase : purchases) {
+                            if (PremiumPurchasePolicy.action(purchase.getProducts(),
+                                    purchase.getPurchaseState(), purchase.isAcknowledged())
+                                    != PremiumPurchasePolicy.Action.IGNORE) {
+                                premiumPurchaseFound = true;
+                                handlePurchase(purchase);
+                            }
+                        }
+                    }
+                    if (buyIfNotOwned && !premiumPurchaseFound) queryPremiumProduct(true);
+                }));
+    }
+
+    private void queryPremiumProduct(boolean launchPurchase) {
+        if (billingClient == null || !billingUiAlive() || isPremium) return;
+        if (launchPurchase && productPurchaseLoading) return;
+        if (launchPurchase) productPurchaseLoading = true;
+        QueryProductDetailsParams params = QueryProductDetailsParams.newBuilder()
+                .setProductList(listOf(QueryProductDetailsParams.Product.newBuilder()
+                        .setProductId(mProduct).setProductType(BillingClient.ProductType.INAPP).build()))
+                .build();
+        billingClient.queryProductDetailsAsync(params, (result, details) -> runOnUiThread(() -> {
+            if (launchPurchase) productPurchaseLoading = false;
+            if (!billingUiAlive() || isPremium) return;
+            if (result.getResponseCode() != BillingClient.BillingResponseCode.OK) {
+                if (launchPurchase) billingNotice(R.string.billing_retry);
+                return;
             }
-        }); // end startConnection.
-    } // end startBillingDependencies() method.
+            for (ProductDetails product : details.getProductDetailsList()) {
+                if (!mProduct.equals(product.getProductId())) continue;
+                ProductDetails.OneTimePurchaseOfferDetails offer = product.getOneTimePurchaseOfferDetails();
+                if (offer == null) continue;
+                mUpgradePrice = offer.getFormattedPrice();
+                if (launchPurchase && getLifecycle().getCurrentState()
+                        .isAtLeast(androidx.lifecycle.Lifecycle.State.RESUMED)) {
+                    BillingFlowParams.ProductDetailsParams.Builder productParams =
+                            BillingFlowParams.ProductDetailsParams.newBuilder().setProductDetails(product);
+                    String token = offer.getOfferToken();
+                    if (token != null && !token.isEmpty()) productParams.setOfferToken(token);
+                    BillingResult launchResult = billingClient.launchBillingFlow(this,
+                            BillingFlowParams.newBuilder()
+                                    .setProductDetailsParamsList(listOf(productParams.build())).build());
+                    if (launchResult.getResponseCode() == BillingClient.BillingResponseCode.ITEM_ALREADY_OWNED) {
+                        queryOwnedPurchases(false);
+                    } else if (launchResult.getResponseCode() != BillingClient.BillingResponseCode.OK) {
+                        billingNotice(launchResult.getResponseCode() == BillingClient.BillingResponseCode.USER_CANCELED
+                                ? R.string.purchase_canceled : R.string.billing_retry);
+                    }
+                }
+                return;
+            }
+            if (launchPurchase) billingNotice(R.string.no_purchases_available);
+        }));
+    }
 
     private void initiatePurchase() {
-        // We purchase here the only one item found in myProducts list:
-        if (myProducts != null && !myProducts.isEmpty()) { // only if there is at least one product available:
-            ProductDetails productDetails = myProducts.get(0);
-
-            List<BillingFlowParams.ProductDetailsParams> productDetailsParamsList = listOf(BillingFlowParams.ProductDetailsParams.newBuilder()
-                    // retrieve a value for "productDetails" by calling queryProductDetailsAsync()
-                    .setProductDetails(productDetails).build());
-
-            BillingFlowParams billingFlowParams = BillingFlowParams.newBuilder().setProductDetailsParamsList(productDetailsParamsList).build();
-
-// Launch the billing flow
-            BillingResult billingResult = billingClient.launchBillingFlow(this, billingFlowParams);
-        } // end if there is at least one productDetails object in myProducts list.
-        else { // no items available:
-            GUITools.alert(mFinalContext, getString(R.string.warning), getString(R.string.no_purchases_available));
+        if (isPremium || isTV) return;
+        if (billingClient == null) startBillingDependencies();
+        if (!billingClient.isReady()) {
+            refreshBilling();
+            billingNotice(R.string.billing_loading);
+            return;
         }
-    } // end initiatePurchase() method.
+        // Check ownership, then fetch fresh product details rather than using a stale price/offer.
+        queryOwnedPurchases(true);
+    }
 
     private void handlePurchase(Purchase purchase) {
-        if (purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED) {
-            if (!purchase.isAcknowledged()) {
-                AcknowledgePurchaseParams acknowledgePurchaseParams = AcknowledgePurchaseParams.newBuilder().setPurchaseToken(purchase.getPurchaseToken()).build();
-
-                // Updated for Billing Library 8.0.0 - using callback instead of deprecated listener
-                billingClient.acknowledgePurchase(acknowledgePurchaseParams, billingResult -> {
-                    if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-                        // if purchase is acknowledged
-                        // Grant entitlement to the user. and restart activity
-                        recreateThisActivityAfterRegistering();
-                    }
-                });
+        if (!billingUiAlive() || isPremium || isTV) return;
+        PremiumPurchasePolicy.Action action = PremiumPurchasePolicy.action(
+                purchase.getProducts(), purchase.getPurchaseState(), purchase.isAcknowledged());
+        if (action == PremiumPurchasePolicy.Action.PENDING) {
+            if (!pendingNoticeShown) {
+                pendingNoticeShown = true;
+                billingNotice(R.string.billing_pending);
             }
+        } else if (action == PremiumPurchasePolicy.Action.GRANT) {
+            recreateThisActivityAfterRegistering();
+        } else if (action == PremiumPurchasePolicy.Action.ACKNOWLEDGE) {
+            String token = purchase.getPurchaseToken();
+            if (!acknowledgingTokens.add(token)) return;
+            billingClient.acknowledgePurchase(AcknowledgePurchaseParams.newBuilder()
+                    .setPurchaseToken(token).build(), result -> runOnUiThread(() -> {
+                acknowledgingTokens.remove(token);
+                if (!billingUiAlive()) return;
+                if (result.getResponseCode() == BillingClient.BillingResponseCode.OK) {
+                    recreateThisActivityAfterRegistering();
+                } else {
+                    // The next foreground ownership query retries acknowledgement.
+                    billingNotice(R.string.billing_ack_retry);
+                }
+            }));
         }
-    } // end handlePurchase() method.
+    }
 
     // A method which recreates this activity after upgrading:
     private void recreateThisActivityAfterRegistering() {
+        if (!billingUiAlive() || isPremium || premiumActivationStarted) return;
+        premiumActivationStarted = true;
         // We save it as an premium version:
         isPremium = true;
         Settings set = new Settings(this);
@@ -1845,6 +1916,7 @@ public class MainActivity extends ComponentActivity {
         // This will go in a meteoric activity and will come back:
         Handler handler = new Handler(Looper.getMainLooper());
         handler.post(() -> {
+            if (!billingUiAlive()) return;
             Intent intent = new Intent(MainActivity.this, PremiumVersionActivity.class);
             startActivity(intent);
             finish();

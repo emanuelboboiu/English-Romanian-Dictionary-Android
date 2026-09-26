@@ -163,11 +163,11 @@
     <string name="mnu_get_premium_version">Premium version…</string>
     <string name="tv_premium_version_status">You have the Premium Version</string>
     <string name="premium_version_alert_title">Premium Version</string>
-    <string name="non_premium_version_alert_message">If you don\'t want the ads to appear anymore, you can make a payment of only %1$s.\nYou will have the Premium Version of the dictionary, the app will not connect to the internet to query the ads, data packets won\'t be consumed anymore for that.</string>
-    <string name="premium_version_alert_message">You already have the Premium Version, thanks for your interest in this dictionary.</string>
+    <string name="non_premium_version_alert_message">Premium — one-time payment: %1$s.\n• No ads in Dictionary, Vocabulary or Verbs.\n• Access to words frequently appearing before and after the selected English term.\nLexical resources require internet access and the English–Romanian direction. Your purchase can be restored with the same Google Play account.</string>
+    <string name="premium_version_alert_message">You have Premium: no ads, plus frequent predecessors and followers of English words.\nLexical resources require internet access. Thank you for your support!</string>
     <string name="bt_buy_premium">Get the Premium now</string>
     <string name="title_activity_premium_version">Premium Version</string>
-    <string name="activity_premium_message">Congratulations!\nYou have purchased successfully the Premium Version of the English–Romanian Dictionary.\nThe ads won\'t appear anymore.\nThanks for your interest in this dictionary.</string>
+    <string name="activity_premium_message">Premium is active.\nAds are removed and you have access to frequent predecessors and followers of English words.\nThese resources require internet access. Thank you for your support!</string>
 
     <!-- Context menu of the results: -->
     <string name="cm_result_title">Options (%1$s)</string>
