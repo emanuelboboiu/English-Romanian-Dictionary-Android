@@ -1486,8 +1486,9 @@ public class MainActivity extends ComponentActivity {
             String tempBody1 = getString(R.string.body_default_vocabulary);
             Context context1 = new ContextThemeWrapper(mFinalContext, R.style.MyAlertDialog);
             new AlertDialog.Builder(context1).setTitle(tempTitle1).setMessage(tempBody1).setIcon(android.R.drawable.ic_delete).setPositiveButton(R.string.yes, (dialog1, whichButton1) -> {
-                Settings set1 = new Settings(mFinalContext);
-                set1.saveIntSettings("db2Ver", 0);
+                try (DataBaseHelper2 vocabulary = new DataBaseHelper2(mFinalContext)) {
+                    vocabulary.resetVocabulary();
+                }
             }).setNegativeButton(R.string.no, null).show();
             /* End dialog for delete vocabulary at reset. */
         }).setNegativeButton(R.string.no, null).show();

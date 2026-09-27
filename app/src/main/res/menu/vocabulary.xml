@@ -18,6 +18,16 @@
         android:title="@string/mnu_import_predefined"
         android:showAsAction="ifRoom|withText" />
     <item
+        android:id="@+id/mnuErdImport"
+        android:orderInCategory="111"
+        android:title="@string/erd_import"
+        android:showAsAction="never" />
+    <item
+        android:id="@+id/mnuErdExport"
+        android:orderInCategory="112"
+        android:title="@string/erd_export"
+        android:showAsAction="never" />
+    <item
         android:id="@+id/mnuSectionInformation"
         android:icon="@android:drawable/ic_menu_info_details"
         android:orderInCategory="120"

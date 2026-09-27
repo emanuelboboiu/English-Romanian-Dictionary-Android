@@ -59,6 +59,20 @@
                         style="@style/llActionBarForTVButtonsStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:onClick="importErd"
+                        android:text="@string/erd_import" />
+
+                    <Button
+                        style="@style/llActionBarForTVButtonsStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="exportErd"
+                        android:text="@string/erd_export" />
+
+                    <Button
+                        style="@style/llActionBarForTVButtonsStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:onClick="goToShowSectionInformation"
                         android:text="@string/mnu_tv_section_information" />
 

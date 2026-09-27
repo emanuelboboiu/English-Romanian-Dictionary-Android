@@ -48,6 +48,7 @@ import java.io.OutputStream;
 public class VocabularyActivity extends ComponentActivity implements OnItemSelectedListener {
 
     private DBAdapter2 mDbHelper;
+    private VocabularyTransfer vocabularyTransfer;
     private SpeakText speak;
 
     private File file = null;
@@ -78,6 +79,13 @@ public class VocabularyActivity extends ComponentActivity implements OnItemSelec
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        vocabularyTransfer = new VocabularyTransfer(this, () -> {
+            if (getNumberOfRecords() > 0) {
+                curSpinnerPosition = 1;
+                updateSpinner();
+                createList("%");
+            }
+        });
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
@@ -338,7 +346,13 @@ public class VocabularyActivity extends ComponentActivity implements OnItemSelec
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.mnuSectionAddNew) {
+        if (id == R.id.mnuErdImport) {
+            vocabularyTransfer.chooseImport();
+            return true;
+        } else if (id == R.id.mnuErdExport) {
+            vocabularyTransfer.chooseExport();
+            return true;
+        } else if (id == R.id.mnuSectionAddNew) {
             addRecord();
         } else if (id == R.id.mnuSectionInformation) {
             showSectionInformation();
@@ -1063,6 +1077,7 @@ public class VocabularyActivity extends ComponentActivity implements OnItemSelec
 
     @Override
     public void onDestroy() {
+        vocabularyTransfer.close();
         mDbHelper.close();
         // Shut down also the TTS:
         speak.close();
@@ -1073,6 +1088,14 @@ public class VocabularyActivity extends ComponentActivity implements OnItemSelec
     public void restartThisActivity(View view) {
         recreateThisActivity();
     } // end restartThisActivity() method.
+
+    public void importErd(View view) {
+        vocabularyTransfer.chooseImport();
+    }
+
+    public void exportErd(View view) {
+        vocabularyTransfer.chooseExport();
+    }
 
     // A method which recreates this activity:
     private void recreateThisActivity() {

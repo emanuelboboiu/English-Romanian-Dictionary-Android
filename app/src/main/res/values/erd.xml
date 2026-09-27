@@ -1,0 +1,14 @@
+<resources>
+    <string name="erd_external_info">Import vocabulary from an .erd file. The file will be checked first. Nothing is added until you confirm the import.</string>
+    <string name="erd_external_finished">Import complete. You can find your words in Vocabulary.</string>
+    <string name="erd_import">Import .erd file…</string>
+    <string name="erd_export">Export section as .erd…</string>
+    <string name="erd_busy">Processing vocabulary…</string>
+    <string name="erd_no_picker">No document picker is available on this device.</string>
+    <string name="erd_no_sections">There are no sections containing words to export.</string>
+    <string name="erd_export_done">The section was exported successfully. The .erd file contains words and explanations, without dates or other metadata.</string>
+    <string name="erd_export_error">Export failed. Check the destination and available space. The legacy .erd format cannot represent multiline entries or text containing -=-. Limit: 10,000 entries and 2 million characters. A file created during a failed export may be incomplete.</string>
+    <string name="erd_import_error">Import failed. Choose a readable UTF-8 .erd file with word-=-explanation pairs, one per line. Limit: 10,000 entries and 2 million characters. The filename must be a valid section name. No entries were imported.</string>
+    <string name="erd_confirm">Import %2$d entries into section “%1$s”?\n\nExisting entries will not be overwritten. Pairs already present anywhere in the vocabulary will be skipped. The filename determines the section name. This format does not preserve dates or translation direction.</string>
+    <string name="erd_import_done">Added: %1$d\nAlready present: %2$d</string>
+</resources>

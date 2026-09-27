@@ -1,6 +1,25 @@
 # Reluare — 27 septembrie 2026
 
-## Stare confirmată
+## Actualizare după verificarea vocabularului — 27 septembrie 2026
+
+Această secțiune are prioritate față de lista istorică de mai jos.
+
+- Iconițele TV, corectarea fluxului Premium și politica accesibilă din Despre sunt implementate și comise. Testul real Premium prin Google Play a fost amânat explicit de utilizator pentru o sesiune ulterioară.
+- Istoric verificat pe Pixel 5 la font 150%: ultima intrare accesibilă prin derulare, toate cele 8 filtre lizibile, sortare după dată și categorie goală verificate. Fontul a fost restaurat la 100%.
+- Protecția vocabularului implementată: `DataBaseHelper2` nu mai șterge baza la nepotrivirea/lipsa preferinței `db2Ver`. SQLiteOpenHelper creează schema doar unde lipsește, păstrând inclusiv bazele vechi cu user_version=0. Schema și versiunea 2 sunt neschimbate.
+- Resetarea vocabularului din meniul de revenire la valorile inițiale rămâne explicită, după confirmarea separată; cele două tabele sunt golite într-o tranzacție, fără înlocuirea fișierului bazei.
+- Build debug/release, testele unitare și lintRelease au trecut. Cele 7 teste instrumentate de vocabular au trecut pe Pixel 5, pe baze temporare: inițializare, redeschidere, preferințe nepotrivite, versiuni vechi, baza reală din assets, resetare și rollback la eroare. Hash-ul bazei reale din aplicația debug a rămas identic înainte/după teste.
+- APK debug actualizat pe Pixel 5. Nu s-au șters datele utilizatorului și nu s-a făcut commit automat.
+- Exportul unei secțiuni `.erd` și importul din selectorul Android sunt acum implementate în meniul Vocabular, inclusiv butoane TV (cu mesaj dacă dispozitivul nu are selector de documente). UTF-8, validare integrală înainte de confirmare, import tranzacțional, duplicate globale sărite fără suprascriere. Limite: 10.000 de perechi / 2 milioane de caractere. Formatul vechi păstrează doar cuvintele și explicațiile, nu direcția/datele/metadatele; textele care nu pot fi reprezentate fără pierderi sunt refuzate la export. Importul predefinit existent nu a fost schimbat.
+- Verificări export/import: 8 teste unitare de format plus 7 Premium trecute; 9 teste instrumentate de bază (inclusiv round-trip și rollback la import) trecute pe Pixel 5. Build debug/release și lint: 0 erori, 99 avertismente. Lint Fragment result routing este suprimat local, documentat: gazda este ComponentActivity, nu FragmentActivity.
+- Test manual Pixel: exportat `Download/City - Oras.erd` (75 de perechi, 1748 bytes), redeschis prin Import până la confirmarea corectă, apoi ANULAT. Fișierul exportat a fost lăsat în Descărcări. Hash-ul bazei reale debug a rămas identic. APK debug actualizat; niciun commit automat.
+- Asocierea externă `.erd` este implementată prin `ErdImportActivity`, un punct de intrare separat care nu depinde de inițializarea MainActivity. Primește numai ACTION_VIEW/content, verifică numele și conținutul prin același importator și cere confirmare; nu importă automat. Preferința limbii este aplicată și la pornirea la rece. Fișierele brute file:// și URL-urile web sunt refuzate.
+- Filtrele acceptă application/octet-stream, text/plain și application/x-erd pentru compatibilitate cu adrese content opace (numerice). Din această cauză Dicționarul poate apărea și pentru alte fișiere de aceste tipuri; validarea refuză fișierele fără extensia .erd. Nu folosiți „Întotdeauna” la testarea selectorului. Referință: https://developer.android.com/guide/components/intents-filters
+- Verificat în Files pe Pixel 5 după force-stop: Dicționar englez–român (Test) apare în „Deschide cu”; „Numai o dată” deschide confirmarea corectă pentru 75 de perechi. Importul a fost anulat și hash-ul bazei a rămas identic. Cele 12 teste instrumentate (9 bază + 3 asociere), 15 teste unitare, build debug/release și lint au trecut (0 erori, 100 avertismente). APK debug instalat. TV/tabletă nu au fost testate efectiv pentru transfer.
+- Utilizatorul dorește un commit comun pentru toate modificările Vocabularului. Nu s-a făcut commit automat. Mesaj propus: `Protect vocabulary data and add ERD import, export and file association`.
+- Rămân de verificat: Premium prin Play, consimțământ refuz/offline, tabletă/TV reale și Vocabular/Verbe cu text mărit. Nu publicați automat.
+
+## Stare confirmată (istoric)
 
 - Versiunea cerută de utilizator: 9.0, versionCode 94, setate în app/build.gradle.
 - Despre/About: data 27 septembrie 2026, versiunea citită automat din pachet, contact emanuelboboiu@gmail.com și site HTTPS.

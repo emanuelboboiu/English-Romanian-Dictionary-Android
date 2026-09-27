@@ -1,0 +1,14 @@
+<resources>
+    <string name="erd_external_info">Import de vocabular dintr-un fișier .erd. Fișierul va fi verificat mai întâi. Nu se adaugă nimic până când confirmați importul.</string>
+    <string name="erd_external_finished">Importul s-a încheiat. Cuvintele sunt disponibile în Vocabular.</string>
+    <string name="erd_import">Importare fișier .erd…</string>
+    <string name="erd_export">Exportare secțiune ca .erd…</string>
+    <string name="erd_busy">Se procesează vocabularul…</string>
+    <string name="erd_no_picker">Pe acest dispozitiv nu este disponibil un selector de documente.</string>
+    <string name="erd_no_sections">Nu există secțiuni cu cuvinte pentru export.</string>
+    <string name="erd_export_done">Secțiunea a fost exportată. Fișierul .erd conține cuvintele și explicațiile, fără datele adăugării sau alte metadate.</string>
+    <string name="erd_export_error">Exportul nu a reușit. Verificați destinația și spațiul disponibil. Formatul vechi .erd nu permite texte pe mai multe rânduri sau care conțin -=-. Limita: 10.000 de înregistrări și 2 milioane de caractere. Un fișier creat în timpul unui export eșuat poate fi incomplet.</string>
+    <string name="erd_import_error">Importul nu a reușit. Alegeți un fișier .erd UTF-8 accesibil, cu perechi cuvânt-=-explicație, câte una pe rând. Limita: 10.000 de înregistrări și 2 milioane de caractere. Numele fișierului trebuie să fie un nume valid de secțiune. Nu s-a importat nicio înregistrare.</string>
+    <string name="erd_confirm">Importați %2$d înregistrări în secțiunea „%1$s”?\n\nDatele existente nu vor fi suprascrise. Perechile prezente deja oriunde în vocabular vor fi sărite. Numele fișierului determină secțiunea. Formatul nu păstrează datele adăugării sau direcția traducerii.</string>
+    <string name="erd_import_done">Adăugate: %1$d\nDeja existente: %2$d</string>
+</resources>

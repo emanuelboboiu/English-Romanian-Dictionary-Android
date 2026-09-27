@@ -28,10 +28,7 @@ public class DBAdapter2 {
     }
 
     public DBAdapter2 open() throws SQLException {
-        mDbHelper.openDataBase();
-        mDbHelper.close();
         mDb = mDbHelper.getWritableDatabase();
-        mDb.execSQL("PRAGMA foreign_keys=ON;");
         return this;
     }
 
